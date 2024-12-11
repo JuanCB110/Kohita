@@ -1,0 +1,15 @@
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\bin\Debug\ExtraccionA.exe.config
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\bin\Debug\ExtraccionA.exe
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\bin\Debug\ExtraccionA.pdb
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.csproj.AssemblyReference.cache
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.Properties.Resources.resources
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.csproj.GenerateResource.cache
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.csproj.CoreCompileInputs.cache
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.exe
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.pdb
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.Form1.resources
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\bin\Debug\ExtraccionA.exe.manifest
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\bin\Debug\ExtraccionA.application
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.exe.manifest
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.application
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.codigo.resources

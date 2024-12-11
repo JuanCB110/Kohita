@@ -1,0 +1,23 @@
+=003  415
+=005  20241103192444
+=008  0000062011                          mx ant 0000000000spa00
+=040  $cFernando Javier Armenta Zavala
+=942  $cBK
+=050  $aQC21.2 T5718 2011
+=245  $aFísica $b: conceptos y aplicaciones / c$ Paul E. Tippens ; tr. Ángel Carlos González Ruiz ; rev. Ana Elizabeth García Hernández
+=250  $a7
+=260  $aMéxico $b: McGraw-Hill
+=300  $axvii, 781 p.
+=500  $aTraducción de: Physics, 7th ed. \ Incluye índice alfabético
+=650  $a1. Física.
+=700  $aGonzález Ruiz, Ángel Carlos, tr. \ García Hernández, Ana Elizabeth, rev.Ì
+=100  $aTippens, Paul E.
+=020  $a978-607-15-0471-5
+=505  $aPARTE I. Mecánica. Cap.2. Matemáticas técnicas -- Cap.3. Mediciones técnicas y vectores. -- Cap.4. Equilibrio trasnacional y fricción. -- Cap.5. Momento de torsión y equilibrio rotacional. -- Cap.6. Movimiento uniformemente acelerado. -- Cap.7. Segunda ley de Newton. -- Cap.8. Trabajo, energía y potencia. -- Cap.9. Impulso y cantidad de movimiento. -- Cap.10. Movimiento circular uniforme. -- Cap.11. Rotación de cuerpos rígidos. -- Cap.12. Máquinas simples. -- Cap.13. Elasticidad. -- Cap.14. Movimiento armónico simple. -- Cap.15. Fluidos. -- PARTE II. Cap.16. Temperatura y dilatación. -- Cap.17. Cantidad de calor. -- Cap.18. Transferencia de calor. -- Cap.19. Propiedades térmicas de la materia. -- Cap.20. Termodinámica. -- Cap.21. Movimiento ondulatorio. -- Cap.22. Sonido. -- PARTE III. Cap.23. La fuerza eléctrica. -- Cap.24. El campo eléctrico. -- Cap.25. Potencial eléctrico. -- Cap.26. Capacitancia. -- Cap.27. Corriente y resistencia. -- Cap.28. Circuitos de corriente continúa. -- Cap.29. Magnetismo y campo magnético. -- Cap.30. Fuerza y momentos de torsión en un campo magnético. -- Cap.31. Inducción electromagnética. Cap.32. Circuitos de corrientes alterna. -- Cap. 33. Luz e iluminación. -- Cap.34. Reflexión y espejos. -- Cap.35. Refracción. -- Cap.36. Lentes e instrumentos ópticos. -- Cap.37. Interferencia, difracción y polarización. Parte IV. Cap.38. La física moderna y el átomo. -- Cap.39. La física nuclear y el núcleo. -- Cap.40. Electrónica.
+
+=952  $aFJAZ$bFJAZ$d2021-10-28$i618$yBK
+=952  $aFJAZ$bFJAZ$d2021-10-28$i4061$yBK
+=952  $aFJAZ$bFJAZ$d2021-10-28$i4060$yBK
+=952  $aFJAZ$bFJAZ$d2021-10-28$i1886$yBK
+=952  $aFJAZ$bFJAZ$d2021-10-28$i1885$yBK
+=952  $aFJAZ$bFJAZ$d2021-10-28$i1884$yBK
