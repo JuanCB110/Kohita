@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExtraccionA.exe" size="736232">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExtraccionA.exe" size="740328">
       <assemblyIdentity name="ExtraccionA" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>WPtcvMR2DzEGsCvpOP4Zb4lqtd+C2ZBwwtj4GjtCLq0=</dsig:DigestValue>
+        <dsig:DigestValue>ovIWWoV2gVbGY1r8kvp742vf8gso44vbaTPmgf8Ey5w=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

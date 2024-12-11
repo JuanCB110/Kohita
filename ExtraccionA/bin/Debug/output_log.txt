@@ -1,0 +1,8 @@
+Beginning Process...
+Unhandled Exception:
+
+System.ArgumentException: The path is empty. (Parameter 'path')
+   at System.IO.Path.GetFullPath(String path)
+   at System.IO.File.GetAttributes(String path)
+   at cmarcedit.Class1.Main(String[] args) in C:\Users\reese\OneDrive\MarcEdit7_5\MarcEdit8-beta\src\Components\cmarcedit\cmarcedit\Class1.cs:line 1392
+

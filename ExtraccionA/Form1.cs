@@ -820,12 +820,14 @@ namespace ExtraccionA
             format.Enabled = format.Visible = true;
             selall.Enabled = selall.Visible = true;
             label2.Enabled = label2.Visible = true;
+            regsel.Enabled = regsel.Visible = true;
         }
 
         private void tabla_3_SelectionChanged(object sender, EventArgs e)
         {
             // Actualizar el label con los índices de las filas seleccionadas
             UpdateLabelWithSelectedRows();
+            regsel.Text = "Registros Seleccionados: " + tabla_3.SelectedRows.Count.ToString();
         }
 
         private void UpdateLabelWithSelectedRows()
@@ -839,6 +841,7 @@ namespace ExtraccionA
                 format.Enabled = format.Visible = false;
                 selall.Enabled = selall.Visible = false;
                 label2.Enabled = label2.Visible = false;
+                regsel.Enabled = regsel.Visible = false;
                 return;
             }
 
@@ -961,5 +964,87 @@ namespace ExtraccionA
             // Mostrar una ventana de información al hacer clic
             MessageBox.Show("Tabla formateada para exportacion por formato MARC para posterior conversion.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
+
+        private void seleccionarArchivosMRK_Click(object sender, EventArgs e)
+        {
+            // Crear un nuevo FolderBrowserDialog
+            FolderBrowserDialog folderBrowserDialogcn = new FolderBrowserDialog();
+            FolderBrowserDialog folderBrowserDialogcnsalida = new FolderBrowserDialog();
+
+            // Establecer el título del cuadro de diálogo
+            folderBrowserDialogcn.Description = "Seleccionar Carpeta de Archivos MRK";
+            folderBrowserDialogcnsalida.Description = "Seleccionar Carpeta de Salida";
+
+            Convertirmrc cnmrc = new Convertirmrc();
+
+            // Mostrar el diálogo y verificar si el usuario selecciona una carpeta
+            if (folderBrowserDialogcn.ShowDialog() == DialogResult.OK)
+            {
+                // Obtener la ruta de la carpeta seleccionada
+                cnmrc.UbicacionArchivosMRK = folderBrowserDialogcn.SelectedPath;
+
+                // Mostrar la ruta seleccionada
+                MessageBox.Show($"Ruta seleccionada: {folderBrowserDialogcn.SelectedPath}");
+
+                if (folderBrowserDialogcnsalida.ShowDialog() == DialogResult.OK)
+                {
+                    cnmrc.UbicacionSalida = folderBrowserDialogcnsalida.SelectedPath;
+
+                    MessageBox.Show($"Ruta seleccionada: {folderBrowserDialogcnsalida.SelectedPath}");
+
+                    Cursor = Cursors.WaitCursor;
+                    SetControlsEnabled(false);
+                    cnmrc.ConvertirMRKaMRC();
+                    Cursor = Cursors.Default;
+                    SetControlsEnabled(true);
+                }
+            }
+            else
+            {
+                MessageBox.Show("No se seleccionó ninguna carpeta.");
+            }
+        }
+
+        private void selMRC_Click(object sender, EventArgs e)
+        {
+            // Crear un FolderBrowserDialog para seleccionar la carpeta
+            using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
+            {
+                folderBrowserDialog.Description = "Seleccionar carpeta que contiene los archivos MRC";
+
+                // Mostrar el cuadro de diálogo
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Obtener la carpeta seleccionada
+                    string carpetaSeleccionada = folderBrowserDialog.SelectedPath;
+
+                    // Obtener todos los archivos .mrc en la carpeta
+                    List<string> archivosMRC = Directory.GetFiles(carpetaSeleccionada, "*.mrc").ToList();
+
+                    if (archivosMRC.Count < 2)
+                    {
+                        MessageBox.Show("La carpeta debe contener al menos dos archivos MRC para unirlos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Ruta de salida
+                    using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                    {
+                        saveFileDialog.Filter = "Archivo MRC (*.mrc)|*.mrc";
+                        saveFileDialog.Title = "Guardar Archivo Unido";
+                        saveFileDialog.FileName = "Archivo_Unificado.mrc";
+
+                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            string archivoSalida = Path.GetFullPath(saveFileDialog.FileName);
+
+                            UnirMRKoMRC umrc = new UnirMRKoMRC();
+                            umrc.UnirArchivosDesdeCarpeta(carpetaSeleccionada, archivoSalida);
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }

@@ -3,24 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|c:\\users\\juancb\\source\\repos\\extracciona\\extracciona\\codificadordatofijo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|solutionrelative:extracciona\\codificadordatofijo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\extracciona\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|solutionrelative:extracciona\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\extracciona\\codigo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|solutionrelative:extracciona\\codigo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\extracciona\\convertirmrc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|solutionrelative:extracciona\\convertirmrc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\extracciona\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|solutionrelative:extracciona\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\extracciona\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|solutionrelative:extracciona\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|c:\\users\\juancb\\source\\repos\\extracciona\\extracciona\\unirmrkomrc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|solutionrelative:extracciona\\unirmrkomrc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\extracciona\\codigo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|solutionrelative:extracciona\\codigo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\extracciona\\codigo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{CB928389-6174-4625-A4A1-2F35FB4FEFD6}|ExtraccionA\\ExtraccionA.csproj|solutionrelative:extracciona\\codigo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,7 +34,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -41,17 +45,27 @@
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CodificadorDatoFijo.cs",
-              "DocumentMoniker": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\CodificadorDatoFijo.cs",
-              "RelativeDocumentMoniker": "ExtraccionA\\CodificadorDatoFijo.cs",
-              "ToolTip": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\CodificadorDatoFijo.cs",
-              "RelativeToolTip": "ExtraccionA\\CodificadorDatoFijo.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIAAAAMAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "codigo.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\codigo.cs",
+              "RelativeDocumentMoniker": "ExtraccionA\\codigo.cs",
+              "ToolTip": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\codigo.cs [Dise\u00F1o]",
+              "RelativeToolTip": "ExtraccionA\\codigo.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-03T23:50:32.056Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-21T05:28:43.585Z"
             },
             {
               "$type": "Document",
@@ -63,37 +77,50 @@
               "RelativeToolTip": "ExtraccionA\\codigo.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T05:41:13.771Z",
+              "WhenOpened": "2024-11-21T05:41:13.771Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Convertirmrc.cs",
+              "DocumentMoniker": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\Convertirmrc.cs",
+              "RelativeDocumentMoniker": "ExtraccionA\\Convertirmrc.cs",
+              "ToolTip": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\Convertirmrc.cs",
+              "RelativeToolTip": "ExtraccionA\\Convertirmrc.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAAAA0AAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-11T05:34:58.909Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "codigo.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\codigo.cs",
-              "RelativeDocumentMoniker": "ExtraccionA\\codigo.cs",
-              "ToolTip": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\codigo.cs [Dise\u00F1o]",
-              "RelativeToolTip": "ExtraccionA\\codigo.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-21T05:28:43.585Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\Form1.cs",
               "RelativeDocumentMoniker": "ExtraccionA\\Form1.cs",
               "ToolTip": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\Form1.cs",
               "RelativeToolTip": "ExtraccionA\\Form1.cs",
-              "ViewState": "AgIAAJ8DAAAAAAAAAAAgwMMDAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAMcDAAAAAAAAAIA7wMkDAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-24T04:31:45.873Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
+              "Title": "UnirMRKoMRC.cs",
+              "DocumentMoniker": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\UnirMRKoMRC.cs",
+              "RelativeDocumentMoniker": "ExtraccionA\\UnirMRKoMRC.cs",
+              "ToolTip": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\UnirMRKoMRC.cs",
+              "RelativeToolTip": "ExtraccionA\\UnirMRKoMRC.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-11T06:10:03.3Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Form1.cs [Dise\u00F1o]",
               "DocumentMoniker": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\Form1.cs",
               "RelativeDocumentMoniker": "ExtraccionA\\Form1.cs",
