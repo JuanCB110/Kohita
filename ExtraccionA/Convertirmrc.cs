@@ -71,7 +71,7 @@ namespace ExtraccionA
             if (Errores.Count > 0)
             {
                 // Mostrar todos los errores concatenados
-                MessageBox.Show(string.Join("\n", Errores));
+                Console.WriteLine(string.Join("\n", Errores));
             }
         }
     }

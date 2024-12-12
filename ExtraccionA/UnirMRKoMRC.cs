@@ -11,7 +11,7 @@ namespace ExtraccionA
 {
     internal class UnirMRKoMRC
     {
-        public void UnirArchivosDesdeCarpeta(string carpetaEntrada, string archivoSalida)
+        public void UnirArchivosMRC(string carpetaEntrada, string archivoSalida)
         {
             string marceditPath = @"C:\\Users\\JuanCB\\AppData\\Roaming\\MarcEdit 7.6 (User)\\cmarcedit.exe"; // Ruta a cmarcedit.exe
 
@@ -31,11 +31,11 @@ namespace ExtraccionA
             }
 
             // Generar una lista separada por espacios para los archivos de entrada
-            string archivosEntrada = string.Join(" ", archivosMrc.Select(a => $"\"{a}\""));
+            string archivosEntrada = string.Join(";", archivosMrc.Select(a => $"\"{a}\""));
 
             Process process = new Process();
             process.StartInfo.FileName = marceditPath; // Ruta a cmarcedit.exe
-            process.StartInfo.Arguments = $"-join {archivosEntrada} -o \"{archivoSalida}\"";
+            process.StartInfo.Arguments = $"-join -s \"{archivosEntrada}\" -d \"{archivoSalida}\"";
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.RedirectStandardOutput = true;
             process.StartInfo.RedirectStandardError = true;
@@ -62,42 +62,55 @@ namespace ExtraccionA
             }
         }
 
-        // Ejemplo de uso con FolderBrowserDialog
-        public void SeleccionarCarpetaYUnirArchivos()
+        public void UnirArchivosMRK(string carpetaEntrada, string archivoSalida)
         {
-            using (FolderBrowserDialog folderDialog = new FolderBrowserDialog())
+            string marceditPath = @"C:\\Users\\JuanCB\\AppData\\Roaming\\MarcEdit 7.6 (User)\\cmarcedit.exe"; // Ruta a cmarcedit.exe
+
+            if (!Directory.Exists(carpetaEntrada))
             {
-                folderDialog.Description = "Selecciona la carpeta que contiene los archivos MRC";
+                MessageBox.Show("La carpeta seleccionada no existe.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                if (folderDialog.ShowDialog() == DialogResult.OK)
+            // Verificar que la carpeta contiene archivos .mrc
+            string[] archivosMrc = Directory.GetFiles(carpetaEntrada, "*.mrk");
+
+            if (archivosMrc.Length < 2)
+            {
+                MessageBox.Show("La carpeta debe contener al menos dos archivos MRK para unirlos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Generar una lista separada por espacios para los archivos de entrada
+            string archivosEntrada = string.Join(";", archivosMrc.Select(a => $"\"{a}\""));
+
+            Process process = new Process();
+            process.StartInfo.FileName = marceditPath; // Ruta a cmarcedit.exe
+            process.StartInfo.Arguments = $"-join -s \"{archivosEntrada}\" -d \"{archivoSalida}\"";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardError = true;
+
+            try
+            {
+                process.Start();
+                string output = process.StandardOutput.ReadToEnd();
+                string error = process.StandardError.ReadToEnd();
+                process.WaitForExit();
+
+                if (process.ExitCode == 0)
                 {
-                    string carpetaSeleccionada = folderDialog.SelectedPath;
-
-                    // Ruta de salida para el archivo combinado
-                    SaveFileDialog saveFileDialog = new SaveFileDialog
-                    {
-                        Filter = "Archivos MRC (*.mrc)|*.mrc",
-                        Title = "Selecciona la ruta para el archivo unido",
-                        FileName = "archivo_unido.mrc"
-                    };
-
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        string archivoSalida = saveFileDialog.FileName;
-
-                        // Llamar a la función para unir los archivos
-                        UnirArchivosDesdeCarpeta(carpetaSeleccionada, archivoSalida);
-                    }
+                    MessageBox.Show("Archivos unidos exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show($"Error al unir archivos: {error}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-        }
-
-
-
-
-        public void UnirArchivosMRK()
-        {
-
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

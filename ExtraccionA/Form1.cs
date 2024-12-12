@@ -302,7 +302,8 @@ namespace ExtraccionA
                 }
 
                 // Procesar "MARC_Completo" si existe
-                var marcParts = group.MarcCompleto.Split('¦').Where(s => s.Length > 3)
+                string sinultimo = group.MarcCompleto.ToString().Substring(0, group.MarcCompleto.ToString().Length - 1);
+                var marcParts = sinultimo.Split('¦').Where(s => s.Length > 3)
                     .OrderBy(part => int.TryParse(part.Substring(0, 3), out var res) ? res : int.MaxValue);
 
                 foreach (string part in marcParts)
@@ -1039,12 +1040,52 @@ namespace ExtraccionA
                             string archivoSalida = Path.GetFullPath(saveFileDialog.FileName);
 
                             UnirMRKoMRC umrc = new UnirMRKoMRC();
-                            umrc.UnirArchivosDesdeCarpeta(carpetaSeleccionada, archivoSalida);
+                            umrc.UnirArchivosMRC(carpetaSeleccionada, archivoSalida);
                         }
                     }
                 }
             }
         }
 
+        private void selMRK_Click(object sender, EventArgs e)
+        {
+            // Crear un FolderBrowserDialog para seleccionar la carpeta
+            using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
+            {
+                folderBrowserDialog.Description = "Seleccionar carpeta que contiene los archivos MRK";
+
+                // Mostrar el cuadro de diálogo
+                if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Obtener la carpeta seleccionada
+                    string carpetaSeleccionada = folderBrowserDialog.SelectedPath;
+
+                    // Obtener todos los archivos .mrc en la carpeta
+                    List<string> archivosMRC = Directory.GetFiles(carpetaSeleccionada, "*.mrk").ToList();
+
+                    if (archivosMRC.Count < 2)
+                    {
+                        MessageBox.Show("La carpeta debe contener al menos dos archivos MRK para unirlos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    // Ruta de salida
+                    using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+                    {
+                        saveFileDialog.Filter = "Archivo MRK (*.mrk)|*.mrk";
+                        saveFileDialog.Title = "Guardar Archivo Unido";
+                        saveFileDialog.FileName = "Archivo_Unificado.mrk";
+
+                        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                        {
+                            string archivoSalida = Path.GetFullPath(saveFileDialog.FileName);
+
+                            UnirMRKoMRC umrc = new UnirMRKoMRC();
+                            umrc.UnirArchivosMRK(carpetaSeleccionada, archivoSalida);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
