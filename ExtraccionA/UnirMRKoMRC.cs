@@ -13,7 +13,14 @@ namespace ExtraccionA
     {
         public void UnirArchivosMRC(string carpetaEntrada, string archivoSalida)
         {
-            string marceditPath = @"C:\\Users\\JuanCB\\AppData\\Roaming\\MarcEdit 7.6 (User)\\cmarcedit.exe"; // Ruta a cmarcedit.exe
+            string marceditPath = @"C:\Users\JuanCB\AppData\Roaming\MarcEdit 7.6 (User)\cmarcedit.exe"; // Ruta a cmarcedit.exe
+
+            // Verificar si la ruta de MarcEdit existe
+            if (!File.Exists(marceditPath))
+            {
+                MessageBox.Show("No se encontró MarcEdit en la ruta especificada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (!Directory.Exists(carpetaEntrada))
             {
@@ -21,7 +28,7 @@ namespace ExtraccionA
                 return;
             }
 
-            // Verificar que la carpeta contiene archivos .mrc
+            // Obtener archivos .mrc de la carpeta
             string[] archivosMrc = Directory.GetFiles(carpetaEntrada, "*.mrc");
 
             if (archivosMrc.Length < 2)
@@ -30,41 +37,54 @@ namespace ExtraccionA
                 return;
             }
 
-            // Generar una lista separada por espacios para los archivos de entrada
-            string archivosEntrada = string.Join(";", archivosMrc.Select(a => $"\"{a}\""));
+            // Construir la lista de archivos separados por ";"
+            string archivosEntrada = string.Join(";", archivosMrc);
 
-            Process process = new Process();
-            process.StartInfo.FileName = marceditPath; // Ruta a cmarcedit.exe
-            process.StartInfo.Arguments = $"-join -s \"{archivosEntrada}\" -d \"{archivoSalida}\"";
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
+            // Mensaje de depuración
+            //MessageBox.Show($"Archivos de entrada: {archivosEntrada}");
 
             try
             {
-                process.Start();
-                string output = process.StandardOutput.ReadToEnd();
-                string error = process.StandardError.ReadToEnd();
-                process.WaitForExit();
+                ProcessStartInfo psi = new ProcessStartInfo
+                {
+                    FileName = marceditPath,
+                    Arguments = $"-join -s \"{archivosEntrada}\" -d \"{archivoSalida}\"",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
 
-                if (process.ExitCode == 0)
+                using (Process proceso = new Process { StartInfo = psi })
                 {
-                    MessageBox.Show("Archivos unidos exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show($"Error al unir archivos: {error}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    proceso.Start();
+                    string salida = proceso.StandardOutput.ReadToEnd();
+                    string error = proceso.StandardError.ReadToEnd();
+                    proceso.WaitForExit();
+
+                    if (!string.IsNullOrWhiteSpace(salida))
+                        MessageBox.Show("Proceso finalizado correctamente: \n" + salida, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (!string.IsNullOrWhiteSpace(error))
+                        MessageBox.Show("Error durante la ejecución: \n" + error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ocurrió un error al ejecutar MarcEdit: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         public void UnirArchivosMRK(string carpetaEntrada, string archivoSalida)
         {
-            string marceditPath = @"C:\\Users\\JuanCB\\AppData\\Roaming\\MarcEdit 7.6 (User)\\cmarcedit.exe"; // Ruta a cmarcedit.exe
+            string marceditPath = @"C:\Users\JuanCB\AppData\Roaming\MarcEdit 7.6 (User)\cmarcedit.exe"; // Ruta a cmarcedit.exe
+
+            // Verificar si la ruta de MarcEdit existe
+            if (!File.Exists(marceditPath))
+            {
+                MessageBox.Show("No se encontró MarcEdit en la ruta especificada.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (!Directory.Exists(carpetaEntrada))
             {
@@ -72,44 +92,50 @@ namespace ExtraccionA
                 return;
             }
 
-            // Verificar que la carpeta contiene archivos .mrc
-            string[] archivosMrc = Directory.GetFiles(carpetaEntrada, "*.mrk");
+            // Obtener archivos .mrk de la carpeta
+            string[] archivosMrk = Directory.GetFiles(carpetaEntrada, "*.mrk");
 
-            if (archivosMrc.Length < 2)
+            if (archivosMrk.Length < 2)
             {
-                MessageBox.Show("La carpeta debe contener al menos dos archivos MRK para unirlos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("La carpeta debe contener al menos dos archivos MRC para unirlos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // Generar una lista separada por espacios para los archivos de entrada
-            string archivosEntrada = string.Join(";", archivosMrc.Select(a => $"\"{a}\""));
+            // Construir la lista de archivos separados por ";"
+            string archivosEntrada = string.Join(";", archivosMrk);
 
-            Process process = new Process();
-            process.StartInfo.FileName = marceditPath; // Ruta a cmarcedit.exe
-            process.StartInfo.Arguments = $"-join -s \"{archivosEntrada}\" -d \"{archivoSalida}\"";
-            process.StartInfo.UseShellExecute = false;
-            process.StartInfo.RedirectStandardOutput = true;
-            process.StartInfo.RedirectStandardError = true;
+            // Mensaje de depuración
+            //MessageBox.Show($"Archivos de entrada: {archivosEntrada}");
 
             try
             {
-                process.Start();
-                string output = process.StandardOutput.ReadToEnd();
-                string error = process.StandardError.ReadToEnd();
-                process.WaitForExit();
+                ProcessStartInfo psi = new ProcessStartInfo
+                {
+                    FileName = marceditPath,
+                    Arguments = $"-join -s \"{archivosEntrada}\" -d \"{archivoSalida}\"",
+                    RedirectStandardOutput = true,
+                    RedirectStandardError = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
 
-                if (process.ExitCode == 0)
+                using (Process proceso = new Process { StartInfo = psi })
                 {
-                    MessageBox.Show("Archivos unidos exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show($"Error al unir archivos: {error}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    proceso.Start();
+                    string salida = proceso.StandardOutput.ReadToEnd();
+                    string error = proceso.StandardError.ReadToEnd();
+                    proceso.WaitForExit();
+
+                    if (!string.IsNullOrWhiteSpace(salida))
+                        MessageBox.Show("Proceso finalizado correctamente: \n" + salida, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if (!string.IsNullOrWhiteSpace(error))
+                        MessageBox.Show("Error durante la ejecución: \n" + error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ocurrió un error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ocurrió un error al ejecutar MarcEdit: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

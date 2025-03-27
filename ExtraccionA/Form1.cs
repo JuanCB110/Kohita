@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Reflection;
 
 namespace ExtraccionA
 {
     public partial class Form1 : Form
     {
-        // Declaramos una variable que almacenará la cadena de conexión dinámica
-        private string connString = string.Empty;
-        private string folderout = string.Empty;
-        private string codigobiblio = string.Empty;
-        private string codei = string.Empty;
+        private string connString = string.Empty; // Declaramos una variable que almacenará la cadena de conexión dinámica
+        private string folderout = string.Empty; //Declaramos una variable para almacenar la carpeta de salida
+        private string codigobiblio = string.Empty; //Se declara el codigo de la biblioteca
+        private string codei = string.Empty; //Se declara el codigo para el item
 
         public Form1()
         {
@@ -61,14 +63,14 @@ namespace ExtraccionA
             string query = @"SELECT 
                                 f.Ficha_No AS Numero_De_Control,
                                 e.NumAdqui AS Numero_de_Item,
-                                f.Fecha AS Fecha_Entrada_Ficha, 
+                                f.Fecha AS Fecha_Entrada_Ficha,
+                                f.Titulo AS Titulo_Auxiliar,
                                 f.FechaMod AS Fecha_Modificacion_Ficha, 
                                 f.DatosFijos,
-                                f.ISBN,
+                                f.ISBN AS ISBN_Auxiliar,
                                 f.Clasificacion AS Clasificacion_LC, 
-                                f.TipoMaterial,  
-                                f.Titulo, 
-                                f.Autor,  
+                                f.TipoMaterial,   
+                                f.Autor AS Autor_Auxiliar,  
                                 f.Estatus,  
                                 e.FechaIngreso AS Fecha_Ingreso, 
                                 e.Biblioteca, 
@@ -88,6 +90,7 @@ namespace ExtraccionA
             reg.Text = "Registros encontrados: " + tabla_2.RowCount;
             Cursor = Cursors.Default;
             SetControlsEnabled(true);
+            LlenadoSinEjemplares();
         }
 
         private async Task FillDataWithoutProgress(string query, DataGridView gridView)
@@ -198,6 +201,7 @@ namespace ExtraccionA
 
         private void split_Click(object sender, EventArgs e)
         {
+            MessageBox.Show("Nota:\nTanto codigo de biblioteca como nombre de la misma, son tomados\ndirectamente del access, asi que si es necesario cambiarlos, hagalo");
             // Crear una instancia del formulario 'codigo'
             codigo cd = new codigo();
             codigos(cd);
@@ -245,6 +249,10 @@ namespace ExtraccionA
             processedTable.Columns.Add("008", typeof(string)); // Datos fijos
             processedTable.Columns.Add("040", typeof(string)); // Fuente de catalogo
             processedTable.Columns.Add("942", typeof(string)); // Tipo de material
+            processedTable.Columns.Add("Titulo_Auxiliar", typeof(string)); //TItulo Auxiliar
+            processedTable.Columns.Add("ISBN_Auxiliar", typeof(string)); //ISBN Auxiliar
+            processedTable.Columns.Add("Autor_Auxiliar", typeof(string)); //Autor Auxiliar
+            processedTable.Columns.Add("LCC_Auxiliar", typeof(string)); //Clasifcacion LC Auxiliar
 
             string fechaActual = DateTime.Now.ToString("yyyyMMddHHmmss");
 
@@ -269,7 +277,14 @@ namespace ExtraccionA
                     MarcCompleto = group.FirstOrDefault()?["MARC_Completo"]?.ToString(), // Igual para MarcCompleto
 
                     //Pasar el tipo de material
-                    TipoMaterial = group.FirstOrDefault()?["TipoMaterial"]?.ToString()
+                    TipoMaterial = group.FirstOrDefault()?["TipoMaterial"]?.ToString(),
+
+                    //Datos Auxiliares
+                    TituloAux = group.FirstOrDefault()?["Titulo_Auxiliar"]?.ToString(),
+                    ISBNAux = group.FirstOrDefault()?["ISBN_Auxiliar"]?.ToString(),
+                    AutorAux = group.FirstOrDefault()?["Autor_Auxiliar"]?.ToString(),
+                    LCCAux = group.FirstOrDefault()?["Clasificacion_LC"]?.ToString()
+
                 }).ToList();
 
 
@@ -284,18 +299,74 @@ namespace ExtraccionA
                 newRow["003"] = group.NumeroDeControl;
                 newRow["005"] = fechaActual;
                 newRow["Numeros_de_Items"] = group.NumeroDeItems;
-                newRow["008"] = group.DatosFijos.Replace(" ", "");
+                DatosFijosCorrecto df = new DatosFijosCorrecto();
+                newRow["008"] = df.Codificar(group.DatosFijos);
                 newRow["040"] = nombrebiblio;
+                newRow["Titulo_Auxiliar"] = group.TituloAux;
+                newRow["ISBN_Auxiliar"] = group.ISBNAux;
+                newRow["Autor_Auxiliar"] = group.AutorAux;
+                newRow["LCC_Auxiliar"] = group.LCCAux;
                 switch (group.TipoMaterial)
                 {
                     case "0":
+                        //Tipo No especficado
                         newRow["942"] = codei = "OR";
                         break;
                     case "1":
+                        //Tipo Libro
                         newRow["942"] = codei = "BK";
                         break;
                     case "2":
+                        //Tipo Tesis
                         newRow["942"] = codei = "TS";
+                        break;
+                    case "3":
+                        //Tipo Mapas
+                        newRow["942"] = codei = "MP";
+                        break;
+                    case "4":
+                        //Tipo Video
+                        newRow["942"] = codei = "VD";
+                        break;
+                    case "5":
+                        //Tipo Cd-Rom, dvd
+                        newRow["942"] = codei = "VM";
+                        break;
+                    case "6":
+                        //Tipo Fotografias
+                        newRow["942"] = codei = "PS";
+                        break;
+                    case "7":
+                        //Tipo Diapositivas
+                        newRow["942"] = codei = "DS";
+                        break;
+                    case "8":
+                        //Tipo Disquetes
+                        newRow["942"] = codei = "DT";
+                        break;
+                    case "9":
+                        //Tipo Musica
+                        newRow["942"] = codei = "MU";
+                        break;
+                    case "10":
+                        //Tipo Microfilm
+                        newRow["942"] = codei = "MM";
+                        break;
+                    case "11":
+                        //Tipo Archivos de computo
+                        newRow["942"] = codei = "CF";
+                        break;
+                    case "12":
+                        //Tipo Pintura
+                        newRow["942"] = codei = "PN";
+                        break;
+                    case "13":
+                        //Tipo Escultura
+                        newRow["942"] = codei = "TS";
+                        break;
+                    case "14":
+                        //Tipo Otro
+                        newRow["942"] = codei = "OR";
                         break;
                     default:
                         break;
@@ -323,6 +394,47 @@ namespace ExtraccionA
             }
             // Asigna el DataTable procesado al DataGridView
             tabla_3.DataSource = processedTable;
+            // Diccionario con las columnas principales y sus auxiliares
+            Dictionary<string, string> campos = new Dictionary<string, string>
+            {
+                { "020", "ISBN_Auxiliar" },
+                { "245", "Titulo_Auxiliar" },
+                { "100", "Autor_Auxiliar" },
+                { "050", "LCC_Auxiliar" }
+            };
+
+            // Iterar sobre cada fila de la tabla
+            foreach (DataRow row in processedTable.Rows)
+            {
+                foreach (var campo in campos)
+                {
+                    string principal = campo.Key;
+                    string auxiliar = campo.Value;
+
+                    // Verifica que las columnas existen antes de acceder a ellas
+                    string valorPrincipal = row.Table.Columns.Contains(principal) && row[principal] != DBNull.Value ? row[principal].ToString().Trim() : string.Empty;
+                    string valorAuxiliar = row.Table.Columns.Contains(auxiliar) && row[auxiliar] != DBNull.Value ? row[auxiliar].ToString().Trim() : string.Empty;
+
+                    // Si la columna principal está vacía, asignar el valor del auxiliar
+                    if (string.IsNullOrEmpty(valorPrincipal) && !string.IsNullOrEmpty(valorAuxiliar))
+                    {
+                        row[principal] = valorAuxiliar;
+                    }
+                }
+            }
+
+            // Lista de columnas auxiliares a eliminar
+            string[] columnasAuxiliares = { "ISBN_Auxiliar", "Titulo_Auxiliar", "Autor_Auxiliar", "###", "LCC_Auxiliar" };
+
+            // Eliminar cada columna si existe en la tabla
+            foreach (string columna in columnasAuxiliares)
+            {
+                if (processedTable.Columns.Contains(columna))
+                {
+                    processedTable.Columns.Remove(columna);
+                }
+            }
+
             MessageBox.Show("Nota:\nSi los Registros Formateados son menores que las Fichas Encontradas, significa que esas fichas no contienen ejemplares");
             Console.WriteLine($"Filas procesadas: {processedTable.Rows.Count}");
         }
@@ -356,6 +468,9 @@ namespace ExtraccionA
                 List<string> columnasExcluidas = new List<string> { "Numeros_de_Items" };
                 List<string> filas = new List<string>();
 
+                //Contador d eetiquetas 600
+                int cont600 = 0;
+
                 // Recorre todas las filas seleccionadas
                 foreach (DataGridViewRow selectedRow in tabla_3.SelectedRows)
                 {
@@ -374,7 +489,7 @@ namespace ExtraccionA
 
                             if (!columnasExcluidas.Contains(nombreColumna))
                             {
-                                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString()))
+                                if (cell.Value == null || string.IsNullOrEmpty(cell.Value.ToString().Trim()))
                                 {
                                     Console.WriteLine(tabla_3.Columns[cell.ColumnIndex].HeaderText + " Vacia");
                                 }
@@ -385,7 +500,7 @@ namespace ExtraccionA
                                         case "020":
                                             {
 
-                                                string a = "$a" + cell.Value.ToString();
+                                                string a = "$a" + cell.Value.ToString().Trim();
 
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
@@ -393,14 +508,14 @@ namespace ExtraccionA
                                         case "040":
                                             {
 
-                                                string c = "$c" + cell.Value.ToString();
+                                                string c = "$c" + cell.Value.ToString().Trim();
 
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {c}");
                                                 break;
                                             }
                                         case "050":
                                             {
-                                                string a = "$a" + cell.Value.ToString();
+                                                string a = "$a" + cell.Value.ToString().Trim();
 
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
@@ -408,7 +523,7 @@ namespace ExtraccionA
                                         case "100":
                                             {
 
-                                                string a = "$a" + cell.Value.ToString();
+                                                string a = "$a" + cell.Value.ToString().Trim();
 
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
@@ -416,7 +531,7 @@ namespace ExtraccionA
                                         case "110":
                                             {
 
-                                                string a = "$a" + cell.Value.ToString();
+                                                string a = "$a" + cell.Value.ToString().Trim();
 
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
@@ -424,7 +539,7 @@ namespace ExtraccionA
                                         case "130":
                                             {
 
-                                                string a = "$a" + cell.Value.ToString();
+                                                string a = "$a" + cell.Value.ToString().Trim();
 
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
@@ -432,14 +547,14 @@ namespace ExtraccionA
                                         case "240":
                                             {
 
-                                                string a = "$a" + cell.Value.ToString();
+                                                string a = "$a" + cell.Value.ToString().Trim();
 
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
                                             }
                                         case "245":
                                             {
-                                                string div = cell.Value.ToString();
+                                                string div = cell.Value.ToString().Trim();
 
                                                 if (div.Contains(":"))
                                                 {
@@ -484,7 +599,7 @@ namespace ExtraccionA
                                             }
                                         case "250":
                                             {
-                                                string div = cell.Value.ToString();
+                                                string div = cell.Value.ToString().Trim();
 
                                                 if (div.Contains("/"))
                                                 {
@@ -507,7 +622,7 @@ namespace ExtraccionA
                                             }
                                         case "260":
                                             {
-                                                string div = cell.Value.ToString();
+                                                string div = cell.Value.ToString().Trim();
 
                                                 if (div.Contains(":"))
                                                 {
@@ -530,7 +645,7 @@ namespace ExtraccionA
                                             }
                                         case "300":
                                             {
-                                                string div = cell.Value.ToString();
+                                                string div = cell.Value.ToString().Trim();
 
                                                 if (div.Contains("/"))
                                                 {
@@ -550,29 +665,16 @@ namespace ExtraccionA
                                                 break;
                                             }
                                         case "440":
+                                        case "490":
                                             {
-                                                string div = cell.Value.ToString();
+                                                string a = "$a" + cell.Value.ToString().Trim();
 
-                                                if (div.Contains("/"))
-                                                {
-                                                    string[] partes = div.Split('/');
-
-                                                    string a = partes[0].Trim();
-                                                    string b = " / " + partes[1].Trim();
-
-                                                    string com = a + b;
-
-                                                    formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {com}");
-                                                }
-                                                else
-                                                {
-                                                    formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {div}");
-                                                }
+                                                formattedText.AppendLine($"=490  {a}");
                                                 break;
                                             }
                                         case "500":
                                             {
-                                                string a = "$a" + cell.Value.ToString();
+                                                string a = "$a" + cell.Value.ToString().Trim();
 
                                                 formattedText.AppendLine($"=500  {a}");
                                                 break;
@@ -581,21 +683,22 @@ namespace ExtraccionA
                                         case "503":
                                         case "504":
                                             {
-                                                string a = "$a" + cell.Value.ToString();
+                                                string a = "$a" + cell.Value.ToString().Trim();
 
                                                 formattedText.AppendLine($"=504  {a}");
                                                 break;
                                             }
                                         case "505":
                                             {
-                                                string a = "$a" + cell.Value.ToString();
+                                                string a = "$a" + cell.Value.ToString().Trim();
 
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
                                             }
                                         case "600":
                                             {
-                                                string div = cell.Value.ToString();
+                                                cont600++;
+                                                string div = cell.Value.ToString().Trim();
 
                                                 // Dividir la cadena principal en partes
                                                 string[] partes = Regex.Split(div, @"(?<=\.)\s*(?=\d+\.)");
@@ -618,7 +721,7 @@ namespace ExtraccionA
                                             }
                                         case "610":
                                             {
-                                                string div = cell.Value.ToString();
+                                                string div = cell.Value.ToString().Trim();
 
                                                 // Dividir la cadena principal en partes
                                                 string[] partes = Regex.Split(div, @"(?<=\.)\s*(?=\d+\.)");
@@ -641,7 +744,7 @@ namespace ExtraccionA
                                             }
                                         case "650":
                                             {
-                                                string div = cell.Value.ToString();
+                                                string div = cell.Value.ToString().Trim();
 
                                                 // Dividir la cadena principal en partes
                                                 string[] partes = Regex.Split(div, @"(?<=\.)\s*(?=\d+\.)");
@@ -664,7 +767,7 @@ namespace ExtraccionA
                                             }
                                         case "651":
                                             {
-                                                string div = cell.Value.ToString();
+                                                string div = cell.Value.ToString().Trim();
 
                                                 // Dividir la cadena principal en partes
                                                 string[] partes = Regex.Split(div, @"(?<=\.)\s*(?=\d+\.)");
@@ -687,7 +790,7 @@ namespace ExtraccionA
                                             }
                                         case "700":
                                             {
-                                                string div = cell.Value.ToString();
+                                                string div = cell.Value.ToString().Trim();
 
                                                 // Dividir la cadena principal en partes
                                                 string[] partes = Regex.Split(div, @"(?<=\\)\s*");
@@ -710,7 +813,7 @@ namespace ExtraccionA
                                             }
                                         case "710":
                                             {
-                                                string div = cell.Value.ToString();
+                                                string div = cell.Value.ToString().Trim();
 
                                                 // Dividir la cadena principal en partes
                                                 string[] partes = Regex.Split(div, @"(?<=\\)\s*");
@@ -733,28 +836,21 @@ namespace ExtraccionA
                                             }
                                         case "856":
                                             {
-                                                string a = "$a" + cell.Value.ToString();
-
-                                                formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
-                                                break;
-                                            }
-                                        case "490":
-                                            {
-                                                string a = "$a" + cell.Value.ToString();
+                                                string a = "$a" + cell.Value.ToString().Trim();
 
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
                                             }
                                         case "942":
                                             {
-                                                string c = "$c" + cell.Value.ToString();
+                                                string c = "$c" + cell.Value.ToString().Trim();
 
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {c}");
                                                 break;
                                             }
                                         default:
                                             {
-                                                formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {cell.Value}"); // Mover aquí
+                                                formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {cell.Value.ToString().Trim()}"); // Mover aquí   
                                                 break; // Salir del caso por defecto
                                             }
                                     }
@@ -803,10 +899,12 @@ namespace ExtraccionA
                         File.WriteAllText(filePath, formattedText.ToString());
                         //filas.Add($"parte{archivoNumero}");
                         MessageBox.Show($"Archivos guardados correctamente en {archivoNumero + 1} partes.");
+                        MessageBox.Show($"{cont600} Registrados con etiqueta 600");
                     }
                 } else
                 {
                     MessageBox.Show($"Archivos guardados correctamente en {archivoNumero + 1} partes.");
+                    MessageBox.Show($"{cont600} Registrados con etiqueta 600");
                 }
             }
             else
@@ -1008,18 +1106,21 @@ namespace ExtraccionA
 
         private void selMRC_Click(object sender, EventArgs e)
         {
-            // Crear un FolderBrowserDialog para seleccionar la carpeta
             using (FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog())
             {
                 folderBrowserDialog.Description = "Seleccionar carpeta que contiene los archivos MRC";
 
-                // Mostrar el cuadro de diálogo
                 if (folderBrowserDialog.ShowDialog() == DialogResult.OK)
                 {
-                    // Obtener la carpeta seleccionada
                     string carpetaSeleccionada = folderBrowserDialog.SelectedPath;
 
-                    // Obtener todos los archivos .mrc en la carpeta
+                    // Verificar si la carpeta está vacía
+                    if (string.IsNullOrWhiteSpace(carpetaSeleccionada) || !Directory.Exists(carpetaSeleccionada))
+                    {
+                        MessageBox.Show("La carpeta seleccionada no es válida.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     List<string> archivosMRC = Directory.GetFiles(carpetaSeleccionada, "*.mrc").ToList();
 
                     if (archivosMRC.Count < 2)
@@ -1028,7 +1129,9 @@ namespace ExtraccionA
                         return;
                     }
 
-                    // Ruta de salida
+                    // Mostrar los archivos encontrados (para depuración)
+                    MessageBox.Show($"Archivos encontrados:\n{string.Join("\n", archivosMRC)}", "Depuración", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     using (SaveFileDialog saveFileDialog = new SaveFileDialog())
                     {
                         saveFileDialog.Filter = "Archivo MRC (*.mrc)|*.mrc";
@@ -1038,6 +1141,16 @@ namespace ExtraccionA
                         if (saveFileDialog.ShowDialog() == DialogResult.OK)
                         {
                             string archivoSalida = Path.GetFullPath(saveFileDialog.FileName);
+
+                            // Verificar si la ruta de salida es válida
+                            if (string.IsNullOrWhiteSpace(archivoSalida))
+                            {
+                                MessageBox.Show("El archivo de salida no es válido.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                return;
+                            }
+
+                            // Depuración: Mostrar ruta de salida
+                            MessageBox.Show($"Archivo de salida: {archivoSalida}", "Depuración", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                             UnirMRKoMRC umrc = new UnirMRKoMRC();
                             umrc.UnirArchivosMRC(carpetaSeleccionada, archivoSalida);
@@ -1085,6 +1198,75 @@ namespace ExtraccionA
                         }
                     }
                 }
+            }
+        }
+
+        //Fichas sin ejemplares
+        private async void LlenadoSinEjemplares()
+        {
+            // Crear una nueva ventana en tiempo de ejecución
+            Form formSinEjemplares = new Form
+            {
+                Text = "Fichas sin ejemplares",
+                Size = new Size(800, 500),
+                StartPosition = FormStartPosition.CenterScreen,
+                Icon = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream("ExtraccionA.zombie-removebg-preview.ico"))  // Acceder al recurso incrustado
+            };
+
+            // Crear un DataGridView dentro de la nueva ventana
+            DataGridView tablaSinEjemplares = new DataGridView
+            {
+                Dock = DockStyle.Fill,
+                ReadOnly = true,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells,
+                AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+            };
+
+            // Agregar el DataGridView al formulario
+            formSinEjemplares.Controls.Add(tablaSinEjemplares);
+
+            // Cargar los datos y mostrar la ventana
+            await CargarFichasSinEjemplares(tablaSinEjemplares);
+
+            // Mostrar la ventana
+            formSinEjemplares.Show();
+        }
+
+        private async Task CargarFichasSinEjemplares(DataGridView tabla)
+        {
+            string query = @"SELECT 
+                        f.Ficha_No AS Numero_De_Control,
+                        f.Fecha AS Fecha_Entrada_Ficha,
+                        f.Titulo AS Titulo_Auxiliar,
+                        f.FechaMod AS Fecha_Modificacion_Ficha, 
+                        f.DatosFijos,
+                        f.ISBN AS ISBN_Auxiliar,
+                        f.Clasificacion AS Clasificacion_LC, 
+                        f.TipoMaterial,   
+                        f.Autor AS Autor_Auxiliar,  
+                        f.Estatus,  
+                        f.EtiquetasMARC AS MARC_Completo
+                    FROM Fichas f
+                    LEFT JOIN EJEMPLARES e ON f.Ficha_No = e.Ficha_No
+                    WHERE e.Ficha_No IS NULL
+                    ORDER BY f.Ficha_No;";
+
+            try
+            {
+                using (OleDbConnection conn = new OleDbConnection(connString))
+                {
+                    await conn.OpenAsync();
+                    using (OleDbDataAdapter adapter = new OleDbDataAdapter(query, conn))
+                    {
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+                        tabla.DataSource = dt;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
