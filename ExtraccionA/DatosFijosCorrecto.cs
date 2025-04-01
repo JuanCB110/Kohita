@@ -8,213 +8,288 @@ namespace ExtraccionA
     {
         public string Codificar(string dato)
         {
-            //Dato prueba
-            string prueba = string.Empty;
-
-            // Limpiar el dato, reemplazar los espacios por '|' y eliminar múltiples '|'
-            dato = dato.Trim().Replace(" ", "|");
-            dato = Regex.Replace(dato, @"\|+", "|");
-
-            // Dividir el dato en partes usando el separador '|'
-            string[] datos = dato.Split('|');
-
-            // Crear un arreglo para los datos codificados (esto puedes ajustar según sea necesario)
+            // Crear un arreglo para los datos codificados (40 posiciones exactas)
             string[] dfcodificado = new string[40];
 
-            // Obtener la fecha actual y formatearla sin guiones
-            string fecha = DateTime.Now.ToString("yyMMdd");
-            //dfcodificado[0] = fecha;
-
-            // Codificar entre los primeros 6 y 10 dígitos
-            string dato1 = datos[0];  // Se asume que los primeros dígitos están en datos[0]
-            //Primer dato que abarca de los primeros 6 o 10 digitos, excluyendo cualquier caracter menos los digitos
-            char[] digitos = dato1.ToArray();
-            for (int i = 0; i < digitos.Length; i++)
+            // Inicializar todo el arreglo con "|" (valor por defecto en Koha para campos vacíos)
+            for (int i = 0; i < dfcodificado.Length; i++)
             {
-                char d = digitos[i]; // Obtener el carácter en la posición i
-
-                // Usamos un switch para manejar casos específicos según la posición
-                switch (i)
+                dfcodificado[i] = "|";
+            }
+            
+            // Obtener la fecha actual y formatearla sin guiones para posiciones 0-5
+            string fechaActual = DateTime.Now.ToString("yyMMdd");
+            for (int i = 0; i < 6 && i < fechaActual.Length; i++)
+            {
+                dfcodificado[i] = fechaActual[i].ToString();
+            }
+            
+            // Preservar el dato original para análisis de posiciones
+            string datoOriginal = dato;
+            
+            // Normalizar el dato: eliminar espacios múltiples y dividir por espacios
+            dato = dato.Trim();
+            dato = Regex.Replace(dato, @"\s+", " ");
+            string[] partes = dato.Split(' ');
+            
+            // Si no hay datos suficientes, devolver el arreglo con valores por defecto
+            if (partes.Length == 0)
+            {
+                return string.Join("", dfcodificado);
+            }
+            
+            // Definir variables para seguimiento
+            bool primeraFechaEncontrada = false;
+            bool segundaFechaEncontrada = false;
+            bool paisEncontrado = false;
+            bool idiomaEncontrado = false;
+            
+            // Procesar la primera parte (líder/datos de control)
+            string lider = partes[0];
+            
+            // Extraer el tipo de fecha de publicación (posición 5 en SIABUC, posición 6 en Koha)
+            char tipoFecha = '|';
+            if (lider.Length > 5)
+            {
+                char tipoFechaSiabuc = lider[5];
+                switch (tipoFechaSiabuc)
                 {
-                    //Estado del registro
-                    case 0:
-                        // Caso específico para la primera posición (i == 0)
-                        switch (d)
-                        {
-                            case '0':
-                            case '1':
-                            //SIABUC8 " ": No se utiliza - Koha: "|"
-                            case '2':
-                            //SIABUC8 "a":  - Koha: ""
-                            case '3':
-                            //SIABUC8 "c":  - Koha: ""
-                            case '4':
-                            //SIABUC8 "d":  - Koha: ""
-                            case '5':
-                                //SIABUC8 "n":  - Koha: ""
-                                //dfcodificado[0] = fecha;
-                                char[] fechadiv = new string(fecha.Where(char.IsDigit).ToArray()).ToCharArray();
-                                for (int j = 0; j < fechadiv.Length; j++)
-                                {
-                                    dfcodificado[j] = fechadiv[j].ToString(); // Obtener el carácter en la posición i
-                                }
-                                break;
-                            default:
-                                Console.WriteLine($"En la posición 1 hay un carácter distinto: {d}");
-                                break;
-                        }
+                    case '0':
+                    case '1':
+                        tipoFecha = '|';
                         break;
-                    //Tipo de registro
-                    case 1:
+                    case '2':
+                        tipoFecha = 'r'; // Fechas de reimpresión
                         break;
-                    //Nivel Bibliografico
-                    case 2:
+                    case '3':
+                        tipoFecha = 'm'; // Fechas múltiples
                         break;
-                    //Nivel de codificacion
-                    case 3:
+                    case '4':
+                        tipoFecha = 'n'; // Fecha desconocida
                         break;
-                    //Catalogacion descriptiva
-                    case 4:
+                    case '5':
+                        tipoFecha = 'q'; // Fecha cuestionable
                         break;
-                    //Tipo de fecha de publicacion
-                    case 5:
-                        switch (d)
-                        {
-                            case '0':
-                            case '1':
-                                //SIABUC8 " ":  - Koha: "|"
-                                dfcodificado[6] = "|";
-                                break;
-                            case '2':
-                                //SIABUC8 "c":  - Koha: "r"
-                                dfcodificado[6] = "r";
-                                break;
-                            case '3':
-                                //SIABUC8 "m":  - Koha: "m"
-                                dfcodificado[6] = "m";
-                                break;
-                            case '4':
-                                //SIABUC8 "n":  - Koha: "n"
-                                dfcodificado[6] = "n";
-                                break;
-                            case '5':
-                                //SIABUC8 "q":  - Koha: "q"
-                                dfcodificado[6] = "q";
-                                break;
-                            case '6':
-                                //SIABUC8 "r":  - Koha: "p"
-                                dfcodificado[6] = "p";
-                                break;
-                            case '7':
-                                //SIABUC8 "s":  - Koha: "s"
-                                dfcodificado[6] = "s";
-                                break;
-                            default:
-                                break;
-                        }
+                    case '6':
+                        tipoFecha = 'p'; // Fechas de distribución/lanzamiento
                         break;
-                    //Primera fecha
-                    case 6:
-                        dfcodificado[7] = d.ToString();
-                        break;
-                    case 7:
-                        dfcodificado[8] = d.ToString();
-                        break;
-                    case 8:
-                        dfcodificado[9] = d.ToString();
-                        break;
-                    case 9:
-                        dfcodificado[10] = d.ToString();
+                    case '7':
+                        tipoFecha = 's'; // Fecha única
                         break;
                     default:
-                        // Para las posiciones restantes, manejamos casos generales
+                        tipoFecha = '|';
                         break;
                 }
             }
-
-            //Verificar si la primera fecha existe
-            for (int i = 7; i <= 10; i++)
+            dfcodificado[6] = tipoFecha.ToString();
+            
+            // Extraer solo los dígitos para la primera fecha del líder
+            if (lider.Length > 6)
             {
-                if (string.IsNullOrWhiteSpace(dfcodificado[i]) || string.IsNullOrEmpty(dfcodificado[i]))
+                // Extraer todos los dígitos a partir de la posición 6
+                string primeraFecha = new string(lider.Substring(6).Where(char.IsDigit).ToArray());
+                
+                // Copiar hasta 4 dígitos a las posiciones 7-10
+                for (int i = 0; i < Math.Min(primeraFecha.Length, 4); i++)
                 {
-                    dfcodificado[i] = " ";
+                    dfcodificado[7 + i] = primeraFecha[i].ToString();
+                }
+                
+                // Marcar que ya encontramos la primera fecha
+                if (primeraFecha.Length > 0)
+                {
+                    primeraFechaEncontrada = true;
                 }
             }
-
-            //Segundo dato
-            string dato2 = datos[1];
-
-            //Identificar si se trata de una posible segunda fecha o del pais de publicacion
-            if (dato2.All(char.IsDigit))
+            
+            // Recorrer el resto de partes para buscar datos específicos
+            for (int i = 1; i < partes.Length; i++)
             {
-                char[] fechados = dato2.ToArray();
-                for (int i = 0; i < fechados.Length; i++)
+                string parte = partes[i].Trim();
+                
+                // Si está vacío, continuar
+                if (string.IsNullOrEmpty(parte))
                 {
-                    dfcodificado[11+i] = fechados[i].ToString();
+                    continue;
                 }
-                //Verificar si la segunda fecha existe
-                for (int i = 11; i <= 14; i++)
+                
+                // Si la parte comienza con caracteres no numéricos seguidos por números,
+                // podría ser un formato como "c1982" - extraer solo los dígitos
+                if (Regex.IsMatch(parte, @"^[^\d]+\d+$"))
                 {
-                    if (string.IsNullOrWhiteSpace(dfcodificado[i]) || string.IsNullOrEmpty(dfcodificado[i]))
+                    string soloDigitos = new string(parte.Where(char.IsDigit).ToArray());
+                    
+                    // Si es un año de 4 dígitos
+                    if (soloDigitos.Length == 4)
                     {
-                        dfcodificado[i] = " ";
+                        // Determinar si es primera o segunda fecha basado en la posición en la cadena original
+                        int posicion = datoOriginal.IndexOf(parte);
+                        bool esSegundaFecha = posicion > 15; // Si está más adelante en la cadena, probablemente sea la segunda fecha
+                        
+                        if (esSegundaFecha && !segundaFechaEncontrada)
+                        {
+                            for (int j = 0; j < soloDigitos.Length; j++)
+                            {
+                                dfcodificado[11 + j] = soloDigitos[j].ToString();
+                            }
+                            segundaFechaEncontrada = true;
+                        }
+                        else if (!primeraFechaEncontrada)
+                        {
+                            for (int j = 0; j < soloDigitos.Length; j++)
+                            {
+                                dfcodificado[7 + j] = soloDigitos[j].ToString();
+                            }
+                            primeraFechaEncontrada = true;
+                        }
+                    }
+                    continue;
+                }
+                
+                // Extraer año de formatos como [YYYY] o "reimp. [YYYY]"
+                if (parte.Contains("[") && parte.Contains("]"))
+                {
+                    string yearPattern = @"\[(\d{4})\]";
+                    Match match = Regex.Match(parte, yearPattern);
+                    
+                    if (match.Success)
+                    {
+                        string year = match.Groups[1].Value;
+                        
+                        // Determinar si es primera o segunda fecha basado en la posición en la cadena original
+                        int posicion = datoOriginal.IndexOf(parte);
+                        bool esSegundaFecha = posicion > 15; // Si está más adelante en la cadena, probablemente sea la segunda fecha
+                        
+                        if (esSegundaFecha && !segundaFechaEncontrada)
+                        {
+                            for (int j = 0; j < year.Length && j < 4; j++)
+                            {
+                                dfcodificado[11 + j] = year[j].ToString();
+                            }
+                            segundaFechaEncontrada = true;
+                        }
+                        else if (!primeraFechaEncontrada)
+                        {
+                            for (int j = 0; j < year.Length && j < 4; j++)
+                            {
+                                dfcodificado[7 + j] = year[j].ToString();
+                            }
+                            primeraFechaEncontrada = true;
+                        }
                     }
                 }
-                //Caso del pais
-                string dato3 = datos[2];
-                if (dato3.Length < 3)
+                // Si contiene "reimp.", marcar como reimpresión
+                else if (parte.Contains("reimp"))
                 {
-                    dato3 = dato3.PadRight(3);
-                    char[] pais = dato3.ToCharArray();
-                    for (int i = 0; i < 2; i++)
+                    dfcodificado[6] = "r";
+                    
+                    // Extraer año si existe después de "reimp."
+                    string yearPattern = @"(\d{4})";
+                    Match match = Regex.Match(parte, yearPattern);
+                    
+                    if (match.Success)
                     {
-                        dfcodificado[15+i] = pais[i].ToString();
+                        string year = match.Groups[1].Value;
+                        
+                        // Si no se ha encontrado la segunda fecha, usarla como segunda
+                        if (!segundaFechaEncontrada)
+                        {
+                            for (int j = 0; j < year.Length && j < 4; j++)
+                            {
+                                dfcodificado[11 + j] = year[j].ToString();
+                            }
+                            segundaFechaEncontrada = true;
+                        }
                     }
                 }
-                //Verfifcar si el pais existe
-                for (int i = 15; i <= 17; i++)
+                // Procesar fechas numéricas (solo dígitos)
+                else if (Regex.IsMatch(parte, @"^\d+$") && parte.Length <= 4)
                 {
-                    if (string.IsNullOrWhiteSpace(dfcodificado[i]) || string.IsNullOrEmpty(dfcodificado[i]))
+                    // Si es un año de 4 dígitos
+                    if (parte.Length == 4)
                     {
-                        dfcodificado[i] = "|";
+                        // Determinar si es primera o segunda fecha basado en la posición en la cadena original
+                        int posicion = datoOriginal.IndexOf(parte);
+                        bool esSegundaFecha = posicion > 15; // Si está más adelante en la cadena, probablemente sea la segunda fecha
+                        
+                        if (esSegundaFecha && !segundaFechaEncontrada)
+                        {
+                            for (int j = 0; j < parte.Length; j++)
+                            {
+                                dfcodificado[11 + j] = parte[j].ToString();
+                            }
+                            segundaFechaEncontrada = true;
+                        }
+                        else if (!primeraFechaEncontrada)
+                        {
+                            for (int j = 0; j < parte.Length; j++)
+                            {
+                                dfcodificado[7 + j] = parte[j].ToString();
+                            }
+                            primeraFechaEncontrada = true;
+                        }
+                        else if (!segundaFechaEncontrada)
+                        {
+                            for (int j = 0; j < parte.Length; j++)
+                            {
+                                dfcodificado[11 + j] = parte[j].ToString();
+                            }
+                            segundaFechaEncontrada = true;
+                        }
+                    }
+                }
+                // Procesar códigos de país (2-3 letras)
+                else if (!paisEncontrado && parte.Length <= 3 && parte.All(char.IsLetter))
+                {
+                    string codigoPais = parte.ToLower().PadRight(3);
+                    for (int j = 0; j < 3; j++)
+                    {
+                        dfcodificado[15 + j] = codigoPais[j].ToString();
+                    }
+                    paisEncontrado = true;
+                }
+                // Procesar códigos de ilustración (a, b, c, d, etc.)
+                else if (parte.Length == 1 && "abcdefghijklmnopqrstuvwxyz".Contains(parte.ToLower()))
+                {
+                    // Asignar códigos de ilustración (posiciones 18-21 en Koha)
+                    for (int j = 0; j < 4; j++)
+                    {
+                        if (dfcodificado[18 + j] == "|")
+                        {
+                            dfcodificado[18 + j] = parte.ToLower();
+                            break;
+                        }
+                    }
+                }
+                // Procesar códigos de idioma (tres letras, como "spa")
+                else if (!idiomaEncontrado && (parte.Contains("spa") || (parte.Length == 3 && parte.All(char.IsLetter))))
+                {
+                    string codigoIdioma = Regex.Match(parte, @"[a-z]{3}").Value;
+                    if (!string.IsNullOrEmpty(codigoIdioma))
+                    {
+                        for (int j = 0; j < 3; j++)
+                        {
+                            dfcodificado[35 + j] = codigoIdioma[j].ToString().ToLower();
+                        }
+                        idiomaEncontrado = true;
                     }
                 }
             }
-
-            //Manejar en caso de que solamente tenga el lugar de publicacion
-            else if (dato2.All(char.IsLetter) && dato2.Length <= 3)
+            
+            // Generar la cadena final con exactamente 40 caracteres
+            string datoFijo = string.Join("", dfcodificado);
+            
+            // Verificar que la longitud sea exactamente 40 caracteres
+            if (datoFijo.Length < 40)
             {
-                //Verificar si la segunda fecha existe
-                for (int i = 11; i <= 14; i++)
-                {
-                    if (string.IsNullOrWhiteSpace(dfcodificado[i]) || string.IsNullOrEmpty(dfcodificado[i]))
-                    {
-                        dfcodificado[i] = " ";
-                    }
-                }
-                //Manejo del pais entre 1 y 3 aracteres
-                if (dato2.Length < 3)
-                {
-                    dato2 = dato2.PadRight(3);
-                }
-                char[] pais = dato2.ToArray();
-                for (int i = 0; i < 2; i++)
-                {
-                    dfcodificado[15 + i] = pais[i].ToString();
-                }
-                //Verfifcar si el pais existe
-                for (int i = 15; i <= 17; i++)
-                {
-                    if (string.IsNullOrWhiteSpace(dfcodificado[i]) || string.IsNullOrEmpty(dfcodificado[i]))
-                    {
-                        dfcodificado[i] = "|";
-                    }
-                }
+                datoFijo = datoFijo.PadRight(40, '|');
             }
-
-            // Finalmente, puedes devolver el dato original o hacer algo con los datos procesados.
-            string datofijo = string.Join("", dfcodificado); //string.Join("|", datos); // Ejemplo: reconstruir la cadena original
-            return datofijo;
+            else if (datoFijo.Length > 40)
+            {
+                datoFijo = datoFijo.Substring(0, 40);
+            }
+            
+            return datoFijo;
         }
     }
 }

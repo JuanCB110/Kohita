@@ -67,16 +67,16 @@
             this.selMRC = new System.Windows.Forms.ToolStripMenuItem();
             this.selMRK = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.codebiblio = new System.Windows.Forms.Label();
+            this.biblioteca = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.tabla1 = new System.Windows.Forms.PictureBox();
             this.fee = new System.Windows.Forms.Label();
             this.limpiar = new System.Windows.Forms.Button();
             this.ejemplares = new System.Windows.Forms.Button();
-            this.editorial = new System.Windows.Forms.Button();
+            this.usuarios = new System.Windows.Forms.Button();
             this.fichas = new System.Windows.Forms.Button();
             this.tabla_1 = new System.Windows.Forms.DataGridView();
-            this.biblioteca = new System.Windows.Forms.Label();
-            this.codebiblio = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabla2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabla_2)).BeginInit();
@@ -438,13 +438,39 @@
             this.panel1.Size = new System.Drawing.Size(1907, 988);
             this.panel1.TabIndex = 10;
             // 
+            // codebiblio
+            // 
+            this.codebiblio.AutoSize = true;
+            this.codebiblio.BackColor = System.Drawing.Color.Transparent;
+            this.codebiblio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.codebiblio.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.codebiblio.Location = new System.Drawing.Point(1291, 8);
+            this.codebiblio.Name = "codebiblio";
+            this.codebiblio.Size = new System.Drawing.Size(24, 20);
+            this.codebiblio.TabIndex = 29;
+            this.codebiblio.Text = ": :";
+            this.codebiblio.Visible = false;
+            // 
+            // biblioteca
+            // 
+            this.biblioteca.AutoSize = true;
+            this.biblioteca.BackColor = System.Drawing.Color.Transparent;
+            this.biblioteca.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.biblioteca.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.biblioteca.Location = new System.Drawing.Point(810, 8);
+            this.biblioteca.Name = "biblioteca";
+            this.biblioteca.Size = new System.Drawing.Size(24, 20);
+            this.biblioteca.TabIndex = 28;
+            this.biblioteca.Text = ": :";
+            this.biblioteca.Visible = false;
+            // 
             // panel4
             // 
             this.panel4.Controls.Add(this.tabla1);
             this.panel4.Controls.Add(this.fee);
             this.panel4.Controls.Add(this.limpiar);
             this.panel4.Controls.Add(this.ejemplares);
-            this.panel4.Controls.Add(this.editorial);
+            this.panel4.Controls.Add(this.usuarios);
             this.panel4.Controls.Add(this.fichas);
             this.panel4.Controls.Add(this.tabla_1);
             this.panel4.Location = new System.Drawing.Point(9, 36);
@@ -504,19 +530,19 @@
             this.ejemplares.UseVisualStyleBackColor = false;
             this.ejemplares.Click += new System.EventHandler(this.ejemplares_Click);
             // 
-            // editorial
+            // usuarios
             // 
-            this.editorial.BackColor = System.Drawing.Color.LavenderBlush;
-            this.editorial.Enabled = false;
-            this.editorial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.editorial.ForeColor = System.Drawing.Color.Black;
-            this.editorial.Location = new System.Drawing.Point(118, 874);
-            this.editorial.Name = "editorial";
-            this.editorial.Size = new System.Drawing.Size(107, 35);
-            this.editorial.TabIndex = 19;
-            this.editorial.Text = "Editoriales";
-            this.editorial.UseVisualStyleBackColor = false;
-            this.editorial.Click += new System.EventHandler(this.editorial_Click);
+            this.usuarios.BackColor = System.Drawing.Color.LavenderBlush;
+            this.usuarios.Enabled = false;
+            this.usuarios.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.usuarios.ForeColor = System.Drawing.Color.Black;
+            this.usuarios.Location = new System.Drawing.Point(118, 874);
+            this.usuarios.Name = "usuarios";
+            this.usuarios.Size = new System.Drawing.Size(107, 35);
+            this.usuarios.TabIndex = 19;
+            this.usuarios.Text = "Usuarios";
+            this.usuarios.UseVisualStyleBackColor = false;
+            this.usuarios.Click += new System.EventHandler(this.usuarios_Click);
             // 
             // fichas
             // 
@@ -576,32 +602,6 @@
             this.tabla_1.RowTemplate.Height = 28;
             this.tabla_1.Size = new System.Drawing.Size(950, 865);
             this.tabla_1.TabIndex = 17;
-            // 
-            // biblioteca
-            // 
-            this.biblioteca.AutoSize = true;
-            this.biblioteca.BackColor = System.Drawing.Color.Transparent;
-            this.biblioteca.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.biblioteca.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.biblioteca.Location = new System.Drawing.Point(810, 8);
-            this.biblioteca.Name = "biblioteca";
-            this.biblioteca.Size = new System.Drawing.Size(24, 20);
-            this.biblioteca.TabIndex = 28;
-            this.biblioteca.Text = ": :";
-            this.biblioteca.Visible = false;
-            // 
-            // codebiblio
-            // 
-            this.codebiblio.AutoSize = true;
-            this.codebiblio.BackColor = System.Drawing.Color.Transparent;
-            this.codebiblio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.codebiblio.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.codebiblio.Location = new System.Drawing.Point(1291, 8);
-            this.codebiblio.Name = "codebiblio";
-            this.codebiblio.Size = new System.Drawing.Size(24, 20);
-            this.codebiblio.TabIndex = 29;
-            this.codebiblio.Text = ": :";
-            this.codebiblio.Visible = false;
             // 
             // Form1
             // 
@@ -668,7 +668,7 @@
         private System.Windows.Forms.Label fee;
         private System.Windows.Forms.Button limpiar;
         private System.Windows.Forms.Button ejemplares;
-        private System.Windows.Forms.Button editorial;
+        private System.Windows.Forms.Button usuarios;
         private System.Windows.Forms.Button fichas;
         private System.Windows.Forms.DataGridView tabla_1;
         private System.Windows.Forms.ToolStripMenuItem conversionMRKAMRCToolStripMenuItem;

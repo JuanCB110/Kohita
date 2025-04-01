@@ -21,6 +21,7 @@ namespace ExtraccionA
         private string codigobiblio = string.Empty; //Se declara el codigo de la biblioteca
         private string codei = string.Empty; //Se declara el codigo para el item
         public string pathmarc = string.Empty; //Declaracion de la variable global del path de MarcEdit Herramienta
+        private static Form formSinEjemplares = null; // Declarar una variable estática o de clase para almacenar la referencia de la ventana abierta
 
         public Form1()
         {
@@ -29,7 +30,7 @@ namespace ExtraccionA
 
         //Primera Tabla
         private void fichas_Click(object sender, EventArgs e) => FetchData("SELECT * FROM Fichas", fichas) ;
-        private void editorial_Click(object sender, EventArgs e) => FetchData("SELECT * FROM Editoriales", editorial);
+        private void usuarios_Click(object sender, EventArgs e) => FetchData("SELECT * FROM Usuarios", usuarios);
         private void ejemplares_Click(object sender, EventArgs e) => FetchData("SELECT * FROM EJEMPLARES", ejemplares);
         private async void FetchData(string query, Button button)
         {
@@ -164,6 +165,12 @@ namespace ExtraccionA
                                     string nombre = reader["Nombre"].ToString();
                                     string code = reader["No"].ToString();
 
+                                    //Verificar los 3 digitos
+                                    if(code.Length < 3)
+                                    {
+                                        code = "0" + code;
+                                    }
+
                                     // Llamar al método para actualizar los controles con los nuevos datos
                                     cd.datos(nombre, code);
                                 }
@@ -186,7 +193,7 @@ namespace ExtraccionA
         private void SetButtonState(Button activeButton)
         {
             fichas.Enabled = activeButton == fichas;
-            editorial.Enabled = activeButton == editorial;
+            usuarios.Enabled = activeButton == usuarios;
             ejemplares.Enabled = activeButton == ejemplares;
         }
 
@@ -195,7 +202,7 @@ namespace ExtraccionA
             tabla_1.ReadOnly = false;
             tabla_1.DataSource = null;
             limpiar.Visible = limpiar.Enabled = false;
-            fichas.Enabled = editorial.Enabled = ejemplares.Enabled = true;
+            fichas.Enabled = usuarios.Enabled = ejemplares.Enabled = true;
             fee.Visible = false;
             fee.Text = ": :";
         }
@@ -301,8 +308,8 @@ namespace ExtraccionA
                 newRow["005"] = fechaActual;
                 newRow["Numeros_de_Items"] = group.NumeroDeItems;
                 DatosFijosCorrecto df = new DatosFijosCorrecto();
-                newRow["008"] = group.DatosFijos;
-                //newRow["008"] = df.Codificar(group.DatosFijos);
+                //newRow["008"] = group.DatosFijos;
+                newRow["008"] = df.Codificar(group.DatosFijos);
                 newRow["040"] = nombrebiblio;
                 newRow["Titulo_Auxiliar"] = group.TituloAux;
                 newRow["ISBN_Auxiliar"] = group.ISBNAux;
@@ -904,12 +911,12 @@ namespace ExtraccionA
                         File.WriteAllText(filePath, formattedText.ToString());
                         //filas.Add($"parte{archivoNumero}");
                         MessageBox.Show($"Archivos guardados correctamente en {archivoNumero + 1} partes.");
-                        MessageBox.Show($"{cont600} Registrados con etiqueta 600");
+                        //MessageBox.Show($"{cont600} Registrados con etiqueta 600");
                     }
                 } else
                 {
                     MessageBox.Show($"Archivos guardados correctamente en {archivoNumero + 1} partes.");
-                    MessageBox.Show($"{cont600} Registrados con etiqueta 600");
+                    //MessageBox.Show($"{cont600} Registrados con etiqueta 600");
                 }
             }
             else
@@ -1013,7 +1020,7 @@ namespace ExtraccionA
                 fee.Text = reg.Text = marc.Text= biblioteca.Text = codebiblio.Text = ": :";
                 fee.Visible = reg.Visible = marc.Visible = split.Visible = biblioteca.Visible = codebiblio.Visible = false;
 
-                fichas.Enabled = editorial.Enabled = ejemplares.Enabled = llenado.Enabled = archivosDeSalidaToolStripMenuItem.Enabled = archivosDeSalidaToolStripMenuItem.Visible = split.Enabled = true;
+                fichas.Enabled = usuarios.Enabled = ejemplares.Enabled = llenado.Enabled = archivosDeSalidaToolStripMenuItem.Enabled = archivosDeSalidaToolStripMenuItem.Visible = split.Enabled = true;
 
                 NameBiblio();
 
@@ -1221,7 +1228,7 @@ namespace ExtraccionA
                     }
 
                     // Mostrar los archivos encontrados (para depuración)
-                    MessageBox.Show($"Archivos encontrados:\n{string.Join("\n", archivosMRC)}", "Depuración", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //MessageBox.Show($"Archivos encontrados:\n{string.Join("\n", archivosMRC)}", "Depuración", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     using (SaveFileDialog saveFileDialog = new SaveFileDialog())
                     {
@@ -1265,9 +1272,9 @@ namespace ExtraccionA
                     string carpetaSeleccionada = folderBrowserDialog.SelectedPath;
 
                     // Obtener todos los archivos .mrc en la carpeta
-                    List<string> archivosMRC = Directory.GetFiles(carpetaSeleccionada, "*.mrk").ToList();
+                    List<string> archivosMRK = Directory.GetFiles(carpetaSeleccionada, "*.mrk").ToList();
 
-                    if (archivosMRC.Count < 2)
+                    if (archivosMRK.Count < 2)
                     {
                         MessageBox.Show("La carpeta debe contener al menos dos archivos MRK para unirlos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
@@ -1295,8 +1302,14 @@ namespace ExtraccionA
         //Fichas sin ejemplares
         private async void LlenadoSinEjemplares()
         {
+            // Si ya hay una ventana abierta, ciérrala
+            if (formSinEjemplares != null && !formSinEjemplares.IsDisposed)
+            {
+                formSinEjemplares.Close();
+            }
+
             // Crear una nueva ventana en tiempo de ejecución
-            Form formSinEjemplares = new Form
+            formSinEjemplares = new Form
             {
                 Text = "Fichas sin ejemplares",
                 Size = new Size(800, 500),
