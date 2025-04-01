@@ -13,9 +13,10 @@ namespace ExtraccionA
         public string UbicacionSalida { private get; set; }
         private List<string> Errores = new List<string>();
 
-        public void ConvertirMRKaMRC()
+        public void ConvertirMRKaMRC(string marceditPath)
         {
-            string marceditPath = @"C:\Users\JuanCB\AppData\Roaming\MarcEdit 7.6 (User)\cmarcedit.exe"; // Ruta a cmarcedit.exe
+            //string marceditPath = @"C:\Users\JuanCB\AppData\Roaming\MarcEdit 7.6 (User)\cmarcedit.exe"; // Ruta a cmarcedit.exe
+            if (marceditPath == null) return;
 
             try
             {

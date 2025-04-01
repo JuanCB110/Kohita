@@ -75,6 +75,8 @@
             this.editorial = new System.Windows.Forms.Button();
             this.fichas = new System.Windows.Forms.Button();
             this.tabla_1 = new System.Windows.Forms.DataGridView();
+            this.biblioteca = new System.Windows.Forms.Label();
+            this.codebiblio = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabla2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabla_2)).BeginInit();
@@ -124,13 +126,16 @@
             // 
             // llenado
             // 
+            this.llenado.BackColor = System.Drawing.Color.LavenderBlush;
             this.llenado.Enabled = false;
+            this.llenado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.llenado.ForeColor = System.Drawing.Color.Black;
             this.llenado.Location = new System.Drawing.Point(13, 874);
             this.llenado.Name = "llenado";
             this.llenado.Size = new System.Drawing.Size(107, 35);
             this.llenado.TabIndex = 28;
             this.llenado.Text = "Llenar";
-            this.llenado.UseVisualStyleBackColor = true;
+            this.llenado.UseVisualStyleBackColor = false;
             this.llenado.Click += new System.EventHandler(this.Llenado_Click);
             // 
             // tabla_2
@@ -142,6 +147,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabla_2.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.tabla_2.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.tabla_2.BackgroundColor = System.Drawing.Color.Lavender;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -237,37 +243,46 @@
             // selall
             // 
             this.selall.AutoSize = true;
+            this.selall.BackColor = System.Drawing.Color.LavenderBlush;
             this.selall.Enabled = false;
+            this.selall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.selall.ForeColor = System.Drawing.Color.Black;
             this.selall.Location = new System.Drawing.Point(807, 874);
             this.selall.Name = "selall";
-            this.selall.Size = new System.Drawing.Size(155, 35);
+            this.selall.Size = new System.Drawing.Size(159, 35);
             this.selall.TabIndex = 23;
             this.selall.Text = "Sel. Todas las Filas";
-            this.selall.UseVisualStyleBackColor = true;
+            this.selall.UseVisualStyleBackColor = false;
             this.selall.Visible = false;
             this.selall.Click += new System.EventHandler(this.selall_Click);
             // 
             // format
             // 
+            this.format.BackColor = System.Drawing.Color.LavenderBlush;
             this.format.Enabled = false;
+            this.format.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.format.ForeColor = System.Drawing.Color.Black;
             this.format.Location = new System.Drawing.Point(694, 874);
             this.format.Name = "format";
             this.format.Size = new System.Drawing.Size(107, 35);
             this.format.TabIndex = 21;
             this.format.Text = "Formatear";
-            this.format.UseVisualStyleBackColor = true;
+            this.format.UseVisualStyleBackColor = false;
             this.format.Visible = false;
             this.format.Click += new System.EventHandler(this.format_Click);
             // 
             // split
             // 
+            this.split.BackColor = System.Drawing.Color.LavenderBlush;
             this.split.Enabled = false;
+            this.split.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.split.ForeColor = System.Drawing.Color.Black;
             this.split.Location = new System.Drawing.Point(13, 874);
             this.split.Name = "split";
             this.split.Size = new System.Drawing.Size(107, 35);
             this.split.TabIndex = 20;
             this.split.Text = "Split";
-            this.split.UseVisualStyleBackColor = true;
+            this.split.UseVisualStyleBackColor = false;
             this.split.Visible = false;
             this.split.Click += new System.EventHandler(this.split_Click);
             // 
@@ -280,6 +295,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabla_3.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.tabla_3.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.tabla_3.BackgroundColor = System.Drawing.Color.Lavender;
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -317,6 +333,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.Lavender;
             this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(0);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -326,7 +343,7 @@
             this.unirArchivosToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(2923, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(2923, 33);
             this.menuStrip1.TabIndex = 22;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -334,8 +351,9 @@
             // 
             this.archivoToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.seleccionarAccess});
+            this.archivoToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(178, 32);
+            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(178, 29);
             this.archivoToolStripMenuItem.Text = "Archivo de Entrada";
             // 
             // seleccionarAccess
@@ -350,6 +368,7 @@
             this.archivosDeSalidaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.seleccionarRutaDeSalidaToolStripMenuItem});
             this.archivosDeSalidaToolStripMenuItem.Enabled = false;
+            this.archivosDeSalidaToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.archivosDeSalidaToolStripMenuItem.Name = "archivosDeSalidaToolStripMenuItem";
             this.archivosDeSalidaToolStripMenuItem.Size = new System.Drawing.Size(173, 29);
             this.archivosDeSalidaToolStripMenuItem.Text = "Archivos de Salida";
@@ -366,8 +385,9 @@
             // 
             this.conversionMRKAMRCToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.seleccionarArchivosMRK});
+            this.conversionMRKAMRCToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.conversionMRKAMRCToolStripMenuItem.Name = "conversionMRKAMRCToolStripMenuItem";
-            this.conversionMRKAMRCToolStripMenuItem.Size = new System.Drawing.Size(216, 32);
+            this.conversionMRKAMRCToolStripMenuItem.Size = new System.Drawing.Size(216, 29);
             this.conversionMRKAMRCToolStripMenuItem.Text = "Conversion MRK a MRC";
             // 
             // seleccionarArchivosMRK
@@ -382,8 +402,9 @@
             this.unirArchivosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.selMRC,
             this.selMRK});
+            this.unirArchivosToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.unirArchivosToolStripMenuItem.Name = "unirArchivosToolStripMenuItem";
-            this.unirArchivosToolStripMenuItem.Size = new System.Drawing.Size(133, 32);
+            this.unirArchivosToolStripMenuItem.Size = new System.Drawing.Size(133, 29);
             this.unirArchivosToolStripMenuItem.Text = "Unir Archivos";
             // 
             // selMRC
@@ -404,6 +425,8 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.AutoSize = true;
+            this.panel1.Controls.Add(this.codebiblio);
+            this.panel1.Controls.Add(this.biblioteca);
             this.panel1.Controls.Add(this.menuStrip1);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
@@ -454,47 +477,59 @@
             // 
             // limpiar
             // 
+            this.limpiar.BackColor = System.Drawing.Color.LavenderBlush;
             this.limpiar.Enabled = false;
+            this.limpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.limpiar.ForeColor = System.Drawing.Color.Black;
             this.limpiar.Location = new System.Drawing.Point(848, 874);
             this.limpiar.Name = "limpiar";
             this.limpiar.Size = new System.Drawing.Size(107, 35);
             this.limpiar.TabIndex = 21;
             this.limpiar.Text = "Limpiar";
-            this.limpiar.UseVisualStyleBackColor = true;
+            this.limpiar.UseVisualStyleBackColor = false;
             this.limpiar.Visible = false;
             this.limpiar.Click += new System.EventHandler(this.limpiar_Click);
             // 
             // ejemplares
             // 
+            this.ejemplares.BackColor = System.Drawing.Color.LavenderBlush;
             this.ejemplares.Enabled = false;
+            this.ejemplares.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ejemplares.ForeColor = System.Drawing.Color.Black;
             this.ejemplares.Location = new System.Drawing.Point(231, 874);
             this.ejemplares.Name = "ejemplares";
             this.ejemplares.Size = new System.Drawing.Size(107, 35);
             this.ejemplares.TabIndex = 20;
             this.ejemplares.Text = "Ejemplares";
-            this.ejemplares.UseVisualStyleBackColor = true;
+            this.ejemplares.UseVisualStyleBackColor = false;
             this.ejemplares.Click += new System.EventHandler(this.ejemplares_Click);
             // 
             // editorial
             // 
+            this.editorial.BackColor = System.Drawing.Color.LavenderBlush;
             this.editorial.Enabled = false;
+            this.editorial.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.editorial.ForeColor = System.Drawing.Color.Black;
             this.editorial.Location = new System.Drawing.Point(118, 874);
             this.editorial.Name = "editorial";
             this.editorial.Size = new System.Drawing.Size(107, 35);
             this.editorial.TabIndex = 19;
             this.editorial.Text = "Editoriales";
-            this.editorial.UseVisualStyleBackColor = true;
+            this.editorial.UseVisualStyleBackColor = false;
             this.editorial.Click += new System.EventHandler(this.editorial_Click);
             // 
             // fichas
             // 
+            this.fichas.BackColor = System.Drawing.Color.LavenderBlush;
             this.fichas.Enabled = false;
+            this.fichas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.fichas.ForeColor = System.Drawing.Color.Black;
             this.fichas.Location = new System.Drawing.Point(5, 874);
             this.fichas.Name = "fichas";
             this.fichas.Size = new System.Drawing.Size(107, 35);
             this.fichas.TabIndex = 18;
             this.fichas.Text = "Fichas";
-            this.fichas.UseVisualStyleBackColor = true;
+            this.fichas.UseVisualStyleBackColor = false;
             this.fichas.Click += new System.EventHandler(this.fichas_Click);
             // 
             // tabla_1
@@ -508,6 +543,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabla_1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.tabla_1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.tabla_1.BackgroundColor = System.Drawing.Color.Lavender;
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -541,11 +577,38 @@
             this.tabla_1.Size = new System.Drawing.Size(950, 865);
             this.tabla_1.TabIndex = 17;
             // 
+            // biblioteca
+            // 
+            this.biblioteca.AutoSize = true;
+            this.biblioteca.BackColor = System.Drawing.Color.Transparent;
+            this.biblioteca.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.biblioteca.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.biblioteca.Location = new System.Drawing.Point(810, 8);
+            this.biblioteca.Name = "biblioteca";
+            this.biblioteca.Size = new System.Drawing.Size(24, 20);
+            this.biblioteca.TabIndex = 28;
+            this.biblioteca.Text = ": :";
+            this.biblioteca.Visible = false;
+            // 
+            // codebiblio
+            // 
+            this.codebiblio.AutoSize = true;
+            this.codebiblio.BackColor = System.Drawing.Color.Transparent;
+            this.codebiblio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.codebiblio.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.codebiblio.Location = new System.Drawing.Point(1291, 8);
+            this.codebiblio.Name = "codebiblio";
+            this.codebiblio.Size = new System.Drawing.Size(24, 20);
+            this.codebiblio.TabIndex = 29;
+            this.codebiblio.Text = ": :";
+            this.codebiblio.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
+            this.BackColor = System.Drawing.Color.Lavender;
             this.ClientSize = new System.Drawing.Size(1907, 988);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -614,6 +677,8 @@
         private System.Windows.Forms.ToolStripMenuItem selMRC;
         private System.Windows.Forms.Label regsel;
         private System.Windows.Forms.ToolStripMenuItem selMRK;
+        private System.Windows.Forms.Label biblioteca;
+        private System.Windows.Forms.Label codebiblio;
     }
 }
 

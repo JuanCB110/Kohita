@@ -11,9 +11,10 @@ namespace ExtraccionA
 {
     internal class UnirMRKoMRC
     {
-        public void UnirArchivosMRC(string carpetaEntrada, string archivoSalida)
+        public void UnirArchivosMRC(string marceditPath, string carpetaEntrada, string archivoSalida)
         {
-            string marceditPath = @"C:\Users\JuanCB\AppData\Roaming\MarcEdit 7.6 (User)\cmarcedit.exe"; // Ruta a cmarcedit.exe
+            //string marceditPath = @"C:\Users\JuanCB\AppData\Roaming\MarcEdit 7.6 (User)\cmarcedit.exe"; // Ruta a cmarcedit.exe
+            if (marceditPath == null) return;
 
             // Verificar si la ruta de MarcEdit existe
             if (!File.Exists(marceditPath))
@@ -75,9 +76,10 @@ namespace ExtraccionA
             }
         }
 
-        public void UnirArchivosMRK(string carpetaEntrada, string archivoSalida)
+        public void UnirArchivosMRK(string marceditPath, string carpetaEntrada, string archivoSalida)
         {
-            string marceditPath = @"C:\Users\JuanCB\AppData\Roaming\MarcEdit 7.6 (User)\cmarcedit.exe"; // Ruta a cmarcedit.exe
+            //string marceditPath = @"C:\Users\JuanCB\AppData\Roaming\MarcEdit 7.6 (User)\cmarcedit.exe"; // Ruta a cmarcedit.exe
+            if (marceditPath == null) return;
 
             // Verificar si la ruta de MarcEdit existe
             if (!File.Exists(marceditPath))

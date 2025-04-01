@@ -20,6 +20,7 @@ namespace ExtraccionA
         private string folderout = string.Empty; //Declaramos una variable para almacenar la carpeta de salida
         private string codigobiblio = string.Empty; //Se declara el codigo de la biblioteca
         private string codei = string.Empty; //Se declara el codigo para el item
+        public string pathmarc = string.Empty; //Declaracion de la variable global del path de MarcEdit Herramienta
 
         public Form1()
         {
@@ -300,7 +301,8 @@ namespace ExtraccionA
                 newRow["005"] = fechaActual;
                 newRow["Numeros_de_Items"] = group.NumeroDeItems;
                 DatosFijosCorrecto df = new DatosFijosCorrecto();
-                newRow["008"] = df.Codificar(group.DatosFijos);
+                newRow["008"] = group.DatosFijos;
+                //newRow["008"] = df.Codificar(group.DatosFijos);
                 newRow["040"] = nombrebiblio;
                 newRow["Titulo_Auxiliar"] = group.TituloAux;
                 newRow["ISBN_Auxiliar"] = group.ISBNAux;
@@ -446,7 +448,9 @@ namespace ExtraccionA
                 FormatMARC(codigobiblio);
             } else
             {
-                MessageBox.Show("Por favor, seleccione una ruta accesible en el menu posterior");
+                MessageBox.Show("Por favor, no olvide seleccionar una ruta de salida en el menu posterior");
+                MessageBox.Show("O por si se le olvido");
+                PathRutadeSalida();
             }
         }
 
@@ -862,11 +866,12 @@ namespace ExtraccionA
                         foreach (var item in items)
                         {
                             // Convierte nitems a una cadena y la agrega al texto formateado
-                            formattedText.AppendLine($"=952  $a{codebiblio}$b{codebiblio}$d{fechaActual}$i{item}$y{codei}");
+                            formattedText.AppendLine($"=952  $a{codebiblio}$b{codebiblio}$d{fechaActual}$i{item}$p{item}$y{codei}");
                         }
 
                         formattedText.AppendLine(); // Añade una línea en blanco entre filas
-                        formattedText.AppendLine();
+                        formattedText.AppendLine(); // Añade una línea en blanco entre filas
+
                         registrosProcesados++;
                     }
                     // Cada 20 registros, guarda el archivo y reinicia el StringBuilder para el siguiente archivo
@@ -995,14 +1000,22 @@ namespace ExtraccionA
                 // Aquí puedes usar la cadena de conexión para abrir la base de datos
                 MessageBox.Show($"Conexión establecida con la base de datos: {archivoSeleccionado}");
 
+                //Path de marc edit
+                if (string.IsNullOrEmpty(pathmarc))
+                {
+                    PathMarc();
+                }
+
                 //Tablas
                 tabla_1.DataSource = tabla_2.DataSource = tabla_3.DataSource = null;
 
                 //Labels
-                fee.Text = reg.Text = marc.Text = ": :";
-                fee.Visible = reg.Visible = marc.Visible = split.Visible = false;
+                fee.Text = reg.Text = marc.Text= biblioteca.Text = codebiblio.Text = ": :";
+                fee.Visible = reg.Visible = marc.Visible = split.Visible = biblioteca.Visible = codebiblio.Visible = false;
 
                 fichas.Enabled = editorial.Enabled = ejemplares.Enabled = llenado.Enabled = archivosDeSalidaToolStripMenuItem.Enabled = archivosDeSalidaToolStripMenuItem.Visible = split.Enabled = true;
+
+                NameBiblio();
 
                 //Pedir la ruta de salida para guardar las partes de los datos
                 MessageBox.Show("Recuerde seleccionar la ruta de salida en el menu desplegable superior (Archivo de salida)");
@@ -1013,7 +1026,85 @@ namespace ExtraccionA
             }
         }
 
+        private void NameBiblio()
+        {
+            biblioteca.Visible = codebiblio.Visible = true;
+
+            string queryc = "SELECT * FROM Bibliotecas";
+
+            try
+            {
+                // Crear la conexión
+                using (OleDbConnection conn = new OleDbConnection(connString))
+                {
+                    conn.OpenAsync();
+
+                    // Crear el comando para ejecutar el query
+                    using (OleDbCommand cmd = new OleDbCommand(queryc, conn))
+                    {
+                        // Ejecutar el comando y obtener el reader para leer los resultados
+                        using (OleDbDataReader reader = cmd.ExecuteReader())
+                        {
+                            // Verificar si hay datos
+                            if (reader.HasRows)
+                            {
+                                while (reader.Read())
+                                {
+                                    // Aquí suponemos que tienes las columnas "Nombre" y "No" en tu tabla
+                                    biblioteca.Text = "BIBLIOTECA: " + reader["Nombre"].ToString();
+                                    codebiblio.Text = "NUMERO: " + reader["No"].ToString();
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("No se encontraron resultados.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Manejo de excepciones
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+        }
+
+        private void PathMarc()
+        {
+            // Crear un nuevo OpenFileDialog
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            // Establecer el filtro para solo mostrar archivos .mdb
+            openFileDialog.Filter = "Herramienta MarcEdit (*.exe)|*.exe|Todos los Archivos (*.*)|*.*";
+
+            // Establecer el título del cuadro de diálogo
+            openFileDialog.Title = "Seleccionar el Ejecutable EXE";
+
+            // Verificar si el usuario selecciona un archivo y presiona Aceptar
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // Obtener la ruta completa del archivo seleccionado
+                string path = openFileDialog.FileName;
+
+                // Actualizar la cadena de conexión con la ruta seleccionada
+                pathmarc = $"{path}";
+
+                // Aquí puedes usar la cadena de conexión para abrir la base de datos
+                MessageBox.Show($"Herramienta en uso: {pathmarc}");
+            }
+            else
+            {
+                MessageBox.Show("No se seleccionó ningún archivo.");
+            }
+        }
+
         private void seleccionarRutaDeSalidaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PathRutadeSalida();
+        }
+
+        private void PathRutadeSalida()
         {
             // Crear un nuevo FolderBrowserDialog
             FolderBrowserDialog folderBrowserDialog = new FolderBrowserDialog();
@@ -1093,7 +1184,7 @@ namespace ExtraccionA
 
                     Cursor = Cursors.WaitCursor;
                     SetControlsEnabled(false);
-                    cnmrc.ConvertirMRKaMRC();
+                    cnmrc.ConvertirMRKaMRC(pathmarc);
                     Cursor = Cursors.Default;
                     SetControlsEnabled(true);
                 }
@@ -1153,7 +1244,7 @@ namespace ExtraccionA
                             MessageBox.Show($"Archivo de salida: {archivoSalida}", "Depuración", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                             UnirMRKoMRC umrc = new UnirMRKoMRC();
-                            umrc.UnirArchivosMRC(carpetaSeleccionada, archivoSalida);
+                            umrc.UnirArchivosMRC(pathmarc, carpetaSeleccionada, archivoSalida);
                         }
                     }
                 }
@@ -1194,7 +1285,7 @@ namespace ExtraccionA
                             string archivoSalida = Path.GetFullPath(saveFileDialog.FileName);
 
                             UnirMRKoMRC umrc = new UnirMRKoMRC();
-                            umrc.UnirArchivosMRK(carpetaSeleccionada, archivoSalida);
+                            umrc.UnirArchivosMRK(pathmarc, carpetaSeleccionada, archivoSalida);
                         }
                     }
                 }
