@@ -41,7 +41,8 @@ namespace ExtraccionA
                     process.StartInfo.UseShellExecute = false;
                     process.StartInfo.RedirectStandardOutput = true;
                     process.StartInfo.RedirectStandardError = true;
-                    /*process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;*/ // Ocultar la ventana
+                    process.StartInfo.CreateNoWindow = true; // Asegura que no se cree ninguna ventana
+                    process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden; // Ocultar la ventana
 
                     // Ejecutar MarcEdit
                     Console.WriteLine($"Convirtiendo: {mrkFile} -> {outputFile}");

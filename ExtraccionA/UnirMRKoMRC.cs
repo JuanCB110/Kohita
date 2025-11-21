@@ -68,6 +68,7 @@ namespace ExtraccionA
 
                     if (!string.IsNullOrWhiteSpace(error))
                         MessageBox.Show("Error durante la ejecución: \n" + error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Debug.WriteLine("Error" + error);
                 }
             }
             catch (Exception ex)
@@ -99,7 +100,7 @@ namespace ExtraccionA
 
             if (archivosMrk.Length < 2)
             {
-                MessageBox.Show("La carpeta debe contener al menos dos archivos MRC para unirlos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("La carpeta debe contener al menos dos archivos MRK para unirlos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

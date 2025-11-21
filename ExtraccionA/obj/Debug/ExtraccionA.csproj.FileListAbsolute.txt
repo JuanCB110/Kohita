@@ -13,3 +13,8 @@ C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\bin\Debug\ExtraccionA.appli
 C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.exe.manifest
 C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.application
 C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.codigo.resources
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\bin\Debug\System.Drawing.Common.dll
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\bin\Debug\System.Drawing.Common.pdb
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\bin\Debug\System.Drawing.Common.xml
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\Extracci.D91935BE.Up2Date
+C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.exe.config

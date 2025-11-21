@@ -70,6 +70,7 @@
             this.codebiblio = new System.Windows.Forms.Label();
             this.biblioteca = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.exusers = new System.Windows.Forms.Button();
             this.tabla1 = new System.Windows.Forms.PictureBox();
             this.fee = new System.Windows.Forms.Label();
             this.limpiar = new System.Windows.Forms.Button();
@@ -444,7 +445,7 @@
             this.codebiblio.BackColor = System.Drawing.Color.Transparent;
             this.codebiblio.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.codebiblio.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.codebiblio.Location = new System.Drawing.Point(1291, 8);
+            this.codebiblio.Location = new System.Drawing.Point(1523, 8);
             this.codebiblio.Name = "codebiblio";
             this.codebiblio.Size = new System.Drawing.Size(24, 20);
             this.codebiblio.TabIndex = 29;
@@ -466,6 +467,7 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.exusers);
             this.panel4.Controls.Add(this.tabla1);
             this.panel4.Controls.Add(this.fee);
             this.panel4.Controls.Add(this.limpiar);
@@ -478,6 +480,21 @@
             this.panel4.Padding = new System.Windows.Forms.Padding(10, 0, 10, 10);
             this.panel4.Size = new System.Drawing.Size(966, 913);
             this.panel4.TabIndex = 21;
+            // 
+            // exusers
+            // 
+            this.exusers.BackColor = System.Drawing.Color.LavenderBlush;
+            this.exusers.Enabled = false;
+            this.exusers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.exusers.ForeColor = System.Drawing.Color.Black;
+            this.exusers.Location = new System.Drawing.Point(718, 874);
+            this.exusers.Name = "exusers";
+            this.exusers.Size = new System.Drawing.Size(107, 35);
+            this.exusers.TabIndex = 25;
+            this.exusers.Text = "Extraer";
+            this.exusers.UseVisualStyleBackColor = false;
+            this.exusers.Visible = false;
+            this.exusers.Click += new System.EventHandler(this.exusers_Click);
             // 
             // tabla1
             // 
@@ -679,6 +696,7 @@
         private System.Windows.Forms.ToolStripMenuItem selMRK;
         private System.Windows.Forms.Label biblioteca;
         private System.Windows.Forms.Label codebiblio;
+        private System.Windows.Forms.Button exusers;
     }
 }
 

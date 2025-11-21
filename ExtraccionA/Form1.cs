@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Reflection;
+using System.Diagnostics;
+using ExtraccionA.Properties; // El espacio de nombres debe coincidir con tu proyecto
 
 namespace ExtraccionA
 {
@@ -46,6 +48,7 @@ namespace ExtraccionA
             Cursor = Cursors.Default;
             // Volver a habilitar los controles y cambiar el cursor
             SetControlsEnabled(true);
+            exusers.Enabled = exusers.Visible = (button == usuarios);
         }
 
         // Método para habilitar o deshabilitar los controles del formulario
@@ -203,6 +206,7 @@ namespace ExtraccionA
             tabla_1.DataSource = null;
             limpiar.Visible = limpiar.Enabled = false;
             fichas.Enabled = usuarios.Enabled = ejemplares.Enabled = true;
+            exusers.Enabled = exusers.Visible = false;
             fee.Visible = false;
             fee.Text = ": :";
         }
@@ -433,7 +437,7 @@ namespace ExtraccionA
             }
 
             // Lista de columnas auxiliares a eliminar
-            string[] columnasAuxiliares = { "ISBN_Auxiliar", "Titulo_Auxiliar", "Autor_Auxiliar", "###", "LCC_Auxiliar" };
+            string[] columnasAuxiliares = { "ISBN_Auxiliar", "Titulo_Auxiliar", "Autor_Auxiliar", "###", "LCC_Auxiliar", "082" };
 
             // Eliminar cada columna si existe en la tabla
             foreach (string columna in columnasAuxiliares)
@@ -446,6 +450,23 @@ namespace ExtraccionA
 
             MessageBox.Show("Nota:\nSi los Registros Formateados son menores que las Fichas Encontradas, significa que esas fichas no contienen ejemplares");
             Console.WriteLine($"Filas procesadas: {processedTable.Rows.Count}");
+        }
+
+        private string NormalizarTexto(string texto)
+        {
+            if (string.IsNullOrEmpty(texto))
+                return string.Empty;
+            
+            // Normalizar texto: eliminar saltos de línea y espacios extra
+            string resultado = texto.Trim()
+                .Replace("\r\n", " ")
+                .Replace("\n", " ");
+            
+            // Eliminar espacios múltiples
+            while (resultado.Contains("  "))
+                resultado = resultado.Replace("  ", " ");
+            
+            return resultado;
         }
 
         private void format_Click(object sender, EventArgs e)
@@ -510,66 +531,60 @@ namespace ExtraccionA
                                     {
                                         case "020":
                                             {
-
-                                                string a = "$a" + cell.Value.ToString().Trim();
-
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                string a = "$a" + normalizado;
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
                                             }
                                         case "040":
                                             {
-
-                                                string c = "$c" + cell.Value.ToString().Trim();
-
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                string c = "$c" + normalizado;
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {c}");
                                                 break;
                                             }
                                         case "050":
                                             {
-                                                string a = "$a" + cell.Value.ToString().Trim();
-
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                string a = "$a" + normalizado;
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
                                             }
                                         case "100":
                                             {
-
-                                                string a = "$a" + cell.Value.ToString().Trim();
-
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                string a = "$a" + normalizado;
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
                                             }
                                         case "110":
                                             {
-
-                                                string a = "$a" + cell.Value.ToString().Trim();
-
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                string a = "$a" + normalizado;
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
                                             }
                                         case "130":
                                             {
-
-                                                string a = "$a" + cell.Value.ToString().Trim();
-
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                string a = "$a" + normalizado;
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
                                             }
                                         case "240":
                                             {
-
-                                                string a = "$a" + cell.Value.ToString().Trim();
-
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                string a = "$a" + normalizado;
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
                                             }
                                         case "245":
                                             {
-                                                string div = cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
 
-                                                if (div.Contains(":"))
+                                                if (normalizado.Contains(":"))
                                                 {
-                                                    string[] partes = div.Split(':');
+                                                    string[] partes = normalizado.Split(':');
 
                                                     string a = partes[0].Trim();
                                                     string b = partes[1].Trim();
@@ -590,9 +605,9 @@ namespace ExtraccionA
                                                         formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{a} : $b{b}");
                                                     }
                                                 }
-                                                else if (div.Contains("/"))
+                                                else if (normalizado.Contains("/"))
                                                 {
-                                                    string[] partes = div.Split('/');
+                                                    string[] partes = normalizado.Split('/');
 
                                                     string a = "$a" + partes[0].Trim() + " / ";
                                                     string c = "$c" + partes[1].Trim();
@@ -603,18 +618,18 @@ namespace ExtraccionA
                                                 }
                                                 else
                                                 {
-                                                    string a = "$a" + div;
+                                                    string a = "$a" + normalizado;
                                                     formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 }
-                                                break; // Salir del case "245"
+                                                break;
                                             }
                                         case "250":
                                             {
-                                                string div = cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
 
-                                                if (div.Contains("/"))
+                                                if (normalizado.Contains("/"))
                                                 {
-                                                    string[] partes = div.Split('/');
+                                                    string[] partes = normalizado.Split('/');
 
                                                     string a = "$a" + partes[0].Trim();
                                                     string b = " $b" + " / " + partes[0].Trim();
@@ -625,7 +640,7 @@ namespace ExtraccionA
                                                 }
                                                 else
                                                 {
-                                                    string a = "$a" + div;
+                                                    string a = "$a" + normalizado;
 
                                                     formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 }
@@ -633,11 +648,11 @@ namespace ExtraccionA
                                             }
                                         case "260":
                                             {
-                                                string div = cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
 
-                                                if (div.Contains(":"))
+                                                if (normalizado.Contains(":"))
                                                 {
-                                                    string[] partes = div.Split(':');
+                                                    string[] partes = normalizado.Split(':');
 
                                                     string a = partes[0].Trim();
                                                     string b = partes[1].Trim();
@@ -648,7 +663,7 @@ namespace ExtraccionA
                                                 }
                                                 else
                                                 {
-                                                    string a = "$a" + div;
+                                                    string a = "$a" + normalizado;
 
                                                     formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 }
@@ -656,11 +671,11 @@ namespace ExtraccionA
                                             }
                                         case "300":
                                             {
-                                                string div = cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
 
-                                                if (div.Contains("/"))
+                                                if (normalizado.Contains("/"))
                                                 {
-                                                    string[] partes = div.Split('/');
+                                                    string[] partes = normalizado.Split('/');
 
                                                     string a = "$a" + partes[0].Trim();
                                                     string c = " / $c" + partes[1].Trim();
@@ -671,21 +686,23 @@ namespace ExtraccionA
                                                 }
                                                 else
                                                 {
-                                                    formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{div}");
+                                                    formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{normalizado}");
                                                 }
                                                 break;
                                             }
                                         case "440":
                                         case "490":
                                             {
-                                                string a = "$a" + cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                string a = "$a" + normalizado;
 
                                                 formattedText.AppendLine($"=490  {a}");
                                                 break;
                                             }
                                         case "500":
                                             {
-                                                string a = "$a" + cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                string a = "$a" + normalizado;
 
                                                 formattedText.AppendLine($"=500  {a}");
                                                 break;
@@ -694,14 +711,16 @@ namespace ExtraccionA
                                         case "503":
                                         case "504":
                                             {
-                                                string a = "$a" + cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                string a = "$a" + normalizado;
 
                                                 formattedText.AppendLine($"=504  {a}");
                                                 break;
                                             }
                                         case "505":
                                             {
-                                                string a = "$a" + cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                string a = "$a" + normalizado;
 
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
@@ -709,160 +728,250 @@ namespace ExtraccionA
                                         case "600":
                                             {
                                                 cont600++;
-                                                string div = cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                
+                                                // Eliminar numeraciones iniciales como "1. " o "2. "
+                                                if (Regex.IsMatch(normalizado, @"^\d+\.\s"))
+                                                {
+                                                    normalizado = Regex.Replace(normalizado, @"^\d+\.\s", "");
+                                                }
 
-                                                // Dividir la cadena principal en partes
-                                                string[] partes = Regex.Split(div, @"(?<=\.)\s*(?=\d+\.)");
+                                                // Dividir la cadena principal en partes (por si hay múltiples temas numerados)
+                                                string[] partes = Regex.Split(normalizado, @"(?<=\.)\s*(?=\d+\.)");
 
                                                 if (partes.Length > 1)
                                                 {
                                                     // Iterar sobre cada parte
                                                     foreach (var parte in partes)
                                                     {
-                                                        // Separar la parte en sus componentes
-                                                        Console.WriteLine($"\nParte:\n{parte}");
-                                                        formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{parte}");
+                                                        string parteLimpia = NormalizarTexto(parte);
+                                                        
+                                                        // Eliminar numeraciones iniciales de cada parte
+                                                        if (Regex.IsMatch(parteLimpia, @"^\d+\.\s"))
+                                                        {
+                                                            parteLimpia = Regex.Replace(parteLimpia, @"^\d+\.\s", "");
+                                                        }
+                                                        
+                                                        if (!string.IsNullOrWhiteSpace(parteLimpia))
+                                                        {
+                                                            formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{parteLimpia}");
+                                                        }
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{cell.Value}");
+                                                    if (!string.IsNullOrWhiteSpace(normalizado))
+                                                    {
+                                                        formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{normalizado}");
+                                                    }
                                                 }
                                                 break;
                                             }
                                         case "610":
                                             {
-                                                string div = cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                
+                                                // Eliminar numeraciones iniciales como "1. " o "2. "
+                                                if (Regex.IsMatch(normalizado, @"^\d+\.\s"))
+                                                {
+                                                    normalizado = Regex.Replace(normalizado, @"^\d+\.\s", "");
+                                                }
 
                                                 // Dividir la cadena principal en partes
-                                                string[] partes = Regex.Split(div, @"(?<=\.)\s*(?=\d+\.)");
+                                                string[] partes = Regex.Split(normalizado, @"(?<=\.)\s*(?=\d+\.)");
 
                                                 if (partes.Length > 1)
                                                 {
                                                     // Iterar sobre cada parte
                                                     foreach (var parte in partes)
                                                     {
-                                                        // Separar la parte en sus componentes
-                                                        Console.WriteLine($"\nParte:\n{parte}");
-                                                        formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{parte}");
+                                                        string parteLimpia = NormalizarTexto(parte);
+                                                        
+                                                        // Eliminar numeraciones iniciales de cada parte
+                                                        if (Regex.IsMatch(parteLimpia, @"^\d+\.\s"))
+                                                        {
+                                                            parteLimpia = Regex.Replace(parteLimpia, @"^\d+\.\s", "");
+                                                        }
+                                                        
+                                                        if (!string.IsNullOrWhiteSpace(parteLimpia))
+                                                        {
+                                                            formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{parteLimpia}");
+                                                        }
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{div}");
+                                                    if (!string.IsNullOrWhiteSpace(normalizado))
+                                                    {
+                                                        formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{normalizado}");
+                                                    }
                                                 }
                                                 break;
                                             }
                                         case "650":
                                             {
-                                                string div = cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                
+                                                // Eliminar numeraciones iniciales como "1. " o "2. "
+                                                if (Regex.IsMatch(normalizado, @"^\d+\.\s"))
+                                                {
+                                                    normalizado = Regex.Replace(normalizado, @"^\d+\.\s", "");
+                                                }
 
                                                 // Dividir la cadena principal en partes
-                                                string[] partes = Regex.Split(div, @"(?<=\.)\s*(?=\d+\.)");
+                                                string[] partes = Regex.Split(normalizado, @"(?<=\.)\s*(?=\d+\.)");
 
                                                 if (partes.Length > 1)
                                                 {
                                                     // Iterar sobre cada parte
                                                     foreach (var parte in partes)
                                                     {
-                                                        // Separar la parte en sus componentes
-                                                        Console.WriteLine($"\nParte:\n{parte}");
-                                                        formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{parte}");
+                                                        string parteLimpia = NormalizarTexto(parte);
+                                                        
+                                                        // Eliminar numeraciones iniciales de cada parte
+                                                        if (Regex.IsMatch(parteLimpia, @"^\d+\.\s"))
+                                                        {
+                                                            parteLimpia = Regex.Replace(parteLimpia, @"^\d+\.\s", "");
+                                                        }
+                                                        
+                                                        if (!string.IsNullOrWhiteSpace(parteLimpia))
+                                                        {
+                                                            formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{parteLimpia}");
+                                                        }
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{div}");
+                                                    if (!string.IsNullOrWhiteSpace(normalizado))
+                                                    {
+                                                        formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{normalizado}");
+                                                    }
                                                 }
                                                 break;
                                             }
                                         case "651":
                                             {
-                                                string div = cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                
+                                                // Eliminar numeraciones iniciales como "1. " o "2. "
+                                                if (Regex.IsMatch(normalizado, @"^\d+\.\s"))
+                                                {
+                                                    normalizado = Regex.Replace(normalizado, @"^\d+\.\s", "");
+                                                }
 
                                                 // Dividir la cadena principal en partes
-                                                string[] partes = Regex.Split(div, @"(?<=\.)\s*(?=\d+\.)");
+                                                string[] partes = Regex.Split(normalizado, @"(?<=\.)\s*(?=\d+\.)");
 
                                                 if (partes.Length > 1)
                                                 {
                                                     // Iterar sobre cada parte
                                                     foreach (var parte in partes)
                                                     {
-                                                        // Separar la parte en sus componentes
-                                                        Console.WriteLine($"\nParte:\n{parte}");
-                                                        formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{parte}");
+                                                        string parteLimpia = NormalizarTexto(parte);
+                                                        
+                                                        // Eliminar numeraciones iniciales de cada parte
+                                                        if (Regex.IsMatch(parteLimpia, @"^\d+\.\s"))
+                                                        {
+                                                            parteLimpia = Regex.Replace(parteLimpia, @"^\d+\.\s", "");
+                                                        }
+                                                        
+                                                        if (!string.IsNullOrWhiteSpace(parteLimpia))
+                                                        {
+                                                            formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{parteLimpia}");
+                                                        }
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{div}");
+                                                    if (!string.IsNullOrWhiteSpace(normalizado))
+                                                    {
+                                                        formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{normalizado}");
+                                                    }
                                                 }
                                                 break;
                                             }
                                         case "700":
                                             {
-                                                string div = cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
 
                                                 // Dividir la cadena principal en partes
-                                                string[] partes = Regex.Split(div, @"(?<=\\)\s*");
+                                                string[] partes = Regex.Split(normalizado, @"(?<=\\)\s*");
 
                                                 if (partes.Length > 1)
                                                 {
                                                     // Iterar sobre cada parte
                                                     foreach (var parte in partes)
                                                     {
-                                                        // Separar la parte en sus componentes
-                                                        Console.WriteLine($"\nParte:\n{parte}");
-                                                        formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{parte}");
+                                                        string parteLimpia = NormalizarTexto(parte);
+                                                        
+                                                        if (!string.IsNullOrWhiteSpace(parteLimpia))
+                                                        {
+                                                            formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{parteLimpia}");
+                                                        }
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{div}");
+                                                    if (!string.IsNullOrWhiteSpace(normalizado))
+                                                    {
+                                                        formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{normalizado}");
+                                                    }
                                                 }
                                                 break;
                                             }
                                         case "710":
                                             {
-                                                string div = cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
 
                                                 // Dividir la cadena principal en partes
-                                                string[] partes = Regex.Split(div, @"(?<=\\)\s*");
+                                                string[] partes = Regex.Split(normalizado, @"(?<=\\)\s*");
 
                                                 if (partes.Length > 1)
                                                 {
                                                     // Iterar sobre cada parte
                                                     foreach (var parte in partes)
                                                     {
-                                                        // Separar la parte en sus componentes
-                                                        Console.WriteLine($"\nParte:\n{parte}");
-                                                        formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{parte.Trim()}");
+                                                        string parteLimpia = NormalizarTexto(parte);
+                                                        
+                                                        if (!string.IsNullOrWhiteSpace(parteLimpia))
+                                                        {
+                                                            formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{parteLimpia.Trim()}");
+                                                        }
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{div}");
+                                                    if (!string.IsNullOrWhiteSpace(normalizado))
+                                                    {
+                                                        formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  $a{normalizado}");
+                                                    }
                                                 }
                                                 break;
                                             }
                                         case "856":
                                             {
-                                                string a = "$a" + cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                string a = "$a" + normalizado;
 
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {a}");
                                                 break;
                                             }
                                         case "942":
                                             {
-                                                string c = "$c" + cell.Value.ToString().Trim();
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                string c = "$c" + normalizado;
 
                                                 formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {c}");
                                                 break;
                                             }
                                         default:
                                             {
-                                                formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {cell.Value.ToString().Trim()}"); // Mover aquí   
-                                                break; // Salir del caso por defecto
+                                                string normalizado = NormalizarTexto(cell.Value.ToString());
+                                                if (!string.IsNullOrWhiteSpace(normalizado))
+                                                {
+                                                    formattedText.AppendLine($"={tabla_3.Columns[cell.ColumnIndex].HeaderText}  {normalizado}");
+                                                }
+                                                break;
                                             }
                                     }
                                 }
@@ -1008,24 +1117,23 @@ namespace ExtraccionA
                 MessageBox.Show($"Conexión establecida con la base de datos: {archivoSeleccionado}");
 
                 //Path de marc edit
-                if (string.IsNullOrEmpty(pathmarc))
-                {
-                    PathMarc();
-                }
+                //if (string.IsNullOrEmpty(pathmarc))
+                //{
+                //    PathMarc();
+                //}
 
                 //Tablas
                 tabla_1.DataSource = tabla_2.DataSource = tabla_3.DataSource = null;
 
                 //Labels
                 fee.Text = reg.Text = marc.Text= biblioteca.Text = codebiblio.Text = ": :";
-                fee.Visible = reg.Visible = marc.Visible = split.Visible = biblioteca.Visible = codebiblio.Visible = false;
+                fee.Visible = reg.Visible = marc.Visible = split.Visible = biblioteca.Visible = codebiblio.Visible = exusers.Visible = false;
 
                 fichas.Enabled = usuarios.Enabled = ejemplares.Enabled = llenado.Enabled = archivosDeSalidaToolStripMenuItem.Enabled = archivosDeSalidaToolStripMenuItem.Visible = split.Enabled = true;
 
-                NameBiblio();
-
                 //Pedir la ruta de salida para guardar las partes de los datos
                 MessageBox.Show("Recuerde seleccionar la ruta de salida en el menu desplegable superior (Archivo de salida)");
+                NameBiblio();
             }
             else
             {
@@ -1036,7 +1144,6 @@ namespace ExtraccionA
         private void NameBiblio()
         {
             biblioteca.Visible = codebiblio.Visible = true;
-
             string queryc = "SELECT * FROM Bibliotecas";
 
             try
@@ -1055,11 +1162,78 @@ namespace ExtraccionA
                             // Verificar si hay datos
                             if (reader.HasRows)
                             {
+                                List<string> bibliotecas = new List<string>();
+                                List<string> codigos = new List<string>();
+
+                                // Leer todas las filas y almacenarlas en listas
                                 while (reader.Read())
                                 {
-                                    // Aquí suponemos que tienes las columnas "Nombre" y "No" en tu tabla
-                                    biblioteca.Text = "BIBLIOTECA: " + reader["Nombre"].ToString();
-                                    codebiblio.Text = "NUMERO: " + reader["No"].ToString();
+                                    string nombre = reader["Nombre"].ToString();
+                                    string codigo = reader["No"].ToString();
+                                    bibliotecas.Add(nombre);
+                                    codigos.Add(codigo);
+                                }
+
+                                // Si hay más de una biblioteca, mostrar un control de selección (ComboBox o ListBox)
+                                if (bibliotecas.Count > 1)
+                                {
+                                    // Mostrar un cuadro de diálogo para seleccionar la biblioteca
+                                    using (Form selectForm = new Form())
+                                    {
+                                        selectForm.Text = "Selecciona una biblioteca";
+                                        selectForm.Size = new Size(400, 100);
+                                        selectForm.AutoSizeMode = AutoSizeMode.GrowAndShrink; // Ajustar automáticamente al contenido
+                                        selectForm.FormBorderStyle = FormBorderStyle.FixedDialog; // Estilo de borde fijo
+                                        selectForm.StartPosition = FormStartPosition.CenterScreen; // Centrar formulario en pantalla
+
+                                        // Cargar el icono desde la ruta del archivo
+                                        byte[] iconBytes = Properties.Resources.zombie; // Asumiendo que el recurso se llama 'zombie'
+
+                                        using (MemoryStream ms = new MemoryStream(iconBytes))
+                                        {
+                                            selectForm.Icon = new Icon(ms);
+                                        }
+
+                                        // Crear y configurar el ComboBox o ListBox
+                                        ComboBox comboBiblio = new ComboBox();
+                                        comboBiblio.DropDownStyle = ComboBoxStyle.DropDownList;
+                                        comboBiblio.Dock = DockStyle.Fill;
+                                        comboBiblio.DataSource = bibliotecas;
+                                        selectForm.Controls.Add(comboBiblio);
+
+                                        // Botón Aceptar
+                                        Button btnAceptar = new Button();
+                                        btnAceptar.Text = "Aceptar";
+                                        btnAceptar.Dock = DockStyle.Bottom;
+                                        btnAceptar.Click += (sender, e) =>
+                                        {
+                                            // Obtener el índice seleccionado
+                                            int selectedIndex = comboBiblio.SelectedIndex;
+                                            biblioteca.Text = "BIBLIOTECA: " + bibliotecas[selectedIndex];
+
+                                            // Lógica para el número
+                                            string numeroBiblio = codigos[selectedIndex];
+                                            // Formatear numeroBiblio con ceros a la izquierda para que tenga 3 dígitos
+                                            string numeroFormateado = numeroBiblio.PadLeft(3, '0');
+                                            codebiblio.Text = "NUMERO: " + numeroFormateado;
+
+                                            selectForm.DialogResult = DialogResult.OK;
+                                            selectForm.Close();
+                                        };
+                                        selectForm.Controls.Add(btnAceptar);
+                                        selectForm.ShowDialog();
+                                    }
+                                }
+                                else if (bibliotecas.Count == 1)
+                                {
+                                    // Si solo hay una biblioteca, mostrarla directamente
+                                    biblioteca.Text = "BIBLIOTECA: " + bibliotecas[0];
+
+                                    // Lógica para el número
+                                    string numeroBiblio = codigos[0];
+                                    // Formatear numeroBiblio con ceros a la izquierda para que tenga 3 dígitos
+                                    string numeroFormateado = numeroBiblio.PadLeft(3, '0');
+                                    codebiblio.Text = "NUMERO: " + numeroFormateado;
                                 }
                             }
                             else
@@ -1079,30 +1253,33 @@ namespace ExtraccionA
 
         private void PathMarc()
         {
-            // Crear un nuevo OpenFileDialog
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            // Establecer el filtro para solo mostrar archivos .mdb
-            openFileDialog.Filter = "Herramienta MarcEdit (*.exe)|*.exe|Todos los Archivos (*.*)|*.*";
-
-            // Establecer el título del cuadro de diálogo
-            openFileDialog.Title = "Seleccionar el Ejecutable EXE";
-
-            // Verificar si el usuario selecciona un archivo y presiona Aceptar
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            while (string.IsNullOrEmpty(pathmarc))
             {
-                // Obtener la ruta completa del archivo seleccionado
-                string path = openFileDialog.FileName;
+                // Crear un nuevo OpenFileDialog
+                OpenFileDialog openFileDialog = new OpenFileDialog();
 
-                // Actualizar la cadena de conexión con la ruta seleccionada
-                pathmarc = $"{path}";
+                // Establecer el filtro para solo mostrar archivos .mdb
+                openFileDialog.Filter = "Herramienta MarcEdit cmarcedit (*.exe)|*.exe|Todos los Archivos (*.*)|*.*";
 
-                // Aquí puedes usar la cadena de conexión para abrir la base de datos
-                MessageBox.Show($"Herramienta en uso: {pathmarc}");
-            }
-            else
-            {
-                MessageBox.Show("No se seleccionó ningún archivo.");
+                // Establecer el título del cuadro de diálogo
+                openFileDialog.Title = "Seleccionar el Archivo Ejecutable EXE";
+
+                // Verificar si el usuario selecciona un archivo y presiona Aceptar
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Obtener la ruta completa del archivo seleccionado
+                    string path = openFileDialog.FileName;
+
+                    // Actualizar la cadena de conexión con la ruta seleccionada
+                    pathmarc = $"{path}";
+
+                    // Aquí puedes usar la cadena de conexión para abrir la base de datos
+                    MessageBox.Show($"Herramienta en uso: {pathmarc}");
+                }
+                else
+                {
+                    MessageBox.Show("Por favor, seleccione el archivo ejecutable");
+                }
             }
         }
 
@@ -1137,7 +1314,11 @@ namespace ExtraccionA
         private void Form1_Load(object sender, EventArgs e)
         {
             MessageBox.Show("Bienvenido al Sistema de Migracion de Datos SIABUC8 => Koha");
-            MessageBox.Show("Para comenzar, busque el archivo Access (SIABUC8.mdb) y seleccionelo en el menu superior (Archivo de entrada)");
+
+            MessageBox.Show("Para comenzar, por favor busque y seleccione la herramienta necesaria MarcEdit en su sistema");
+            PathMarc();
+
+            MessageBox.Show("Luego, busque el archivo Access (SIABUC8.mdb) y seleccionelo en el menu superior (Archivo de entrada)");
 
             toolTip1.SetToolTip(tabla1, "Haz click para mas informacion.");
             toolTip2.SetToolTip(tabla2, "Haz click para mas informacion.");
@@ -1147,7 +1328,7 @@ namespace ExtraccionA
         private void tabla1_Click(object sender, EventArgs e)
         {
             // Mostrar una ventana de información al hacer clic
-            MessageBox.Show("Información directa del Access, tabla de fichas, ejemplares y editoriales.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Información directa del Access, tabla de fichas, ejemplares y usuarios.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void tabla2_Click(object sender, EventArgs e)
@@ -1372,6 +1553,14 @@ namespace ExtraccionA
             {
                 MessageBox.Show("Error al cargar datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void exusers_Click(object sender, EventArgs e)
+        {
+            //Mandar datos y luego retornar
+            EUsuarios extraer = new EUsuarios();
+            extraer.CodigoBiblio();
+            extraer.Extraer(connString);
         }
     }
 }
