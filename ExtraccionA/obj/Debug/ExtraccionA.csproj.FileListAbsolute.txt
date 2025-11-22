@@ -8,10 +8,6 @@ C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.cspro
 C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.exe
 C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.pdb
 C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.Form1.resources
-C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\bin\Debug\ExtraccionA.exe.manifest
-C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\bin\Debug\ExtraccionA.application
-C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.exe.manifest
-C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.application
 C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\obj\Debug\ExtraccionA.codigo.resources
 C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\bin\Debug\System.Drawing.Common.dll
 C:\Users\JuanCB\source\repos\ExtraccionA\ExtraccionA\bin\Debug\System.Drawing.Common.pdb

@@ -57,10 +57,10 @@
     <ManifestKeyFile>ExtraccionA_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>zombie-removebg-preview.ico</ApplicationIcon>
@@ -105,6 +105,17 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Services\ConfigurationManager.cs" />
+    <Compile Include="Services\DatabaseService.cs" />
+    <Compile Include="Services\DataProcessorService.cs" />
+    <Compile Include="Services\DialogService.cs" />
+    <Compile Include="Services\FileExportService.cs" />
+    <Compile Include="Services\LibraryManagerService.cs" />
+    <Compile Include="Services\MarcFileOperationsService.cs" />
+    <Compile Include="Services\MarcFormatterService.cs" />
+    <Compile Include="Services\UIStateManager.cs" />
+    <Compile Include="Services\ValidationService.cs" />
+    <Compile Include="Services\WindowManagerService.cs" />
     <Compile Include="UnirMRKoMRC.cs" />
     <EmbeddedResource Include="codigo.resx">
       <DependentUpon>codigo.cs</DependentUpon>

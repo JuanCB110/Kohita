@@ -71,14 +71,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Form1.cs [Dise\u00F1o]",
+              "Title": "Form1.cs [Design]",
               "DocumentMoniker": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\Form1.cs",
               "RelativeDocumentMoniker": "ExtraccionA\\Form1.cs",
-              "ToolTip": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\Form1.cs [Dise\u00F1o]",
-              "RelativeToolTip": "ExtraccionA\\Form1.cs [Dise\u00F1o]",
+              "ToolTip": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\Form1.cs [Design]",
+              "RelativeToolTip": "ExtraccionA\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-23T19:34:07.7Z",
-              "EditorCaption": " [Dise\u00F1o]"
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
@@ -88,7 +88,7 @@
               "RelativeDocumentMoniker": "ExtraccionA\\Form1.cs",
               "ToolTip": "C:\\Users\\JuanCB\\source\\repos\\ExtraccionA\\ExtraccionA\\Form1.cs",
               "RelativeToolTip": "ExtraccionA\\Form1.cs",
-              "ViewState": "AgIAAAMGAAAAAAAAAAAuwBEGAABkAAAAAAAAAA==",
+              "ViewState": "AgIAABcBAAAAAAAAAAAuwCMBAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-24T04:31:45.873Z",
               "EditorCaption": ""
