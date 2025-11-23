@@ -63,6 +63,9 @@
     <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
     <ApplicationIcon>zombie-removebg-preview.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
@@ -142,6 +145,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

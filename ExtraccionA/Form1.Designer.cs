@@ -127,16 +127,14 @@
             // 
             // llenado
             // 
-            this.llenado.BackColor = System.Drawing.Color.LavenderBlush;
+            this.llenado.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
             this.llenado.Enabled = false;
-            this.llenado.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.llenado.ForeColor = System.Drawing.Color.Black;
             this.llenado.Location = new System.Drawing.Point(13, 874);
             this.llenado.Name = "llenado";
             this.llenado.Size = new System.Drawing.Size(107, 35);
             this.llenado.TabIndex = 28;
             this.llenado.Text = "Llenar";
-            this.llenado.UseVisualStyleBackColor = false;
+            this.llenado.UseVisualStyleBackColor = true;
             this.llenado.Click += new System.EventHandler(this.Llenado_Click);
             // 
             // tabla_2
@@ -244,46 +242,40 @@
             // selall
             // 
             this.selall.AutoSize = true;
-            this.selall.BackColor = System.Drawing.Color.LavenderBlush;
+            this.selall.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
             this.selall.Enabled = false;
-            this.selall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.selall.ForeColor = System.Drawing.Color.Black;
             this.selall.Location = new System.Drawing.Point(807, 874);
             this.selall.Name = "selall";
             this.selall.Size = new System.Drawing.Size(159, 35);
             this.selall.TabIndex = 23;
             this.selall.Text = "Sel. Todas las Filas";
-            this.selall.UseVisualStyleBackColor = false;
+            this.selall.UseVisualStyleBackColor = true;
             this.selall.Visible = false;
             this.selall.Click += new System.EventHandler(this.selall_Click);
             // 
             // format
             // 
-            this.format.BackColor = System.Drawing.Color.LavenderBlush;
+            this.format.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(89)))), ((int)(((byte)(182)))));
             this.format.Enabled = false;
-            this.format.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.format.ForeColor = System.Drawing.Color.Black;
             this.format.Location = new System.Drawing.Point(694, 874);
             this.format.Name = "format";
             this.format.Size = new System.Drawing.Size(107, 35);
             this.format.TabIndex = 21;
             this.format.Text = "Formatear";
-            this.format.UseVisualStyleBackColor = false;
+            this.format.UseVisualStyleBackColor = true;
             this.format.Visible = false;
             this.format.Click += new System.EventHandler(this.format_Click);
             // 
             // split
             // 
-            this.split.BackColor = System.Drawing.Color.LavenderBlush;
+            this.split.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
             this.split.Enabled = false;
-            this.split.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.split.ForeColor = System.Drawing.Color.Black;
             this.split.Location = new System.Drawing.Point(13, 874);
             this.split.Name = "split";
             this.split.Size = new System.Drawing.Size(107, 35);
             this.split.TabIndex = 20;
-            this.split.Text = "Split";
-            this.split.UseVisualStyleBackColor = false;
+            this.split.Text = "Dividir";
+            this.split.UseVisualStyleBackColor = true;
             this.split.Visible = false;
             this.split.Click += new System.EventHandler(this.split_Click);
             // 
@@ -483,16 +475,14 @@
             // 
             // exusers
             // 
-            this.exusers.BackColor = System.Drawing.Color.LavenderBlush;
+            this.exusers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(230)))), ((int)(((byte)(126)))), ((int)(((byte)(34)))));
             this.exusers.Enabled = false;
-            this.exusers.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.exusers.ForeColor = System.Drawing.Color.Black;
             this.exusers.Location = new System.Drawing.Point(718, 874);
             this.exusers.Name = "exusers";
             this.exusers.Size = new System.Drawing.Size(107, 35);
             this.exusers.TabIndex = 25;
             this.exusers.Text = "Extraer";
-            this.exusers.UseVisualStyleBackColor = false;
+            this.exusers.UseVisualStyleBackColor = true;
             this.exusers.Visible = false;
             this.exusers.Click += new System.EventHandler(this.exusers_Click);
             // 
@@ -520,59 +510,51 @@
             // 
             // limpiar
             // 
-            this.limpiar.BackColor = System.Drawing.Color.LavenderBlush;
+            this.limpiar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
             this.limpiar.Enabled = false;
-            this.limpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.limpiar.ForeColor = System.Drawing.Color.Black;
             this.limpiar.Location = new System.Drawing.Point(848, 874);
             this.limpiar.Name = "limpiar";
-            this.limpiar.Size = new System.Drawing.Size(107, 35);
-            this.limpiar.TabIndex = 21;
-            this.limpiar.Text = "Limpiar";
-            this.limpiar.UseVisualStyleBackColor = false;
+            this.limpiar.Size = new System.Drawing.Size(153, 35);
+            this.limpiar.TabIndex = 22;
+            this.limpiar.Text = "Limpiar Fichas";
+            this.limpiar.UseVisualStyleBackColor = true;
             this.limpiar.Visible = false;
             this.limpiar.Click += new System.EventHandler(this.limpiar_Click);
             // 
             // ejemplares
             // 
-            this.ejemplares.BackColor = System.Drawing.Color.LavenderBlush;
+            this.ejemplares.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
             this.ejemplares.Enabled = false;
-            this.ejemplares.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ejemplares.ForeColor = System.Drawing.Color.Black;
             this.ejemplares.Location = new System.Drawing.Point(231, 874);
             this.ejemplares.Name = "ejemplares";
             this.ejemplares.Size = new System.Drawing.Size(107, 35);
             this.ejemplares.TabIndex = 20;
             this.ejemplares.Text = "Ejemplares";
-            this.ejemplares.UseVisualStyleBackColor = false;
+            this.ejemplares.UseVisualStyleBackColor = true;
             this.ejemplares.Click += new System.EventHandler(this.ejemplares_Click);
             // 
             // usuarios
             // 
-            this.usuarios.BackColor = System.Drawing.Color.LavenderBlush;
+            this.usuarios.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
             this.usuarios.Enabled = false;
-            this.usuarios.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.usuarios.ForeColor = System.Drawing.Color.Black;
             this.usuarios.Location = new System.Drawing.Point(118, 874);
             this.usuarios.Name = "usuarios";
             this.usuarios.Size = new System.Drawing.Size(107, 35);
             this.usuarios.TabIndex = 19;
             this.usuarios.Text = "Usuarios";
-            this.usuarios.UseVisualStyleBackColor = false;
+            this.usuarios.UseVisualStyleBackColor = true;
             this.usuarios.Click += new System.EventHandler(this.usuarios_Click);
             // 
             // fichas
             // 
-            this.fichas.BackColor = System.Drawing.Color.LavenderBlush;
+            this.fichas.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
             this.fichas.Enabled = false;
-            this.fichas.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.fichas.ForeColor = System.Drawing.Color.Black;
             this.fichas.Location = new System.Drawing.Point(5, 874);
             this.fichas.Name = "fichas";
             this.fichas.Size = new System.Drawing.Size(107, 35);
             this.fichas.TabIndex = 18;
             this.fichas.Text = "Fichas";
-            this.fichas.UseVisualStyleBackColor = false;
+            this.fichas.UseVisualStyleBackColor = true;
             this.fichas.Click += new System.EventHandler(this.fichas_Click);
             // 
             // tabla_1
@@ -622,15 +604,16 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.Lavender;
             this.ClientSize = new System.Drawing.Size(1907, 988);
             this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Extractor";
