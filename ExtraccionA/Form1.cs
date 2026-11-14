@@ -149,13 +149,7 @@ namespace ExtraccionA
 
         private async void split_Click(object sender, EventArgs e)
         {
-            if (!_validationService.ValidarCarpetaSalida(_config))
-            {
-                _dialogService.MostrarAdvertencia("Por favor, seleccione una ruta de salida en el menu superior");
-                PathRutadeSalida();
-                return;
-            }
-
+            // Dividir solo arma la tabla 3 en memoria; la carpeta de salida se pide al Formatear
             _dialogService.MostrarInformacion("Nota:\nTanto codigo de biblioteca como nombre de la misma, son tomados\ndirectamente del access, asi que si es necesario cambiarlos, hagalo");
             
             codigo cd = new codigo();
@@ -246,11 +240,10 @@ namespace ExtraccionA
 
         private void format_Click(object sender, EventArgs e)
         {
-            if (!_validationService.ValidarCarpetaSalida(_config))
-            {
-                PathRutadeSalida();
+            // Sin carpeta de salida se abre el selector y, si se elige una, se sigue formateando sin volver a pulsar
+            if (!_validationService.ValidarCarpetaSalida(_config, mostrarMensaje: false) &&
+                !PathRutadeSalida("Seleccione la carpeta donde se guardarán los archivos .mrk", mostrarMensajes: false))
                 return;
-            }
 
             if (!_validationService.ValidarFilasSeleccionadas(tabla_3))
                 return;
@@ -377,19 +370,25 @@ namespace ExtraccionA
             PathRutadeSalida();
         }
 
-        private void PathRutadeSalida()
+        /// <summary>
+        /// Pide la carpeta de salida. Devuelve true si se eligió una.
+        /// Los mensajes de confirmación solo se muestran cuando se usa desde el menú.
+        /// </summary>
+        private bool PathRutadeSalida(string descripcion = "Seleccionar Carpeta de Salida", bool mostrarMensajes = true)
         {
-            string carpetaSalida = _dialogService.SeleccionarCarpeta("Seleccionar Carpeta de Salida");
-            
+            string carpetaSalida = _dialogService.SeleccionarCarpeta(descripcion);
+
             if (!string.IsNullOrEmpty(carpetaSalida))
             {
                 _config.OutputFolder = carpetaSalida;
-                _dialogService.MostrarInformacion($"Ruta de salida seleccionada: {_config.OutputFolder}");
+                if (mostrarMensajes)
+                    _dialogService.MostrarInformacion($"Ruta de salida seleccionada: {_config.OutputFolder}");
+                return true;
             }
-            else
-            {
+
+            if (mostrarMensajes)
                 _dialogService.MostrarAdvertencia("No se seleccionó ninguna carpeta.");
-            }
+            return false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
