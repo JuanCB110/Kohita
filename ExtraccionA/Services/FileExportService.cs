@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
@@ -41,7 +42,13 @@ namespace ExtraccionA.Services
             HashSet<string> processedControlNumbers = new HashSet<string>();
             List<string> columnasExcluidas = new List<string> { "Numeros_de_Items" };
 
-            foreach (DataGridViewRow selectedRow in dataGridView.SelectedRows)
+            // SelectedRows viene en orden inverso al de selección (con Sel. Todas, la última ficha primero);
+            // se exporta en el orden en que se ven en la tabla
+            IEnumerable<DataGridViewRow> filasEnOrden = dataGridView.SelectedRows
+                .Cast<DataGridViewRow>()
+                .OrderBy(r => r.Index);
+
+            foreach (DataGridViewRow selectedRow in filasEnOrden)
             {
                 string controlNumber = selectedRow.Cells["003"].Value?.ToString();
                 string nitems = selectedRow.Cells["Numeros_de_Items"].Value?.ToString();
