@@ -65,7 +65,7 @@ namespace ExtraccionA
             Cursor = Cursors.WaitCursor;
             _uiManager.SetControlsEnabled(this, false);
             tabla_1.ReadOnly = true;
-            _uiManager.SetButtonState(button, fichas, usuarios, ejemplares);
+            // Fichas, Usuarios y Ejemplares quedan siempre habilitados: cada clic reemplaza la tabla 1
 
             try
             {
@@ -87,7 +87,8 @@ namespace ExtraccionA
                 tabla_1.DataSource = dataTable;
                 tabla_1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
 
-                _uiManager.MostrarGrupoControles(true, limpiar, fee);
+                // El botón Limpiar ya no se muestra; no hace falta para cambiar de tabla
+                _uiManager.MostrarGrupoControles(true, fee);
                 fee.Text = $"{button.Text} encontradas: " + tabla_1.RowCount;
                 _uiManager.MostrarGrupoControles(tipo == TipoDato.Usuarios, exusers);
             }
