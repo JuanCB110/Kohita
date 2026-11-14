@@ -78,6 +78,11 @@
             this.usuarios = new System.Windows.Forms.Button();
             this.fichas = new System.Windows.Forms.Button();
             this.tabla_1 = new System.Windows.Forms.DataGridView();
+            this.barraEstado = new System.Windows.Forms.StatusStrip();
+            this.estadoMensaje = new System.Windows.Forms.ToolStripStatusLabel();
+            this.estadoMarcEdit = new System.Windows.Forms.ToolStripStatusLabel();
+            this.estadoBase = new System.Windows.Forms.ToolStripStatusLabel();
+            this.estadoSalida = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabla2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabla_2)).BeginInit();
@@ -89,6 +94,7 @@
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabla1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabla_1)).BeginInit();
+            this.barraEstado.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel2
@@ -601,7 +607,51 @@
             this.tabla_1.RowTemplate.Height = 28;
             this.tabla_1.Size = new System.Drawing.Size(950, 865);
             this.tabla_1.TabIndex = 17;
-            // 
+            //
+            // barraEstado
+            //
+            this.barraEstado.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.barraEstado.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.estadoMensaje,
+            this.estadoMarcEdit,
+            this.estadoBase,
+            this.estadoSalida});
+            this.barraEstado.Location = new System.Drawing.Point(0, 956);
+            this.barraEstado.Name = "barraEstado";
+            this.barraEstado.ShowItemToolTips = true;
+            this.barraEstado.SizingGrip = false;
+            this.barraEstado.Size = new System.Drawing.Size(1907, 32);
+            this.barraEstado.TabIndex = 1;
+            //
+            // estadoMensaje
+            //
+            this.estadoMensaje.Name = "estadoMensaje";
+            this.estadoMensaje.Size = new System.Drawing.Size(1500, 25);
+            this.estadoMensaje.Spring = true;
+            this.estadoMensaje.Text = "Listo";
+            this.estadoMensaje.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            //
+            // estadoMarcEdit
+            //
+            this.estadoMarcEdit.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.estadoMarcEdit.Name = "estadoMarcEdit";
+            this.estadoMarcEdit.Size = new System.Drawing.Size(150, 25);
+            this.estadoMarcEdit.Text = "MarcEdit: (sin elegir)";
+            //
+            // estadoBase
+            //
+            this.estadoBase.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.estadoBase.Name = "estadoBase";
+            this.estadoBase.Size = new System.Drawing.Size(120, 25);
+            this.estadoBase.Text = "Base: (sin abrir)";
+            //
+            // estadoSalida
+            //
+            this.estadoSalida.BorderSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.Left;
+            this.estadoSalida.Name = "estadoSalida";
+            this.estadoSalida.Size = new System.Drawing.Size(130, 25);
+            this.estadoSalida.Text = "Salida: (sin elegir)";
+            //
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -610,6 +660,7 @@
             this.BackColor = System.Drawing.Color.Lavender;
             this.ClientSize = new System.Drawing.Size(1907, 988);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.barraEstado);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Sizable;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -635,6 +686,8 @@
             this.panel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabla1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabla_1)).EndInit();
+            this.barraEstado.ResumeLayout(false);
+            this.barraEstado.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -680,6 +733,11 @@
         private System.Windows.Forms.Label biblioteca;
         private System.Windows.Forms.Label codebiblio;
         private System.Windows.Forms.Button exusers;
+        private System.Windows.Forms.StatusStrip barraEstado;
+        private System.Windows.Forms.ToolStripStatusLabel estadoMensaje;
+        private System.Windows.Forms.ToolStripStatusLabel estadoMarcEdit;
+        private System.Windows.Forms.ToolStripStatusLabel estadoBase;
+        private System.Windows.Forms.ToolStripStatusLabel estadoSalida;
     }
 }
 

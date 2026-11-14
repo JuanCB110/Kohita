@@ -31,10 +31,47 @@ namespace ExtraccionA
         private WindowManagerService _windowManager;
         private MarcFileOperationsService _marcFileOps;
 
+        // Ruta del .mdb abierto, solo para mostrarla en la barra de estado
+        private string _rutaAccess;
+
         public Form1()
         {
             InitializeComponent();
             InicializarServicios();
+        }
+
+        /// <summary>
+        /// Muestra en la barra de estado el resultado del último paso o lo que sigue
+        /// </summary>
+        private void MostrarEstado(string mensaje)
+        {
+            estadoMensaje.Text = mensaje;
+            estadoMensaje.ToolTipText = mensaje;
+        }
+
+        /// <summary>
+        /// Actualiza en la barra de estado lo que ya está configurado: MarcEdit, base y carpeta de salida.
+        /// Se muestra solo el nombre; la ruta completa aparece al pasar el mouse.
+        /// </summary>
+        private void ActualizarBarraEstado()
+        {
+            PonerRutaEnEstado(estadoMarcEdit, "MarcEdit", _config.MarcEditPath, "(sin elegir; se pedirá al convertir)");
+            PonerRutaEnEstado(estadoBase, "Base", _rutaAccess, "(sin abrir)");
+            PonerRutaEnEstado(estadoSalida, "Salida", _config.OutputFolder, "(sin elegir; se pedirá al formatear)");
+        }
+
+        private static void PonerRutaEnEstado(ToolStripStatusLabel etiqueta, string titulo, string ruta, string sinValor)
+        {
+            if (string.IsNullOrEmpty(ruta))
+            {
+                etiqueta.Text = $"{titulo}: {sinValor}";
+                etiqueta.ToolTipText = etiqueta.Text;
+                return;
+            }
+
+            string nombre = System.IO.Path.GetFileName(ruta.TrimEnd('\\', '/'));
+            etiqueta.Text = $"{titulo}: {(string.IsNullOrEmpty(nombre) ? ruta : nombre)}";
+            etiqueta.ToolTipText = ruta;
         }
 
         /// <summary>
@@ -124,7 +161,8 @@ namespace ExtraccionA
                 tabla_2.DataSource = dataTable;
                 _uiManager.MostrarGrupoControles(true, split, reg);
                 reg.Text = "Registros encontrados: " + tabla_2.RowCount;
-                
+                MostrarEstado($"{tabla_2.RowCount:N0} ejemplares unidos con sus fichas. Las fichas sin ejemplares se muestran en otra ventana. Siguiente: Dividir.");
+
                 LlenadoSinEjemplares();
             }
             catch (Exception ex)
@@ -149,9 +187,8 @@ namespace ExtraccionA
 
         private async void split_Click(object sender, EventArgs e)
         {
-            // Dividir solo arma la tabla 3 en memoria; la carpeta de salida se pide al Formatear
-            _dialogService.MostrarInformacion("Nota:\nTanto codigo de biblioteca como nombre de la misma, son tomados\ndirectamente del access, asi que si es necesario cambiarlos, hagalo");
-            
+            // Dividir solo arma la tabla 3 en memoria; la carpeta de salida se pide al Formatear.
+            // El diálogo de biblioteca muestra nombre y código, que se pueden cambiar ahí mismo.
             codigo cd = new codigo();
             await CargarDatosBiblioteca(cd);
 
@@ -185,7 +222,7 @@ namespace ExtraccionA
             }
             else
             {
-                _dialogService.MostrarInformacion("Operación cancelada.");
+                MostrarEstado("División cancelada.");
             }
         }
 
@@ -233,7 +270,7 @@ namespace ExtraccionA
                 // Que el usuario elija las filas; al cargar no queda ninguna seleccionada por accidente
                 tabla_3.ClearSelection();
                 ActualizarControlesSeleccion();
-                _dialogService.MostrarInformacion("Nota:\nSi los Registros Formateados son menores que las Fichas Encontradas, significa que esas fichas no contienen ejemplares");
+                MostrarEstado($"{processedTable.Rows.Count:N0} registros listos para formatear. Las fichas sin ejemplares no se incluyen. Seleccione filas y pulse Formatear.");
                 Console.WriteLine($"Filas procesadas: {processedTable.Rows.Count}");
             }
         }
@@ -255,7 +292,8 @@ namespace ExtraccionA
             try
             {
                 int archivosGenerados = _fileExporter.ExportarFilasAMRK(tabla_3, _config.OutputFolder, _config.CodigoBiblioteca);
-                _dialogService.MostrarInformacion($"Archivos guardados correctamente en {archivosGenerados} partes.", "Éxito");
+                _dialogService.MostrarInformacion($"Se generaron {archivosGenerados:N0} archivos .mrk en:\n{_config.OutputFolder}", "Formateo completado");
+                MostrarEstado($"{archivosGenerados:N0} archivos .mrk generados. Siguiente: Conversión MRK a MRC.");
             }
             catch (Exception ex)
             {
@@ -311,7 +349,9 @@ namespace ExtraccionA
                 _databaseService = new DatabaseService(_config.ConnectionString);
                 _windowManager = new WindowManagerService(_databaseService, _dialogService);
 
-                _dialogService.MostrarInformacion($"Conexión establecida con la base de datos: {archivoSeleccionado}");
+                _rutaAccess = archivoSeleccionado;
+                ActualizarBarraEstado();
+                MostrarEstado("Base abierta. Pulse Llenar para unir fichas y ejemplares.");
 
                 _uiManager.LimpiarDataGridViews(tabla_1, tabla_2, tabla_3);
                 _uiManager.LimpiarLabels(": :", fee, reg, marc, biblioteca, codebiblio);
@@ -320,7 +360,7 @@ namespace ExtraccionA
                 fichas.Enabled = usuarios.Enabled = ejemplares.Enabled = llenado.Enabled = archivosDeSalidaToolStripMenuItem.Enabled = archivosDeSalidaToolStripMenuItem.Visible = split.Enabled = true;
                 fee.Visible = reg.Visible = marc.Visible = split.Visible = biblioteca.Visible = codebiblio.Visible = exusers.Visible = false;
 
-                _dialogService.MostrarInformacion("Recuerde seleccionar la ruta de salida en el menu desplegable superior (Archivo de salida)");
+                // La carpeta de salida ya no se recuerda aquí: Formatear la pide si falta
                 NameBiblio();
             }
             else
@@ -359,7 +399,7 @@ namespace ExtraccionA
                 }
 
                 _config.MarcEditPath = rutaMarcEdit;
-                _dialogService.MostrarInformacion($"Herramienta en uso: {_config.MarcEditPath}");
+                ActualizarBarraEstado();
             }
 
             return true;
@@ -381,6 +421,7 @@ namespace ExtraccionA
             if (!string.IsNullOrEmpty(carpetaSalida))
             {
                 _config.OutputFolder = carpetaSalida;
+                ActualizarBarraEstado();
                 if (mostrarMensajes)
                     _dialogService.MostrarInformacion($"Ruta de salida seleccionada: {_config.OutputFolder}");
                 return true;
@@ -393,12 +434,17 @@ namespace ExtraccionA
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            _dialogService.MostrarInformacion("Bienvenido al Sistema de Migracion de Datos SIABUC8 => Koha");
-
-            _dialogService.MostrarInformacion("Para comenzar, por favor busque y seleccione la herramienta necesaria MarcEdit en su sistema");
+            // Un solo mensaje de bienvenida; lo demás se informa en la barra de estado
+            _dialogService.MostrarInformacion(
+                "Bienvenido al Sistema de Migración de Datos SIABUC8 → Koha.\n\n" +
+                "Pasos para comenzar:\n" +
+                "1) Seleccione MarcEdit (cmarcedit.exe).\n" +
+                "2) Abra la base SIABUC8.mdb en el menú Archivo de entrada.",
+                "Bienvenido");
             PathMarc();
 
-            _dialogService.MostrarInformacion("Luego, busque el archivo Access (SIABUC8.mdb) y seleccionelo en el menu superior (Archivo de entrada)");
+            ActualizarBarraEstado();
+            MostrarEstado("Abra la base SIABUC8.mdb en el menú Archivo de entrada.");
 
             toolTip1.SetToolTip(tabla1, "Haz click para mas informacion.");
             toolTip2.SetToolTip(tabla2, "Haz click para mas informacion.");
