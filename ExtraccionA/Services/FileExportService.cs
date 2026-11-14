@@ -231,7 +231,7 @@ namespace ExtraccionA.Services
                 return true;
 
             bool borrar = dialogos.MostrarConfirmacion(
-                $"La carpeta ya tiene {anteriores.Count:N0} archivos parteN{extension} de una corrida anterior.\n\n" +
+                $"La carpeta ya tiene {anteriores.Count:N0} archivos parteN{extension} de una exportación anterior.\n\n" +
                 $"Si se quedan, se mezclarán con los nuevos al convertir y unir, y los registros se duplicarán en Koha.\n\n" +
                 $"¿Borrarlos y generar los nuevos?\n\n{carpeta}",
                 "Archivos anteriores");
