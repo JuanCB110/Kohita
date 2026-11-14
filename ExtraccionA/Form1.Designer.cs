@@ -319,9 +319,9 @@
             this.tabla_3.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             this.tabla_3.RowHeadersWidth = 62;
             this.tabla_3.RowTemplate.Height = 28;
+            this.tabla_3.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.tabla_3.Size = new System.Drawing.Size(950, 865);
             this.tabla_3.TabIndex = 19;
-            this.tabla_3.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.tabla_3_RowHeaderMouseClick);
             this.tabla_3.SelectionChanged += new System.EventHandler(this.tabla_3_SelectionChanged);
             // 
             // menuStrip1

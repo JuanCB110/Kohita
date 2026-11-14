@@ -235,6 +235,9 @@ namespace ExtraccionA
             if (processedTable != null)
             {
                 tabla_3.DataSource = processedTable;
+                // Que el usuario elija las filas; al cargar no queda ninguna seleccionada por accidente
+                tabla_3.ClearSelection();
+                ActualizarControlesSeleccion();
                 _dialogService.MostrarInformacion("Nota:\nSi los Registros Formateados son menores que las Fichas Encontradas, significa que esas fichas no contienen ejemplares");
                 Console.WriteLine($"Filas procesadas: {processedTable.Rows.Count}");
             }
@@ -262,15 +265,31 @@ namespace ExtraccionA
             }
         }
 
-        private void tabla_3_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            _uiManager.MostrarGrupoControles(true, format, selall, label2, regsel);
-        }
-
         private void tabla_3_SelectionChanged(object sender, EventArgs e)
         {
-            _uiManager.ActualizarLabelFichasSeleccionadas(tabla_3, label2, format, selall, label2, regsel);
-            regsel.Text = "Registros Seleccionados: " + tabla_3.SelectedRows.Count.ToString();
+            ActualizarControlesSeleccion();
+        }
+
+        /// <summary>
+        /// Muestra Sel. Todas y los contadores en cuanto la tabla 3 tiene datos;
+        /// Formatear se ve siempre, pero solo se habilita con al menos una fila seleccionada
+        /// </summary>
+        private void ActualizarControlesSeleccion()
+        {
+            bool hayDatos = tabla_3.DataSource != null && tabla_3.Rows.Count > 0;
+            _uiManager.MostrarGrupoControles(hayDatos, format, selall, label2, regsel);
+            if (!hayDatos)
+                return;
+
+            int seleccionadas = tabla_3.SelectedRows.Count;
+            format.Enabled = seleccionadas > 0;
+
+            if (seleccionadas > 0)
+                _uiManager.ActualizarLabelFichasSeleccionadas(tabla_3, label2);
+            else
+                label2.Text = "Fichas seleccionadas: 0";
+
+            regsel.Text = "Registros Seleccionados: " + seleccionadas;
         }
 
         private void selall_Click(object sender, EventArgs e)
@@ -298,6 +317,7 @@ namespace ExtraccionA
 
                 _uiManager.LimpiarDataGridViews(tabla_1, tabla_2, tabla_3);
                 _uiManager.LimpiarLabels(": :", fee, reg, marc, biblioteca, codebiblio);
+                ActualizarControlesSeleccion();
 
                 fichas.Enabled = usuarios.Enabled = ejemplares.Enabled = llenado.Enabled = archivosDeSalidaToolStripMenuItem.Enabled = archivosDeSalidaToolStripMenuItem.Visible = split.Enabled = true;
                 fee.Visible = reg.Visible = marc.Visible = split.Visible = biblioteca.Visible = codebiblio.Visible = exusers.Visible = false;
