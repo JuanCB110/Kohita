@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace ExtraccionA.Services
@@ -202,6 +203,57 @@ namespace ExtraccionA.Services
         {
             string filePath = Path.Combine(outputFolder, $"parte{archivoNumero + 1}.mrk");
             File.WriteAllText(filePath, contenido);
+        }
+
+        /// <summary>
+        /// Busca los archivos parte&lt;número&gt; con la extensión indicada (".mrk" o ".mrc") que dejó una corrida anterior.
+        /// Solo cuenta nombres exactos como parte12.mrk; cualquier otro archivo de la carpeta se ignora.
+        /// </summary>
+        public static List<string> BuscarArchivosParte(string carpeta, string extension)
+        {
+            if (string.IsNullOrEmpty(carpeta) || !Directory.Exists(carpeta))
+                return new List<string>();
+
+            Regex patron = new Regex(@"^parte\d+" + Regex.Escape(extension) + "$", RegexOptions.IgnoreCase);
+            return Directory.GetFiles(carpeta, "parte*" + extension)
+                .Where(a => patron.IsMatch(Path.GetFileName(a)))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Si la carpeta tiene archivos parte&lt;número&gt; de una corrida anterior, pregunta si se borran.
+        /// Devuelve false si el usuario no quiere borrarlos o si no se pudieron borrar: en ese caso no se debe continuar.
+        /// </summary>
+        public static bool ConfirmarYBorrarPartesAnteriores(string carpeta, string extension, DialogService dialogos)
+        {
+            List<string> anteriores = BuscarArchivosParte(carpeta, extension);
+            if (anteriores.Count == 0)
+                return true;
+
+            bool borrar = dialogos.MostrarConfirmacion(
+                $"La carpeta ya tiene {anteriores.Count:N0} archivos parteN{extension} de una corrida anterior.\n\n" +
+                $"Si se quedan, se mezclarán con los nuevos al convertir y unir, y los registros se duplicarán en Koha.\n\n" +
+                $"¿Borrarlos y generar los nuevos?\n\n{carpeta}",
+                "Archivos anteriores");
+            if (!borrar)
+                return false;
+
+            foreach (string archivo in anteriores)
+            {
+                try
+                {
+                    File.Delete(archivo);
+                }
+                catch (Exception ex)
+                {
+                    dialogos.MostrarError(
+                        $"No se pudo borrar {Path.GetFileName(archivo)}:\n{ex.Message}\n\n" +
+                        "Si está abierto en otro programa, ciérrelo e intente de nuevo. No se generó ningún archivo nuevo.",
+                        "Archivos anteriores");
+                    return false;
+                }
+            }
+            return true;
         }
 
         /// <summary>

@@ -49,6 +49,10 @@ namespace ExtraccionA.Services
                 return;
             }
 
+            // Los .mrc de una corrida anterior se unirían junto con los nuevos
+            if (!FileExportService.ConfirmarYBorrarPartesAnteriores(carpetaSalida, ".mrc", _dialogService))
+                return;
+
             Convertirmrc cnmrc = new Convertirmrc
             {
                 UbicacionArchivosMRK = carpetaMRK,

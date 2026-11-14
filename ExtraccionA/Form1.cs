@@ -255,6 +255,10 @@ namespace ExtraccionA
             if (!_validationService.ValidarFilasSeleccionadas(tabla_3))
                 return;
 
+            // Partes de una corrida anterior se mezclarían con las nuevas al convertir y unir
+            if (!FileExportService.ConfirmarYBorrarPartesAnteriores(_config.OutputFolder, ".mrk", _dialogService))
+                return;
+
             try
             {
                 int archivosGenerados = _fileExporter.ExportarFilasAMRK(tabla_3, _config.OutputFolder, _config.CodigoBiblioteca);
