@@ -57,8 +57,8 @@ namespace ExtraccionA.Services
             {
                 Dock = DockStyle.Fill,
                 ReadOnly = true,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells,
-                AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells,
+                AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None
             };
 
             formSinEjemplares.Controls.Add(tablaSinEjemplares);

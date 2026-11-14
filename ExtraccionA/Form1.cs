@@ -85,8 +85,7 @@ namespace ExtraccionA
                 }
 
                 tabla_1.DataSource = dataTable;
-                tabla_1.AutoResizeColumns();
-                tabla_1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+                tabla_1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
 
                 _uiManager.MostrarGrupoControles(true, limpiar, fee);
                 fee.Text = $"{button.Text} encontradas: " + tabla_1.RowCount;
