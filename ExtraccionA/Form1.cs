@@ -309,22 +309,35 @@ namespace ExtraccionA
             _libraryManager.CargarYSeleccionarBiblioteca(_config.ConnectionString, biblioteca, codebiblio);
         }
 
-        private void PathMarc()
+        /// <summary>
+        /// Pide la ruta de cmarcedit.exe. Si el usuario cancela, el programa sigue funcionando
+        /// y la ruta se volverá a pedir cuando se necesite (conversión a MRC).
+        /// </summary>
+        /// <returns>true si hay una ruta de MarcEdit configurada al terminar</returns>
+        private bool PathMarc()
         {
             while (string.IsNullOrEmpty(_config.MarcEditPath))
             {
                 string rutaMarcEdit = _dialogService.SeleccionarMarcEdit();
-                
-                if (!string.IsNullOrEmpty(rutaMarcEdit))
+
+                if (string.IsNullOrEmpty(rutaMarcEdit))
                 {
-                    _config.MarcEditPath = rutaMarcEdit;
-                    _dialogService.MostrarInformacion($"Herramienta en uso: {_config.MarcEditPath}");
+                    _dialogService.MostrarAdvertencia("No se seleccionó MarcEdit. Podrá seleccionarlo más tarde; se le pedirá al convertir archivos MRK a MRC.");
+                    return false;
                 }
-                else
+
+                bool esCmarcedit = string.Equals(System.IO.Path.GetFileName(rutaMarcEdit), "cmarcedit.exe", StringComparison.OrdinalIgnoreCase);
+                if (!esCmarcedit && !_dialogService.MostrarConfirmacion(
+                        $"El archivo seleccionado no es cmarcedit.exe:\n{rutaMarcEdit}\n\nLa conversión necesita la versión de consola de MarcEdit (cmarcedit.exe). ¿Desea usar este archivo de todos modos?"))
                 {
-                    _dialogService.MostrarAdvertencia("Por favor, seleccione el archivo ejecutable");
+                    continue;
                 }
+
+                _config.MarcEditPath = rutaMarcEdit;
+                _dialogService.MostrarInformacion($"Herramienta en uso: {_config.MarcEditPath}");
             }
+
+            return true;
         }
 
         private void seleccionarRutaDeSalidaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -378,6 +391,9 @@ namespace ExtraccionA
 
         private void seleccionarArchivosMRK_Click(object sender, EventArgs e)
         {
+            if (!PathMarc())
+                return;
+
             Cursor = Cursors.WaitCursor;
             _uiManager.SetControlsEnabled(this, false);
             
@@ -394,11 +410,17 @@ namespace ExtraccionA
 
         private void selMRC_Click(object sender, EventArgs e)
         {
+            if (!PathMarc())
+                return;
+
             _marcFileOps.UnirArchivosMRC(_config.MarcEditPath);
         }
 
         private void selMRK_Click(object sender, EventArgs e)
         {
+            if (!PathMarc())
+                return;
+
             _marcFileOps.UnirArchivosMRK(_config.MarcEditPath);
         }
 
