@@ -8,10 +8,10 @@ using System.Windows.Forms;
 
 class EUsuarios
 {
-    private static Form formSinEjemplares = null;
-    public static string codigo = string.Empty;
-
-    public void Extraer(string connectionString)
+    /// <summary>
+    /// Exporta la tabla Usuarios a un CSV para Koha con el código de biblioteca indicado (branchcode)
+    /// </summary>
+    public void Extraer(string connectionString, string codigo)
     {
         using (SaveFileDialog saveFileDialog = new SaveFileDialog())
         {
@@ -27,7 +27,7 @@ class EUsuarios
 
                 try
                 {
-                    EscribirCsv(connectionString, query, outputPath);
+                    EscribirCsv(connectionString, query, outputPath, codigo);
                 }
                 catch (IOException ex)
                 {
@@ -56,7 +56,7 @@ class EUsuarios
     /// <summary>
     /// Lee la tabla Usuarios y escribe el CSV para el importador de usuarios de Koha
     /// </summary>
-    private void EscribirCsv(string connectionString, string query, string outputPath)
+    private void EscribirCsv(string connectionString, string query, string outputPath, string codigo)
     {
         using (OleDbConnection connection = new OleDbConnection(connectionString))
         {
@@ -106,75 +106,81 @@ class EUsuarios
         }
     }
 
-    public void CodigoBiblio()
+    /// <summary>
+    /// Pide el código de biblioteca, ya escrito con el de la biblioteca elegida al abrir la base.
+    /// Devuelve el código sin espacios sobrantes, o null si el usuario cancela o cierra la ventana.
+    /// </summary>
+    public string CodigoBiblio(string codigoInicial)
     {
-        // Si ya hay una ventana abierta, ciérrala
-        if (formSinEjemplares != null && !formSinEjemplares.IsDisposed)
-        {
-            formSinEjemplares.Close();
-        }
-
-        // Crear una nueva ventana en tiempo de ejecución
-        formSinEjemplares = new Form
+        using (Form ventana = new Form
         {
             Text = "Código de Biblioteca",
             Size = new Size(400, 200),
-            StartPosition = FormStartPosition.CenterScreen,
-            Icon = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream("ExtraccionA.zombie-removebg-preview.ico"))  // Acceder al recurso incrustado
-        };
-
-        // Crear un Label para mostrar el mensaje
-        Label labelCodigo = new Label
+            StartPosition = FormStartPosition.CenterScreen
+        })
         {
-            Text = "Ingrese el código de la biblioteca:",
-            Location = new Point(20, 30),
-            Size = new Size(250, 30)
-        };
+            try
+            {
+                ventana.Icon = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream("ExtraccionA.zombie-removebg-preview.ico"));
+            }
+            catch
+            {
+                // Si no se puede cargar el icono, continuar sin él
+            }
 
-        // Crear un TextBox para ingresar el código de la biblioteca
-        TextBox textBoxCodigo = new TextBox
-        {
-            Location = new Point(20, 70),
-            Size = new Size(200, 25)
-        };
+            Label labelCodigo = new Label
+            {
+                Text = "Ingrese el código de la biblioteca:",
+                Location = new Point(20, 30),
+                Size = new Size(250, 30)
+            };
 
-        // Crear un botón de Aceptar
-        Button buttonAceptar = new Button
-        {
-            Text = "Aceptar",
-            Location = new Point(20, 110),
-            Size = new Size(100, 30)
-        };
-        buttonAceptar.Click += (sender, e) =>
-        {
-            // Aquí podrías manejar lo que sucede cuando el usuario hace clic en Aceptar
-            codigo = textBoxCodigo.Text;
-            // Llamar a la función que maneja el código ingresado
-            MessageBox.Show($"Código de la biblioteca ingresado: {codigo}");
-            formSinEjemplares.Close();
-        };
+            TextBox textBoxCodigo = new TextBox
+            {
+                Location = new Point(20, 70),
+                Size = new Size(200, 25),
+                Text = codigoInicial ?? string.Empty
+            };
 
-        // Crear un botón de Cancelar
-        Button buttonCancelar = new Button
-        {
-            Text = "Cancelar",
-            Location = new Point(130, 110),
-            Size = new Size(100, 30)
-        };
-        buttonCancelar.Click += (sender, e) =>
-        {
-            // Cerrar la ventana si el usuario hace clic en Cancelar
-            formSinEjemplares.Close();
-        };
+            Button buttonAceptar = new Button
+            {
+                Text = "Aceptar",
+                Location = new Point(20, 110),
+                Size = new Size(100, 30)
+            };
+            buttonAceptar.Click += (sender, e) =>
+            {
+                // Sin código, Koha rechaza a los usuarios: no se deja continuar con la caja vacía
+                if (textBoxCodigo.Text.Trim().Length == 0)
+                {
+                    MessageBox.Show("Escriba el código de la biblioteca.", "Código de Biblioteca",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    textBoxCodigo.Focus();
+                    return;
+                }
+                ventana.DialogResult = DialogResult.OK;
+            };
 
-        // Agregar los controles al formulario
-        formSinEjemplares.Controls.Add(labelCodigo);
-        formSinEjemplares.Controls.Add(textBoxCodigo);
-        formSinEjemplares.Controls.Add(buttonAceptar);
-        formSinEjemplares.Controls.Add(buttonCancelar);
+            Button buttonCancelar = new Button
+            {
+                Text = "Cancelar",
+                Location = new Point(130, 110),
+                Size = new Size(100, 30),
+                DialogResult = DialogResult.Cancel
+            };
 
-        // Mostrar la ventana
-        formSinEjemplares.ShowDialog();
+            ventana.Controls.Add(labelCodigo);
+            ventana.Controls.Add(textBoxCodigo);
+            ventana.Controls.Add(buttonAceptar);
+            ventana.Controls.Add(buttonCancelar);
+
+            // Enter = Aceptar, Esc = Cancelar
+            ventana.AcceptButton = buttonAceptar;
+            ventana.CancelButton = buttonCancelar;
+
+            // Cancelar o cerrar con la X devuelven Cancel: no se exporta nada
+            return ventana.ShowDialog() == DialogResult.OK ? textBoxCodigo.Text.Trim() : null;
+        }
     }
 
 }

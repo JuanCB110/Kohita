@@ -466,8 +466,11 @@ namespace ExtraccionA
         private void exusers_Click(object sender, EventArgs e)
         {
             EUsuarios extraer = new EUsuarios();
-            extraer.CodigoBiblio();
-            extraer.Extraer(_config.ConnectionString);
+            string codigo = extraer.CodigoBiblio(_config.CodigoBiblioteca);
+            if (codigo == null)
+                return; // Cancelado: no se genera el CSV
+
+            extraer.Extraer(_config.ConnectionString, codigo);
         }
     }
 }
