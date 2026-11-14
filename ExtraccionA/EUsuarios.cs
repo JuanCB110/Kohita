@@ -25,54 +25,83 @@ class EUsuarios
 
                 string query = "SELECT NoCuenta, Nombre, NoGrupo, NoEscuela, [E-mail], Domicilio, Colonia, [Ciudad Estado], [Codigo Postal], Telefono, Notas FROM Usuarios";
 
-                using (OleDbConnection connection = new OleDbConnection(connectionString))
+                try
                 {
-                    connection.Open();
-                    using (OleDbCommand command = new OleDbCommand(query, connection))
-                    using (OleDbDataReader reader = command.ExecuteReader())
-                    using (StreamWriter writer = new StreamWriter(outputPath))
-                    {
-                        // Escribir la cabecera del CSV
-                        writer.WriteLine("cardnumber,surname,firstname,email,address,city,zipcode,phone,categorycode,branchcode,userid,password");
-
-                        while (reader.Read())
-                        {
-                            string cardnumber = reader["NoCuenta"].ToString().Replace(",", "");
-                            string fullName = reader["Nombre"].ToString().Replace(",", "");
-                            string email = reader["E-mail"].ToString().Replace(",", "");
-                            string address = reader["Domicilio"].ToString().Replace(",", "");
-                            string city = reader["Ciudad Estado"].ToString().Replace(",", "");
-                            string zipcode = reader["Codigo Postal"].ToString().Replace(",", "");
-                            string phone = reader["Telefono"].ToString().Replace(",", "");
-
-                            // Separar el nombre en nombre y apellido (esto depende del formato de los datos)
-                            string[] nameParts = fullName.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-                            // Asignar 'firstname' y 'surname' según la longitud del arreglo
-                            string firstname = string.Empty;
-                            string surname = string.Empty;
-
-                            // Validar que tenemos al menos 2 elementos para los apellidos
-                            if (nameParts.Length >= 2)
-                            {
-                                surname = nameParts[0] + " " + nameParts[1];  // Primer y segundo apellido
-
-                                // El resto son los nombres
-                                firstname = string.Join(" ", nameParts, 2, nameParts.Length - 2);
-                            }
-
-                            // Definir valores fijos o inferidos
-                            string categorycode = "ST";  // Código de usuario en Koha (por ejemplo, estudiante)
-                            string branchcode = codigo;  // Biblioteca principal
-                            string userid = cardnumber;  // Puede ser igual al número de cuenta
-                            string password = "123";    // Contraseña inicial por defecto
-
-                            writer.WriteLine($"{cardnumber},{surname},{firstname},{email},{address},{city},{zipcode},{phone},{categorycode},{branchcode},{userid},{password}");
-                        }
-                    }
+                    EscribirCsv(connectionString, query, outputPath);
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show($"No se pudo escribir el archivo:\n{outputPath}\n\n{ex.Message}\n\nSi el archivo está abierto en Excel u otro programa, ciérrelo e intente de nuevo.",
+                        "Error al exportar usuarios", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    MessageBox.Show($"No tiene permiso para escribir en:\n{outputPath}\n\n{ex.Message}",
+                        "Error al exportar usuarios", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ocurrió un error al exportar los usuarios:\n{ex.Message}",
+                        "Error al exportar usuarios", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
                 MessageBox.Show($"Exportación completada.\nArchivo guardado en:\n{outputPath}");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Lee la tabla Usuarios y escribe el CSV para el importador de usuarios de Koha
+    /// </summary>
+    private void EscribirCsv(string connectionString, string query, string outputPath)
+    {
+        using (OleDbConnection connection = new OleDbConnection(connectionString))
+        {
+            connection.Open();
+            using (OleDbCommand command = new OleDbCommand(query, connection))
+            using (OleDbDataReader reader = command.ExecuteReader())
+            using (StreamWriter writer = new StreamWriter(outputPath))
+            {
+                // Escribir la cabecera del CSV
+                writer.WriteLine("cardnumber,surname,firstname,email,address,city,zipcode,phone,categorycode,branchcode,userid,password");
+
+                while (reader.Read())
+                {
+                    string cardnumber = reader["NoCuenta"].ToString().Replace(",", "");
+                    string fullName = reader["Nombre"].ToString().Replace(",", "");
+                    string email = reader["E-mail"].ToString().Replace(",", "");
+                    string address = reader["Domicilio"].ToString().Replace(",", "");
+                    string city = reader["Ciudad Estado"].ToString().Replace(",", "");
+                    string zipcode = reader["Codigo Postal"].ToString().Replace(",", "");
+                    string phone = reader["Telefono"].ToString().Replace(",", "");
+
+                    // Separar el nombre en nombre y apellido (esto depende del formato de los datos)
+                    string[] nameParts = fullName.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    // Asignar 'firstname' y 'surname' según la longitud del arreglo
+                    string firstname = string.Empty;
+                    string surname = string.Empty;
+
+                    // Validar que tenemos al menos 2 elementos para los apellidos
+                    if (nameParts.Length >= 2)
+                    {
+                        surname = nameParts[0] + " " + nameParts[1];  // Primer y segundo apellido
+
+                        // El resto son los nombres
+                        firstname = string.Join(" ", nameParts, 2, nameParts.Length - 2);
+                    }
+
+                    // Definir valores fijos o inferidos
+                    string categorycode = "ST";  // Código de usuario en Koha (por ejemplo, estudiante)
+                    string branchcode = codigo;  // Biblioteca principal
+                    string userid = cardnumber;  // Puede ser igual al número de cuenta
+                    string password = "123";    // Contraseña inicial por defecto
+
+                    writer.WriteLine($"{cardnumber},{surname},{firstname},{email},{address},{city},{zipcode},{phone},{categorycode},{branchcode},{userid},{password}");
+                }
             }
         }
     }
