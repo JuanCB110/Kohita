@@ -276,10 +276,10 @@ namespace ExtraccionA
 
         private void selall_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in tabla_3.Rows)
-            {
-                row.Selected = true;
-            }
+            // SelectAll selecciona todas las filas con un solo evento SelectionChanged.
+            // Seleccionarlas una por una disparaba un evento por fila, y cada evento
+            // recorría todas las filas seleccionadas (tiempo cuadrático: minutos con 40,000 filas).
+            tabla_3.SelectAll();
         }
 
         private void seleccionarAccess_Click(object sender, EventArgs e)
