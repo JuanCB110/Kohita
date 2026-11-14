@@ -396,17 +396,21 @@ namespace ExtraccionA
             _dialogService.MostrarInformacion("Tabla formateada para exportacion por formato MARC para posterior conversion.", "Información");
         }
 
-        private void seleccionarArchivosMRK_Click(object sender, EventArgs e)
+        private async void seleccionarArchivosMRK_Click(object sender, EventArgs e)
         {
             if (!PathMarc())
                 return;
 
             Cursor = Cursors.WaitCursor;
             _uiManager.SetControlsEnabled(this, false);
-            
+
             try
             {
-                _marcFileOps.ConvertirMRKaMRC(_config.MarcEditPath);
+                await _marcFileOps.ConvertirMRKaMRCAsync(_config.MarcEditPath, this);
+            }
+            catch (Exception ex)
+            {
+                _dialogService.MostrarError($"Error al convertir archivos: {ex.Message}");
             }
             finally
             {

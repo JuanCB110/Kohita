@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ExtraccionA.Services
@@ -23,7 +26,7 @@ namespace ExtraccionA.Services
         /// <summary>
         /// Procesa la conversión de archivos MRK a MRC
         /// </summary>
-        public void ConvertirMRKaMRC(string marcEditPath)
+        public async Task ConvertirMRKaMRCAsync(string marcEditPath, Form ventanaPrincipal)
         {
             string carpetaMRK = _dialogService.SeleccionarCarpeta("Seleccionar Carpeta de Archivos MRK");
             if (string.IsNullOrEmpty(carpetaMRK))
@@ -32,7 +35,12 @@ namespace ExtraccionA.Services
                 return;
             }
 
-            _dialogService.MostrarInformacion($"Ruta seleccionada: {carpetaMRK}");
+            int totalMRK = Directory.GetFiles(carpetaMRK, "*.mrk").Length;
+            if (totalMRK == 0)
+            {
+                _dialogService.MostrarAdvertencia("La carpeta seleccionada no contiene archivos .mrk.");
+                return;
+            }
 
             string carpetaSalida = _dialogService.SeleccionarCarpeta("Seleccionar Carpeta de Salida");
             if (string.IsNullOrEmpty(carpetaSalida))
@@ -41,15 +49,78 @@ namespace ExtraccionA.Services
                 return;
             }
 
-            _dialogService.MostrarInformacion($"Ruta seleccionada: {carpetaSalida}");
-
             Convertirmrc cnmrc = new Convertirmrc
             {
                 UbicacionArchivosMRK = carpetaMRK,
                 UbicacionSalida = carpetaSalida
             };
 
-            cnmrc.ConvertirMRKaMRC(marcEditPath);
+            ResultadoConversion resultado;
+            using (CancellationTokenSource cancelacion = new CancellationTokenSource())
+            using (VentanaProgreso ventana = new VentanaProgreso("Conversión MRK a MRC", totalMRK, cancelacion))
+            {
+                ventana.Show(ventanaPrincipal);
+                var progreso = new Progress<ProgresoConversion>(ventana.Actualizar);
+
+                try
+                {
+                    resultado = await Task.Run(() => cnmrc.ConvertirMRKaMRC(marcEditPath, progreso, cancelacion.Token));
+                }
+                catch (Exception ex)
+                {
+                    ventana.Terminar();
+                    _dialogService.MostrarError($"Error al procesar archivos: {ex.Message}");
+                    return;
+                }
+
+                ventana.Terminar();
+            }
+
+            MostrarResumenConversion(resultado, carpetaSalida);
+        }
+
+        /// <summary>
+        /// Muestra cuántos archivos se convirtieron y por qué fallaron los demás
+        /// </summary>
+        private void MostrarResumenConversion(ResultadoConversion r, string carpetaSalida)
+        {
+            string archivoErrores = r.ArchivoErrores != null
+                ? $"\n\nDetalle completo en:\n{r.ArchivoErrores}"
+                : "";
+
+            if (r.DetenidoEnPrimerArchivo)
+            {
+                var primero = r.Fallidos[0];
+                _dialogService.MostrarError(
+                    $"No se pudo convertir el primer archivo ({primero.Key}), así que la conversión se detuvo.\n\n" +
+                    $"Motivo: {primero.Value}{archivoErrores}",
+                    "Conversión detenida");
+                return;
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append(r.Cancelado ? "Conversión cancelada.\n\n" : "");
+            sb.Append($"Convertidos: {r.Convertidos:N0} de {r.Total:N0} archivos.");
+
+            if (r.Fallidos.Count == 0)
+            {
+                sb.Append($"\n\nCarpeta de salida:\n{carpetaSalida}");
+                if (r.Cancelado)
+                    _dialogService.MostrarAdvertencia(sb.ToString(), "Conversión cancelada");
+                else
+                    _dialogService.MostrarInformacion(sb.ToString(), "Conversión completada");
+                return;
+            }
+
+            const int maximoEnPantalla = 10;
+            sb.Append($"\nFallidos: {r.Fallidos.Count:N0}\n");
+            foreach (var fallo in r.Fallidos.Take(maximoEnPantalla))
+                sb.Append($"\n• {fallo.Key}: {fallo.Value}");
+            if (r.Fallidos.Count > maximoEnPantalla)
+                sb.Append($"\n… y {r.Fallidos.Count - maximoEnPantalla:N0} más.");
+            sb.Append(archivoErrores);
+
+            _dialogService.MostrarAdvertencia(sb.ToString(), r.Cancelado ? "Conversión cancelada" : "Conversión con errores");
         }
 
         /// <summary>

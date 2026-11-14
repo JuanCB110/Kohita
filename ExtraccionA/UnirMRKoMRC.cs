@@ -94,12 +94,8 @@ namespace ExtraccionA
             }
 
             string salidaCompleta = Path.GetFullPath(archivoSalida);
-            List<string> archivos = Directory.GetFiles(carpetaEntrada, patron)
-                .Where(a => !string.Equals(Path.GetFullPath(a), salidaCompleta, StringComparison.OrdinalIgnoreCase))
-                .OrderBy(a => ClaveOrden(a).Item1, StringComparer.OrdinalIgnoreCase)
-                .ThenBy(a => ClaveOrden(a).Item2)
-                .ThenBy(a => a, StringComparer.OrdinalIgnoreCase)
-                .ToList();
+            List<string> archivos = OrdenarArchivos(Directory.GetFiles(carpetaEntrada, patron)
+                .Where(a => !string.Equals(Path.GetFullPath(a), salidaCompleta, StringComparison.OrdinalIgnoreCase)));
 
             if (archivos.Count < 2)
             {
@@ -108,6 +104,18 @@ namespace ExtraccionA
             }
 
             return archivos;
+        }
+
+        /// <summary>
+        /// Ordena por nombre respetando el número final: parte2 antes que parte10
+        /// </summary>
+        internal static List<string> OrdenarArchivos(IEnumerable<string> archivos)
+        {
+            return archivos
+                .OrderBy(a => ClaveOrden(a).Item1, StringComparer.OrdinalIgnoreCase)
+                .ThenBy(a => ClaveOrden(a).Item2)
+                .ThenBy(a => a, StringComparer.OrdinalIgnoreCase)
+                .ToList();
         }
 
         /// <summary>

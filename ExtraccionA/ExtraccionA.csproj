@@ -138,6 +138,9 @@
     <Compile Include="Services\ValidationService.cs" />
     <Compile Include="Services\WindowManagerService.cs" />
     <Compile Include="UnirMRKoMRC.cs" />
+    <Compile Include="VentanaProgreso.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <EmbeddedResource Include="codigo.resx">
       <DependentUpon>codigo.cs</DependentUpon>
     </EmbeddedResource>
