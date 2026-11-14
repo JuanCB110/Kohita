@@ -55,7 +55,7 @@ namespace ExtraccionA.Services
         /// <summary>
         /// Une múltiples archivos MRC en uno solo
         /// </summary>
-        public void UnirArchivosMRC(string marcEditPath)
+        public void UnirArchivosMRC()
         {
             string carpetaSeleccionada = _dialogService.SeleccionarCarpeta("Seleccionar carpeta que contiene los archivos MRC");
 
@@ -80,16 +80,14 @@ namespace ExtraccionA.Services
             if (string.IsNullOrEmpty(archivoSalida))
                 return;
 
-            _dialogService.MostrarInformacion($"Archivo de salida: {archivoSalida}", "Depuración");
-
             UnirMRKoMRC umrc = new UnirMRKoMRC();
-            umrc.UnirArchivosMRC(marcEditPath, carpetaSeleccionada, archivoSalida);
+            umrc.UnirArchivosMRC(carpetaSeleccionada, archivoSalida);
         }
 
         /// <summary>
         /// Une múltiples archivos MRK en uno solo
         /// </summary>
-        public void UnirArchivosMRK(string marcEditPath)
+        public void UnirArchivosMRK()
         {
             string carpetaSeleccionada = _dialogService.SeleccionarCarpeta("Seleccionar carpeta que contiene los archivos MRK");
 
@@ -109,7 +107,7 @@ namespace ExtraccionA.Services
                 return;
 
             UnirMRKoMRC umrc = new UnirMRKoMRC();
-            umrc.UnirArchivosMRK(marcEditPath, carpetaSeleccionada, archivoSalida);
+            umrc.UnirArchivosMRK(carpetaSeleccionada, archivoSalida);
         }
 
         /// <summary>

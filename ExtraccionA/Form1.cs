@@ -418,18 +418,12 @@ namespace ExtraccionA
 
         private void selMRC_Click(object sender, EventArgs e)
         {
-            if (!PathMarc())
-                return;
-
-            _marcFileOps.UnirArchivosMRC(_config.MarcEditPath);
+            _marcFileOps.UnirArchivosMRC();
         }
 
         private void selMRK_Click(object sender, EventArgs e)
         {
-            if (!PathMarc())
-                return;
-
-            _marcFileOps.UnirArchivosMRK(_config.MarcEditPath);
+            _marcFileOps.UnirArchivosMRK();
         }
 
         //Fichas sin ejemplares
