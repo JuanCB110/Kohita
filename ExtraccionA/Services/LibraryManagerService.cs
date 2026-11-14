@@ -131,18 +131,29 @@ namespace ExtraccionA.Services
                 };
                 
                 selectForm.Controls.Add(btnAceptar);
-                selectForm.ShowDialog();
+
+                if (selectForm.ShowDialog() != DialogResult.OK)
+                {
+                    // Se cerró la ventana sin elegir: usar la primera para no dejar la configuración vacía
+                    AsignarBiblioteca(bibliotecas[0], codigos[0], bibliotecaLabel, codigoBiblioLabel);
+                    _dialogService.MostrarAdvertencia($"No se eligió biblioteca. Se usará \"{bibliotecas[0]}\"; puede cambiarla al dividir los registros.");
+                }
             }
         }
 
         /// <summary>
-        /// Asigna la biblioteca y código seleccionado a los labels
+        /// Asigna la biblioteca y código seleccionado a los labels y a la configuración,
+        /// para que el resto del flujo (Dividir, 952) use la biblioteca elegida
         /// </summary>
         private void AsignarBiblioteca(string nombreBiblioteca, string codigo, Label bibliotecaLabel, Label codigoBiblioLabel)
         {
             bibliotecaLabel.Text = "BIBLIOTECA: " + nombreBiblioteca;
             string numeroFormateado = _validationService.FormatearCodigoBiblioteca(codigo);
             codigoBiblioLabel.Text = "NUMERO: " + numeroFormateado;
+
+            ConfigurationManager config = ConfigurationManager.Instance;
+            config.NombreBiblioteca = nombreBiblioteca;
+            config.CodigoBiblioteca = numeroFormateado;
         }
     }
 }

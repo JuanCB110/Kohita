@@ -197,18 +197,23 @@ namespace ExtraccionA
 
         private async Task CargarDatosBiblioteca(codigo cd)
         {
+            // Usar la biblioteca elegida al abrir la base (o la confirmada en el último Dividir)
+            if (!string.IsNullOrEmpty(_config.NombreBiblioteca))
+            {
+                cd.datos(_config.NombreBiblioteca, _config.CodigoBiblioteca);
+                return;
+            }
+
             try
             {
                 DataTable bibliotecas = await _databaseService.ObtenerBibliotecasAsync();
-                
+
                 if (bibliotecas != null && bibliotecas.Rows.Count > 0)
                 {
-                    foreach (DataRow row in bibliotecas.Rows)
-                    {
-                        string nombre = row["Nombre"].ToString();
-                        string code = _validationService.FormatearCodigoBiblioteca(row["No"].ToString());
-                        cd.datos(nombre, code);
-                    }
+                    DataRow row = bibliotecas.Rows[0];
+                    string nombre = row["Nombre"].ToString();
+                    string code = _validationService.FormatearCodigoBiblioteca(row["No"].ToString());
+                    cd.datos(nombre, code);
                 }
                 else
                 {
@@ -284,6 +289,9 @@ namespace ExtraccionA
             if (!string.IsNullOrEmpty(archivoSeleccionado))
             {
                 _config.SetAccessConnection(archivoSeleccionado);
+                // Base nueva: la biblioteca se vuelve a elegir en NameBiblio()
+                _config.NombreBiblioteca = string.Empty;
+                _config.CodigoBiblioteca = string.Empty;
                 _databaseService = new DatabaseService(_config.ConnectionString);
                 _windowManager = new WindowManagerService(_databaseService, _dialogService);
 
