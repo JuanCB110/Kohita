@@ -79,7 +79,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(377, 20);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Favor de ingresar el codigo y nombre de la biblioteca";
+            this.label1.Text = "Ingrese el código y el nombre de la biblioteca";
             // 
             // label2
             // 
@@ -88,7 +88,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(176, 20);
             this.label2.TabIndex = 5;
-            this.label2.Text = "Nombre de la Biblioteca";
+            this.label2.Text = "Nombre de la biblioteca";
             // 
             // label3
             // 
@@ -97,7 +97,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(168, 20);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Codigo de la biblioteca";
+            this.label3.Text = "Código de la biblioteca";
             // 
             // codigo
             // 
@@ -117,7 +117,7 @@
             this.MinimizeBox = false;
             this.Name = "codigo";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Codigos";
+            this.Text = "Código de biblioteca";
             this.ResumeLayout(false);
             this.PerformLayout();
 

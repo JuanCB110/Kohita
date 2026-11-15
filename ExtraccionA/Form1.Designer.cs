@@ -254,7 +254,7 @@
             this.selall.Name = "selall";
             this.selall.Size = new System.Drawing.Size(159, 35);
             this.selall.TabIndex = 23;
-            this.selall.Text = "Sel. Todas las Filas";
+            this.selall.Text = "Seleccionar todas";
             this.selall.UseVisualStyleBackColor = true;
             this.selall.Visible = false;
             this.selall.Click += new System.EventHandler(this.selall_Click);
@@ -353,7 +353,7 @@
             this.archivoToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
             this.archivoToolStripMenuItem.Size = new System.Drawing.Size(178, 29);
-            this.archivoToolStripMenuItem.Text = "Archivo de Entrada";
+            this.archivoToolStripMenuItem.Text = "Archivo de entrada";
             // 
             // seleccionarAccess
             // 
@@ -370,7 +370,7 @@
             this.archivosDeSalidaToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.archivosDeSalidaToolStripMenuItem.Name = "archivosDeSalidaToolStripMenuItem";
             this.archivosDeSalidaToolStripMenuItem.Size = new System.Drawing.Size(173, 29);
-            this.archivosDeSalidaToolStripMenuItem.Text = "Archivos de Salida";
+            this.archivosDeSalidaToolStripMenuItem.Text = "Archivos de salida";
             this.archivosDeSalidaToolStripMenuItem.Visible = false;
             // 
             // seleccionarRutaDeSalidaToolStripMenuItem
@@ -387,7 +387,7 @@
             this.conversionMRKAMRCToolStripMenuItem.ForeColor = System.Drawing.Color.Black;
             this.conversionMRKAMRCToolStripMenuItem.Name = "conversionMRKAMRCToolStripMenuItem";
             this.conversionMRKAMRCToolStripMenuItem.Size = new System.Drawing.Size(216, 29);
-            this.conversionMRKAMRCToolStripMenuItem.Text = "Conversion MRK a MRC";
+            this.conversionMRKAMRCToolStripMenuItem.Text = "Conversión MRK a MRC";
             // 
             // seleccionarArchivosMRK
             // 
@@ -667,7 +667,7 @@
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Extractor";
+            this.Text = "Kohita - Migración SIABUC8 a Koha";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panel2.ResumeLayout(false);

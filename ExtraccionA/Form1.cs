@@ -126,7 +126,9 @@ namespace ExtraccionA
 
                 // El botón Limpiar ya no se muestra; no hace falta para cambiar de tabla
                 _uiManager.MostrarGrupoControles(true, fee);
-                fee.Text = $"{button.Text} encontradas: " + tabla_1.RowCount;
+                // "Fichas encontradas", pero "Usuarios/Ejemplares encontrados"
+                string encontrados = tipo == TipoDato.Fichas ? "encontradas" : "encontrados";
+                fee.Text = $"{button.Text} {encontrados}: {tabla_1.RowCount:N0}";
                 _uiManager.MostrarGrupoControles(tipo == TipoDato.Usuarios, exusers);
             }
             catch (Exception ex)
@@ -160,7 +162,7 @@ namespace ExtraccionA
 
                 tabla_2.DataSource = dataTable;
                 _uiManager.MostrarGrupoControles(true, split, reg);
-                reg.Text = "Registros encontrados: " + tabla_2.RowCount;
+                reg.Text = $"Registros encontrados: {tabla_2.RowCount:N0}";
                 MostrarEstado($"{tabla_2.RowCount:N0} ejemplares unidos con sus fichas. Las fichas sin ejemplares se muestran en otra ventana. Siguiente: Dividir.");
 
                 LlenadoSinEjemplares();
@@ -207,7 +209,7 @@ namespace ExtraccionA
                     {
                         SplitTable(nombrebiblio);
                         marc.Visible = true;
-                        marc.Text = "Registros formateados: " + tabla_3.RowCount;
+                        marc.Text = $"Registros formateados: {tabla_3.RowCount:N0}";
                     }
                     catch (Exception ex)
                     {
@@ -325,7 +327,7 @@ namespace ExtraccionA
             else
                 label2.Text = "Fichas seleccionadas: 0";
 
-            regsel.Text = "Registros Seleccionados: " + seleccionadas;
+            regsel.Text = "Registros seleccionados: " + seleccionadas;
         }
 
         private void selall_Click(object sender, EventArgs e)
@@ -446,24 +448,29 @@ namespace ExtraccionA
             ActualizarBarraEstado();
             MostrarEstado("Abra la base SIABUC8.mdb en el menú Archivo de entrada.");
 
-            toolTip1.SetToolTip(tabla1, "Haz click para mas informacion.");
-            toolTip2.SetToolTip(tabla2, "Haz click para mas informacion.");
-            toolTip3.SetToolTip(tabla3, "Haz click para mas informacion.");
+            // La explicación aparece al pasar el mouse sobre el ícono; el clic la repite
+            toolTip1.SetToolTip(tabla1, TextoAyudaTabla1);
+            toolTip2.SetToolTip(tabla2, TextoAyudaTabla2);
+            toolTip3.SetToolTip(tabla3, TextoAyudaTabla3);
         }
+
+        private const string TextoAyudaTabla1 = "Datos tal como están en la base de SIABUC8: fichas, ejemplares o usuarios.";
+        private const string TextoAyudaTabla2 = "Fichas unidas con sus ejemplares. Pulse Dividir para preparar los registros MARC.";
+        private const string TextoAyudaTabla3 = "Registros en formato MARC. Seleccione filas y pulse Formatear para generar los archivos .mrk.";
 
         private void tabla1_Click(object sender, EventArgs e)
         {
-            _dialogService.MostrarInformacion("Información directa del Access, tabla de fichas, ejemplares y usuarios.", "Información");
+            _dialogService.MostrarInformacion(TextoAyudaTabla1, "Información");
         }
 
         private void tabla2_Click(object sender, EventArgs e)
         {
-            _dialogService.MostrarInformacion("Tabla de informacion procesada para formato MARC.", "Información");
+            _dialogService.MostrarInformacion(TextoAyudaTabla2, "Información");
         }
 
         private void tabla3_Click(object sender, EventArgs e)
         {
-            _dialogService.MostrarInformacion("Tabla formateada para exportacion por formato MARC para posterior conversion.", "Información");
+            _dialogService.MostrarInformacion(TextoAyudaTabla3, "Información");
         }
 
         private async void seleccionarArchivosMRK_Click(object sender, EventArgs e)
@@ -508,7 +515,7 @@ namespace ExtraccionA
             }
             else
             {
-                _dialogService.MostrarAdvertencia("Debe conectarse a la base de datos primero");
+                _dialogService.MostrarAdvertencia("Primero abra la base de datos en el menú Archivo de entrada.");
             }
         }
 

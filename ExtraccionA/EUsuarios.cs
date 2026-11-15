@@ -114,7 +114,7 @@ class EUsuarios
     {
         using (Form ventana = new Form
         {
-            Text = "Código de Biblioteca",
+            Text = "Código de biblioteca",
             Size = new Size(400, 200),
             StartPosition = FormStartPosition.CenterScreen
         })
@@ -153,7 +153,7 @@ class EUsuarios
                 // Sin código, Koha rechaza a los usuarios: no se deja continuar con la caja vacía
                 if (textBoxCodigo.Text.Trim().Length == 0)
                 {
-                    MessageBox.Show("Escriba el código de la biblioteca.", "Código de Biblioteca",
+                    MessageBox.Show("Escriba el código de la biblioteca.", "Código de biblioteca",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     textBoxCodigo.Focus();
                     return;

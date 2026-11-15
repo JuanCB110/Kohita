@@ -86,7 +86,7 @@ namespace ExtraccionA.Services
         {
             using (Form selectForm = new Form())
             {
-                selectForm.Text = "Selecciona una biblioteca";
+                selectForm.Text = "Seleccione una biblioteca";
                 selectForm.Size = new Size(400, 100);
                 selectForm.AutoSizeMode = AutoSizeMode.GrowAndShrink;
                 selectForm.FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -149,7 +149,7 @@ namespace ExtraccionA.Services
         {
             bibliotecaLabel.Text = "BIBLIOTECA: " + nombreBiblioteca;
             string numeroFormateado = _validationService.FormatearCodigoBiblioteca(codigo);
-            codigoBiblioLabel.Text = "NUMERO: " + numeroFormateado;
+            codigoBiblioLabel.Text = "NÚMERO: " + numeroFormateado;
 
             ConfigurationManager config = ConfigurationManager.Instance;
             config.NombreBiblioteca = nombreBiblioteca;
