@@ -95,7 +95,7 @@ namespace ExtraccionA.Services
                 // Cargar el icono
                 try
                 {
-                    byte[] iconBytes = Properties.Resources.zombie;
+                    byte[] iconBytes = Properties.Resources.icono;
                     using (MemoryStream ms = new MemoryStream(iconBytes))
                     {
                         selectForm.Icon = new Icon(ms);

@@ -45,7 +45,7 @@ namespace ExtraccionA.Services
             try
             {
                 formSinEjemplares.Icon = new Icon(Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("ExtraccionA.zombie-removebg-preview.ico"));
+                    .GetManifestResourceStream("ExtraccionA.kohita.ico"));
             }
             catch
             {

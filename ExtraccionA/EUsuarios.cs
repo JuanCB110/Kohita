@@ -121,7 +121,7 @@ class EUsuarios
         {
             try
             {
-                ventana.Icon = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream("ExtraccionA.zombie-removebg-preview.ico"));
+                ventana.Icon = new Icon(Assembly.GetExecutingAssembly().GetManifestResourceStream("ExtraccionA.kohita.ico"));
             }
             catch
             {

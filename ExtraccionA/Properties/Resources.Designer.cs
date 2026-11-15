@@ -63,9 +63,9 @@ namespace ExtraccionA.Properties {
         /// <summary>
         ///   Busca un recurso adaptado de tipo System.Byte[].
         /// </summary>
-        internal static byte[] zombie {
+        internal static byte[] icono {
             get {
-                object obj = ResourceManager.GetObject("zombie", resourceCulture);
+                object obj = ResourceManager.GetObject("icono", resourceCulture);
                 return ((byte[])(obj));
             }
         }
