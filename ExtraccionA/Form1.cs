@@ -37,7 +37,20 @@ namespace ExtraccionA
         public Form1()
         {
             InitializeComponent();
+            FijarOrdenDeBotones();
             InicializarServicios();
+        }
+
+        /// <summary>
+        /// Los botones y contadores de abajo de cada tabla (y el nombre/número de la biblioteca) se acomodan en el orden en que están en
+        /// el diseñador. WinForms cambia ese orden cuando un control oculto se muestra por primera
+        /// vez; crear todos los controles desde el inicio lo deja fijo.
+        /// </summary>
+        private void FijarOrdenDeBotones()
+        {
+            foreach (FlowLayoutPanel franja in new[] { botonesTabla1, botonesTabla2, botonesTabla3, datosBiblioteca })
+                foreach (Control control in franja.Controls)
+                    _ = control.Handle;
         }
 
         /// <summary>

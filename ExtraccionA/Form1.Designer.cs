@@ -67,6 +67,11 @@
             this.selMRC = new System.Windows.Forms.ToolStripMenuItem();
             this.selMRK = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.columnas = new System.Windows.Forms.TableLayoutPanel();
+            this.botonesTabla1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.botonesTabla2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.botonesTabla3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.datosBiblioteca = new System.Windows.Forms.FlowLayoutPanel();
             this.codebiblio = new System.Windows.Forms.Label();
             this.biblioteca = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -91,6 +96,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.tabla_3)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.columnas.SuspendLayout();
+            this.botonesTabla1.SuspendLayout();
+            this.botonesTabla2.SuspendLayout();
+            this.botonesTabla3.SuspendLayout();
+            this.datosBiblioteca.SuspendLayout();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tabla1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tabla_1)).BeginInit();
@@ -99,10 +109,9 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.tabla2);
-            this.panel2.Controls.Add(this.reg);
-            this.panel2.Controls.Add(this.llenado);
             this.panel2.Controls.Add(this.tabla_2);
+            this.panel2.Controls.Add(this.botonesTabla2);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(981, 36);
             this.panel2.Name = "panel2";
             this.panel2.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
@@ -170,6 +179,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tabla_2.DefaultCellStyle = dataGridViewCellStyle2;
+            this.tabla_2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabla_2.Location = new System.Drawing.Point(13, 3);
             this.tabla_2.Name = "tabla_2";
             this.tabla_2.ReadOnly = true;
@@ -189,14 +199,9 @@
             // 
             // panel3
             // 
-            this.panel3.Controls.Add(this.regsel);
-            this.panel3.Controls.Add(this.tabla3);
-            this.panel3.Controls.Add(this.marc);
-            this.panel3.Controls.Add(this.label2);
-            this.panel3.Controls.Add(this.selall);
-            this.panel3.Controls.Add(this.format);
-            this.panel3.Controls.Add(this.split);
             this.panel3.Controls.Add(this.tabla_3);
+            this.panel3.Controls.Add(this.botonesTabla3);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(1960, 36);
             this.panel3.Name = "panel3";
             this.panel3.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
@@ -238,7 +243,6 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Enabled = false;
             this.label2.Location = new System.Drawing.Point(637, 950);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(0, 20);
@@ -312,6 +316,7 @@
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tabla_3.DefaultCellStyle = dataGridViewCellStyle5;
+            this.tabla_3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabla_3.Location = new System.Drawing.Point(13, 3);
             this.tabla_3.Name = "tabla_3";
             this.tabla_3.ReadOnly = true;
@@ -422,21 +427,105 @@
             // 
             // panel1
             // 
+            // Debajo del menú va la franja con el nombre y código de la biblioteca; columnas ocupa el resto.
             this.panel1.AutoScroll = true;
-            this.panel1.AutoSize = true;
-            this.panel1.Controls.Add(this.codebiblio);
-            this.panel1.Controls.Add(this.biblioteca);
+            this.panel1.Controls.Add(this.columnas);
+            this.panel1.Controls.Add(this.datosBiblioteca);
             this.panel1.Controls.Add(this.menuStrip1);
-            this.panel1.Controls.Add(this.panel4);
-            this.panel1.Controls.Add(this.panel3);
-            this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.panel1.Size = new System.Drawing.Size(1907, 988);
+            this.panel1.Size = new System.Drawing.Size(1907, 956);
             this.panel1.TabIndex = 10;
-            // 
+            //
+            // datosBiblioteca
+            //
+            this.datosBiblioteca.AutoSize = true;
+            this.datosBiblioteca.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.datosBiblioteca.BackColor = System.Drawing.Color.Transparent;
+            this.datosBiblioteca.Controls.Add(this.biblioteca);
+            this.datosBiblioteca.Controls.Add(this.codebiblio);
+            this.datosBiblioteca.Dock = System.Windows.Forms.DockStyle.Top;
+            this.datosBiblioteca.Location = new System.Drawing.Point(0, 33);
+            this.datosBiblioteca.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.datosBiblioteca.Name = "datosBiblioteca";
+            this.datosBiblioteca.Size = new System.Drawing.Size(60, 26);
+            this.datosBiblioteca.TabIndex = 11;
+            this.datosBiblioteca.WrapContents = true;
+            //
+            // columnas: tres columnas de igual ancho que se ajustan al tamaño de la ventana
+            //
+            this.columnas.ColumnCount = 3;
+            this.columnas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.columnas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.columnas.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33334F));
+            this.columnas.Controls.Add(this.panel4, 0, 0);
+            this.columnas.Controls.Add(this.panel2, 1, 0);
+            this.columnas.Controls.Add(this.panel3, 2, 0);
+            this.columnas.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.columnas.Location = new System.Drawing.Point(0, 33);
+            this.columnas.Name = "columnas";
+            this.columnas.RowCount = 1;
+            this.columnas.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.columnas.Size = new System.Drawing.Size(1907, 923);
+            this.columnas.TabIndex = 12;
+            //
+            // botonesTabla1: botones y contador de la tabla 1; pasan a otra línea si no caben
+            //
+            this.botonesTabla1.AutoSize = true;
+            this.botonesTabla1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.botonesTabla1.Controls.Add(this.fichas);
+            this.botonesTabla1.Controls.Add(this.usuarios);
+            this.botonesTabla1.Controls.Add(this.ejemplares);
+            this.botonesTabla1.Controls.Add(this.exusers);
+            this.botonesTabla1.Controls.Add(this.limpiar);
+            this.botonesTabla1.Controls.Add(this.fee);
+            this.botonesTabla1.Controls.Add(this.tabla1);
+            this.botonesTabla1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.botonesTabla1.Name = "botonesTabla1";
+            this.botonesTabla1.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
+            this.botonesTabla1.TabIndex = 30;
+            //
+            // botonesTabla2
+            //
+            this.botonesTabla2.AutoSize = true;
+            this.botonesTabla2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.botonesTabla2.Controls.Add(this.llenado);
+            this.botonesTabla2.Controls.Add(this.reg);
+            this.botonesTabla2.Controls.Add(this.tabla2);
+            this.botonesTabla2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.botonesTabla2.Name = "botonesTabla2";
+            this.botonesTabla2.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
+            this.botonesTabla2.TabIndex = 31;
+            //
+            // botonesTabla3
+            //
+            this.botonesTabla3.AutoSize = true;
+            this.botonesTabla3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.botonesTabla3.Controls.Add(this.split);
+            this.botonesTabla3.Controls.Add(this.format);
+            this.botonesTabla3.Controls.Add(this.selall);
+            this.botonesTabla3.Controls.Add(this.marc);
+            this.botonesTabla3.Controls.Add(this.regsel);
+            this.botonesTabla3.Controls.Add(this.label2);
+            this.botonesTabla3.Controls.Add(this.tabla3);
+            this.botonesTabla3.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.botonesTabla3.Name = "botonesTabla3";
+            this.botonesTabla3.Padding = new System.Windows.Forms.Padding(0, 4, 0, 4);
+            this.botonesTabla3.TabIndex = 32;
+            //
+            // Contadores e íconos de ayuda: margen superior para quedar centrados con los botones
+            //
+            this.fee.Margin = new System.Windows.Forms.Padding(6, 10, 6, 3);
+            this.reg.Margin = new System.Windows.Forms.Padding(6, 10, 6, 3);
+            this.marc.Margin = new System.Windows.Forms.Padding(6, 10, 6, 3);
+            this.regsel.Margin = new System.Windows.Forms.Padding(6, 10, 6, 3);
+            this.label2.Margin = new System.Windows.Forms.Padding(6, 10, 6, 3);
+            this.tabla1.Margin = new System.Windows.Forms.Padding(6, 7, 3, 3);
+            this.tabla2.Margin = new System.Windows.Forms.Padding(6, 7, 3, 3);
+            this.tabla3.Margin = new System.Windows.Forms.Padding(6, 7, 3, 3);
+            this.biblioteca.Margin = new System.Windows.Forms.Padding(3, 3, 20, 3);
+            //
             // codebiblio
             // 
             this.codebiblio.AutoSize = true;
@@ -465,14 +554,9 @@
             // 
             // panel4
             // 
-            this.panel4.Controls.Add(this.exusers);
-            this.panel4.Controls.Add(this.tabla1);
-            this.panel4.Controls.Add(this.fee);
-            this.panel4.Controls.Add(this.limpiar);
-            this.panel4.Controls.Add(this.ejemplares);
-            this.panel4.Controls.Add(this.usuarios);
-            this.panel4.Controls.Add(this.fichas);
             this.panel4.Controls.Add(this.tabla_1);
+            this.panel4.Controls.Add(this.botonesTabla1);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel4.Location = new System.Drawing.Point(9, 36);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(10, 0, 10, 10);
@@ -592,6 +676,7 @@
             dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.tabla_1.DefaultCellStyle = dataGridViewCellStyle8;
+            this.tabla_1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabla_1.Location = new System.Drawing.Point(5, 3);
             this.tabla_1.Name = "tabla_1";
             dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -680,6 +765,15 @@
             ((System.ComponentModel.ISupportInitialize)(this.tabla_3)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.botonesTabla1.ResumeLayout(false);
+            this.botonesTabla1.PerformLayout();
+            this.botonesTabla2.ResumeLayout(false);
+            this.botonesTabla2.PerformLayout();
+            this.botonesTabla3.ResumeLayout(false);
+            this.botonesTabla3.PerformLayout();
+            this.datosBiblioteca.ResumeLayout(false);
+            this.datosBiblioteca.PerformLayout();
+            this.columnas.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel4.ResumeLayout(false);
@@ -716,6 +810,11 @@
         private System.Windows.Forms.ToolStripMenuItem archivosDeSalidaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem seleccionarRutaDeSalidaToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TableLayoutPanel columnas;
+        private System.Windows.Forms.FlowLayoutPanel botonesTabla1;
+        private System.Windows.Forms.FlowLayoutPanel botonesTabla2;
+        private System.Windows.Forms.FlowLayoutPanel botonesTabla3;
+        private System.Windows.Forms.FlowLayoutPanel datosBiblioteca;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.PictureBox tabla1;
         private System.Windows.Forms.Label fee;
