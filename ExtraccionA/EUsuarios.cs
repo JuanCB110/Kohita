@@ -18,10 +18,12 @@ class EUsuarios
             saveFileDialog.Filter = "Archivo CSV (*.csv)|*.csv";
             saveFileDialog.Title = "Guardar Archivo CSV";
             saveFileDialog.FileName = "usuarios_koha.csv";
+            saveFileDialog.InitialDirectory = ExtraccionA.Services.CarpetasRecientes.Salida;
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string outputPath = saveFileDialog.FileName;
+                ExtraccionA.Services.CarpetasRecientes.RecordarSalidaDeArchivo(outputPath);
 
                 string query = "SELECT NoCuenta, Nombre, NoGrupo, NoEscuela, [E-mail], Domicilio, Colonia, [Ciudad Estado], [Codigo Postal], Telefono, Notas FROM Usuarios";
 

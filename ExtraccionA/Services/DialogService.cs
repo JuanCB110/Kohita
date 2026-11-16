@@ -15,10 +15,15 @@ namespace ExtraccionA.Services
             using (OpenFileDialog dialog = new OpenFileDialog
             {
                 Filter = "Archivos de Base de Datos Access (*.mdb)|*.mdb|Todos los Archivos (*.*)|*.*",
-                Title = "Seleccionar Archivo MDB"
+                Title = "Seleccionar Archivo MDB",
+                InitialDirectory = CarpetasRecientes.Base
             })
             {
-                return dialog.ShowDialog() == DialogResult.OK ? dialog.FileName : null;
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return null;
+
+                CarpetasRecientes.RecordarBase(dialog.FileName);
+                return dialog.FileName;
             }
         }
 
@@ -44,10 +49,15 @@ namespace ExtraccionA.Services
         {
             using (FolderBrowserDialog dialog = new FolderBrowserDialog
             {
-                Description = descripcion
+                Description = descripcion,
+                SelectedPath = CarpetasRecientes.Salida
             })
             {
-                return dialog.ShowDialog() == DialogResult.OK ? dialog.SelectedPath : null;
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return null;
+
+                CarpetasRecientes.RecordarSalida(dialog.SelectedPath);
+                return dialog.SelectedPath;
             }
         }
 
@@ -60,10 +70,15 @@ namespace ExtraccionA.Services
             {
                 Filter = "Archivo CSV (*.csv)|*.csv",
                 Title = "Guardar Archivo CSV",
-                FileName = nombrePorDefecto
+                FileName = nombrePorDefecto,
+                InitialDirectory = CarpetasRecientes.Salida
             })
             {
-                return dialog.ShowDialog() == DialogResult.OK ? dialog.FileName : null;
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return null;
+
+                CarpetasRecientes.RecordarSalidaDeArchivo(dialog.FileName);
+                return dialog.FileName;
             }
         }
 
@@ -76,10 +91,15 @@ namespace ExtraccionA.Services
             {
                 Filter = "Archivo MRC (*.mrc)|*.mrc",
                 Title = "Guardar Archivo Unido",
-                FileName = nombrePorDefecto
+                FileName = nombrePorDefecto,
+                InitialDirectory = CarpetasRecientes.Salida
             })
             {
-                return dialog.ShowDialog() == DialogResult.OK ? dialog.FileName : null;
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return null;
+
+                CarpetasRecientes.RecordarSalidaDeArchivo(dialog.FileName);
+                return dialog.FileName;
             }
         }
 
@@ -92,10 +112,15 @@ namespace ExtraccionA.Services
             {
                 Filter = "Archivo MRK (*.mrk)|*.mrk",
                 Title = "Guardar Archivo Unido",
-                FileName = nombrePorDefecto
+                FileName = nombrePorDefecto,
+                InitialDirectory = CarpetasRecientes.Salida
             })
             {
-                return dialog.ShowDialog() == DialogResult.OK ? dialog.FileName : null;
+                if (dialog.ShowDialog() != DialogResult.OK)
+                    return null;
+
+                CarpetasRecientes.RecordarSalidaDeArchivo(dialog.FileName);
+                return dialog.FileName;
             }
         }
 

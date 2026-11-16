@@ -195,10 +195,12 @@ namespace ExtraccionA.Services
                 saveFileDialog.Filter = $"Archivo {extension} (*.{extension.ToLower()})|*.{extension.ToLower()}";
                 saveFileDialog.Title = "Guardar Archivo Unido";
                 saveFileDialog.FileName = $"Archivo_Unificado.{extension.ToLower()}";
+                saveFileDialog.InitialDirectory = CarpetasRecientes.Salida;
 
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     string archivoSalida = Path.GetFullPath(saveFileDialog.FileName);
+                    CarpetasRecientes.RecordarSalidaDeArchivo(archivoSalida);
 
                     if (string.IsNullOrWhiteSpace(archivoSalida))
                     {

@@ -26,5 +26,35 @@ namespace ExtraccionA.Properties
                 return defaultInstance;
             }
         }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UltimaCarpetaBase
+        {
+            get
+            {
+                return ((string)(this["UltimaCarpetaBase"]));
+            }
+            set
+            {
+                this["UltimaCarpetaBase"] = value;
+            }
+        }
+
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UltimaCarpetaSalida
+        {
+            get
+            {
+                return ((string)(this["UltimaCarpetaSalida"]));
+            }
+            set
+            {
+                this["UltimaCarpetaSalida"] = value;
+            }
+        }
     }
 }
